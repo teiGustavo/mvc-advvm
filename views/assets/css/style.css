@@ -162,3 +162,13 @@ button:hover {
     transform: scale(1.1);
     transition: all 0.5s;
 }
+
+.xdebug-var-dump {
+    color: white;
+}
+
+@media (min-width: 900px) { 
+    .main_content {
+        height: 81vh;
+    }
+}

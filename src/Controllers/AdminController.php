@@ -65,6 +65,8 @@ class AdminController extends MainController
             "file" => URL_BASE_EXCEL . $month . " de " . $year . ".xlsx"
         ];
 
+        var_dump($this->router->current());
+
         //Renderiza a página
         echo $this->view->render("excel", $params);
     }

@@ -31,8 +31,8 @@ $router->get("/update", "Web:update");
 $router->group("admin");
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
 $router->get("/excel", "AdminController:excel", "admin.excel");
-$router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel");
-$router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.{pagecode}");
+$router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
+$router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");

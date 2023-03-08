@@ -34,13 +34,13 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </a>
-                    <a href="<?= url($url_page . "1") ?>" aria-current="page" id="nav_a"
+                    <a href="<?= url($url_page . "1"); ?>" aria-current="page" id="nav_a"
                         class="relative z-10 inline-flex items-center ring-1 ring-inset ring-gray-300 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                    <a href="<?= url($url_page . $current_page) ?>" id="nav_a<?= $current_page; ?>"
+                    <a href="<?= $router->route("admin.reports", ["page" => $next_page]); ?>" id="nav_a<?= $current_page; ?>"
                         class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"><?= $current_page; ?></a>
                     <span
                         class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
-                    <a href="<?= url($url_page . $total_pages) ?>" id="nav_a_limit"
+                    <a href="<?= url($url_page . $total_pages); ?>" id="nav_a_limit"
                         class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"><?= $total_pages; ?></a>
                     <a href="<?= url($url_page . $next_page); ?>" id="nav_a"
                         class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
@@ -96,7 +96,7 @@
             $("#nav_a").addClass("bg-indigo-600");
 
             $("#nav_a<?= $current_page; ?>").text("<?= $next_page; ?>");
-            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $url_page . $next_page; ?>");
+            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("admin.reports", ["page" => $next_page]); ?>");
         }
 
         if ("<?= $current_page; ?>" == "<?= $total_pages; ?>") {
@@ -107,7 +107,7 @@
             $("#nav_a_limit").addClass("bg-indigo-600");
 
             $("#nav_a<?= $current_page; ?>").text("<?= $previous_page; ?>");
-            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $url_page . $previous_page; ?>");
+            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("admin.reports", ["page" => $previous_page]); ?>");
         }
     }
 
@@ -123,6 +123,7 @@
 
         nextPage();
     }
+
     updateReportCss();
 </script>
 <?php $this->stop(); ?>

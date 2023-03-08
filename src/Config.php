@@ -17,7 +17,7 @@ const DATA_LAYER_CONFIG = [
 ];
 
 //Constante de URL base do site
-const URL_BASE = "http://localhost";
+const URL_BASE = "http://localhost/mvc-advvm";
 
 //Constante que define o nome que acompanha o título das views
 const SITE = "Advvm";

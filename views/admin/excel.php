@@ -12,7 +12,7 @@ $this->layout("../_theme", ["title" => $title]);
     $this->stop();
     ?>
 
-    <a href="<?= "/../../" . $caminho; ?>" download="<?= $file; ?>"><button id="download">Baixar Planilha<button></a>
+    <a href="<?= $router->route("admin.excel") ?>" download="<?= $file; ?>"><button id="download">Baixar Planilha<button></a>
 
 <?php endif; ?>
 
