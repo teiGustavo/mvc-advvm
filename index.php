@@ -26,13 +26,14 @@ $router->get("/read", "Web:read");
 $router->get("/create", "Web:create");
 $router->get("/delete", "Web:delete");
 $router->get("/update", "Web:update");
+$router->get("/phpinfo", "Web:phpinfo");
 
 //Define as rotas do grupo admin (ex: "admin/excel")
 $router->group("admin");
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
 $router->get("/excel", "AdminController:excel", "admin.excel");
 $router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
-$router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports");
+$router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports.page");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");

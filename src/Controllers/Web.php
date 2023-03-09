@@ -22,6 +22,12 @@ class Web
        echo '</pre>';
     }
 
+    //Responsável por retornar um teste do phpinfo()
+    public function phpinfo($data)
+    {
+        require(__DIR__ . "/../../examples/phpinfo.php");
+    }
+
     //Responsável por renderizar a página de erros (view)
     public function error($data)
     {
