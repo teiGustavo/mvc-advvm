@@ -3,6 +3,7 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\Report;
+use Examples\Vardump;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
 
@@ -64,8 +65,6 @@ class AdminController extends MainController
             "caminho" => "files/" . URL_BASE_EXCEL . $month . " de " . $year . ".xlsx",
             "file" => URL_BASE_EXCEL . $month . " de " . $year . ".xlsx"
         ];
-
-        var_dump($this->router->current());
 
         //Renderiza a página
         echo $this->view->render("excel", $params);

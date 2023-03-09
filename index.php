@@ -3,7 +3,7 @@
 require __DIR__ . "/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
-use Source\Middlewares\AuthMiddleware;
+use Advvm\Middlewares\AuthMiddleware;
 
 //Instancia um novo roteador na URL base do site
 $router = new Router(URL_BASE);
@@ -27,6 +27,7 @@ $router->get("/create", "Web:create");
 $router->get("/delete", "Web:delete");
 $router->get("/update", "Web:update");
 $router->get("/phpinfo", "Web:phpinfo");
+$router->get("/vardump", "Web:vardump");
 
 //Define as rotas do grupo admin (ex: "admin/excel")
 $router->group("admin");

@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@font-face {
+    src:  url(fonts/Poppins/Poppins-Regular.ttf);
+    font-family: "Poppins";
+    font-weight: normal;
+}
 
 * {
     font-family: "Poppins", "JetBrains Mono", sans-serif;

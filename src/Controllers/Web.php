@@ -2,6 +2,7 @@
 
 namespace Advvm\Controllers;
 
+use Examples\vardump;
 use League\Plates\Engine;
 
 class Web 
@@ -26,6 +27,12 @@ class Web
     public function phpinfo($data)
     {
         require(__DIR__ . "/../../examples/phpinfo.php");
+    }
+
+    //Responsável por retornar um teste do vardump()
+    public function vardump($data)
+    {
+        require(__DIR__ . "/../../examples/vardump.php");
     }
 
     //Responsável por renderizar a página de erros (view)
