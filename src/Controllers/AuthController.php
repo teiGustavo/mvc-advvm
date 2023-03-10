@@ -45,14 +45,13 @@ class AuthController extends MainController
         //Facilitando os usos futuros do vetor das informações do Usuário
         $user = $user[0];
 
-        var_dump($user);
-
-        echo $user->senha . "<br>";
-        echo $password;
-
         //Verificando se o Usuário foi encontrado
         if ($user && password_verify($password, $user->senha)) {
-            var_dump($user->email);
+            initializeSessions(["logged" => true]);  
+            return $this->router->redirect("advvm.home");
+        } else {
+            initializeSessions(["logged" => false]);  
+            return $this->router->redirect("auth.login");
         }
     }
 }
