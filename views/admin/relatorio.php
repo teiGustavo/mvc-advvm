@@ -4,7 +4,7 @@
 
 <div class="pagination" id="divPagination">
     <div id="menuPagination">
-    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6" id="pagination">
+    <div class="flex items-center justify-between border-t border-gray-200 bg-inline-flex px-4 py-3 sm:px-6" id="pagination">
         <div class="flex flex-1 justify-between sm:hidden">
             <a href="#"
                 class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
@@ -15,16 +15,16 @@
             <div>
                 <p class="text-sm text-gray-700">
                     Exibindo
-                    <span class="font-medium"><?= $first_report ?></span>
+                    <span class="font-medium"><?= $first_report+1 ?></span>
                     a
-                    <span class="font-medium"><?= $last_report ?></span>
+                    <span class="font-medium"><?= $last_report < $total_reports ? $last_report : $total_reports; ?></span>
                     de
                     <span class="font-medium"><?= $total_reports; ?></span>
                     resultados
                 </p>
             </div>
             <div>
-                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination" id="paginacao">
                     <a href="<?= $router->route("admin.reports.page", ["pagecode" => $previous_page]); ?>"
                         class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                         <span class="sr-only">Previous</span>
@@ -118,8 +118,11 @@
         $("#pagination").css("background", "#2f2841");
         $("#pagination").removeClass("border-t");
         $("#pagination").removeClass("border-gray-200");
+        $("#pagination").removeClass("border-gray-200");
 
         $("#pagination p, #pagination a").css("color", "white");
+
+        $("#nav_a_limit").css("display", "inline-flex");
 
         nextPage();
     }

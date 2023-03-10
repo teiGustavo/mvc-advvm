@@ -141,10 +141,6 @@ p, h4 {
     flex-direction: column;
 }
 
-#menuPagination {
-    min-width: 1062px;
-}
-
 #reports {
     display: flex;
     flex-wrap: wrap;
@@ -171,8 +167,34 @@ button:hover {
     color: white;
 }
 
+.md {
+    display: inline-flex;
+}
+
 @media (min-width: 900px) { 
     .main_content {
         height: 81vh;
+    }
+}
+
+@media (max-width: 900px) { 
+    .main_nav a {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    #divPagination p {
+        display: none;
+    }
+
+    #paginacao {
+        align-self: center;
+    }
+}
+
+@media (min-width: 1200px) {
+    #divPagination {
+        min-width: 40rem;
     }
 }

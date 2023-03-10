@@ -23,11 +23,11 @@
         else:
             ?>
 
-            <a href="<?= url(""); ?>">Home</a>
-            <a href="<?= url("/admin/reports"); ?>">Relatórios</a>
-            <a href="<?= url("/admin/excel"); ?>">Excel</a>
-            <a href="<?= url("/crud"); ?>">CRUD</a>
-            <a href="<?= url("/auth/login"); ?>">Login</a>
+            <a href="<?= $router->route("advvm.home"); ?>">Home</a>
+            <a href="<?= $router->route("admin.reports"); ?>">Relatórios</a>
+            <a href="<?= $router->route("admin.excel"); ?>">Excel</a>
+            <a href="<?= url("/crud") ?>">CRUD</a>
+            <a href="<?= $router->route("auth.login"); ?>">Login</a>
 
         <?php endif; ?>
     </nav>

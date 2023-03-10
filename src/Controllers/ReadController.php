@@ -16,9 +16,6 @@ class ReadController
 
     public function index()
     {
-        /* $template = $this->templates->make("read");]
-        return $template->render(["title" => "Leitura | " . SITE]); */
-
         $template = $this->templates->make("read");
         
         $template->data([

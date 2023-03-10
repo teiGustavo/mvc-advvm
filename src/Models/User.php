@@ -60,7 +60,7 @@ class User extends DataLayer
     }
 
     //Responsável por validar a senha inserida pelo usuário
-    protected function validatePassword(): bool
+    public function validatePassword(): bool
     {
         //Verifica se a senha esta no formato correto
         if (empty($this->senha) || (strlen($this->senha) < 5)) {
@@ -70,11 +70,10 @@ class User extends DataLayer
         }
 
         //Verifica através do gerenciador de senhas do PHP se a senha necessita de atualização
-        if (password_get_info($this->senha)["algo"]) 
-            return true;
+        if (password_needs_rehash($this->senha, PASSWORD_DEFAULT)) {
+            $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        }
        
-        //Atualiza o hash do usúario através do gerenciador de senhas do PHP (caso seja necessario)
-        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
         return true;
     }
 }

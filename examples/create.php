@@ -6,7 +6,7 @@ use Advvm\Models\User;
 
 $user = new User();
 $user->email = "users@users.users";
-$user->senha = "12345";
+$user->senha = password_hash("users", PASSWORD_DEFAULT);
 
 /* if (!$user->save())
     echo "O email já existe!"; */

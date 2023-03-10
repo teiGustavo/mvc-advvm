@@ -32,6 +32,10 @@ class ComposerStaticInit61ea6c63fb18245dcbc63793945b4e0a
         array (
             'League\\Plates\\' => 14,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'C' => 
         array (
             'Complex\\' => 8,
@@ -77,6 +81,10 @@ class ComposerStaticInit61ea6c63fb18245dcbc63793945b4e0a
         'League\\Plates\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/plates/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Complex\\' => 
         array (

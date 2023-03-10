@@ -22,6 +22,10 @@ class HomeController extends MainController
             "title" => "Início | " . SITE,
             "users" => (new User())->find()->fetch(true)
         ];
+
+        initializeSessions([
+            "logged" => true
+        ]);     
         
         //Renderiza a página
         echo $this->view->render("home", $params);

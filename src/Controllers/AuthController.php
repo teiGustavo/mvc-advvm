@@ -1,6 +1,7 @@
 <?php
 
 namespace Advvm\Controllers;
+use Advvm\Models\User;
 
 class AuthController extends MainController
 {
@@ -22,5 +23,36 @@ class AuthController extends MainController
         
         //Renderiza a página
         echo $this->view->render("login", $params);
+    }
+
+    //Responsável por tratar os dados do formulário
+    public function post()
+    {
+        //Recuperando os dados enviados via POST
+        $data = filter_input_array(INPUT_POST);
+        $email = $data["email"];
+        $password = $data["password"];
+
+        //Instanciando o model Users
+        $users = new User();
+
+        //Preparando a query SQL
+        $params = http_build_query(["email" => $email]);
+
+        //Executando a query sql e guardando os dados retornados (Active Record)
+        $user = $users->find("email = :email", $params)->limit(1)->fetch(true);
+
+        //Facilitando os usos futuros do vetor das informações do Usuário
+        $user = $user[0];
+
+        var_dump($user);
+
+        echo $user->senha . "<br>";
+        echo $password;
+
+        //Verificando se o Usuário foi encontrado
+        if ($user && password_verify($password, $user->senha)) {
+            var_dump($user->email);
+        }
     }
 }

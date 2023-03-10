@@ -13,15 +13,16 @@ $router->namespace("Advvm\Controllers");
 
 //Define as rotas sem um grupo anexo (ex: "/index")
 $router->group("");
-$router->get("/", "HomeController:index");
-$router->get("/read", "ReadController:index", "advvm.read", AuthMiddleware::class);
+$router->get("/", "HomeController:index", "advvm.home");
+$router->get("/read", "ReadController:index", "advvm.read");
 
 //Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
+$router->post("/post", "AuthController:post", "auth.post");
 
 //Define as rotas do grupo de exemplo / testes de implementação (ex: "example/read")
-$router->group("example");
+$router->group("example",  AuthMiddleware::class);
 $router->get("/read", "Web:read");
 $router->get("/create", "Web:create");
 $router->get("/delete", "Web:delete");
@@ -30,7 +31,7 @@ $router->get("/phpinfo", "Web:phpinfo");
 $router->get("/vardump", "Web:vardump");
 
 //Define as rotas do grupo admin (ex: "admin/excel")
-$router->group("admin");
+$router->group("admin",  AuthMiddleware::class);
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
 $router->get("/excel", "AdminController:excel", "admin.excel");
 $router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");

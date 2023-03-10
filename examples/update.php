@@ -4,11 +4,11 @@ require __DIR__ . "/../vendor/autoload.php";
 
 use Advvm\Models\User;
 
-$user = (new User())->findById(9);
-$user->email = "adm9@adm.adm";
+$user = (new User())->findById(2);
+$user->senha = password_hash("adm", PASSWORD_DEFAULT);
 
-if (!$user->save())
-    echo $user->fail;
+if (!$userId = $user->save())
+    echo $user->fail->getMessage();
 
 echo '<pre>';
     var_dump($user);

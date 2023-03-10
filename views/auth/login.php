@@ -3,7 +3,7 @@
 ?>
 
 <?php $this->start("sidebar"); ?>
-  <a href="<?= url("/auth/login") ?>">Login</a>
+  <a href="<?= $router->route("advvm.home") ?>">Voltar</a>
 <?php $this->stop(); ?>
 
 <div id="form">
@@ -17,20 +17,20 @@
       </div>
       <div class="mt-5 md:col-span-2 md:mt-0">
 
-        <form action="#" method="POST">
+        <form action="<?= $router->route("auth.post");?>" method="POST">
           <div class="overflow-hidden shadow sm:rounded-md" id="personal_info">
             <div class="bg-gray-400 px-4 py-5 sm:p-6" id="personal_info">
               <div class="grid grid-cols-4 gap-6">
 
                 <div class="col-span-4 sm:col-span-4">
                   <label for="email-address" class="block text-sm font-medium leading-6 text-gray-900">Email: </label>
-                  <input type="text" name="email-address" id="email-address" autocomplete="email"
+                  <input type="text" name="email" id="email-address" autocomplete="email"
                     class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
 
                 <div class="col-span-4 sm:col-span-4">
                   <label for="email-address" class="block text-sm font-medium leading-6 text-gray-900">Senha: </label>
-                  <input type="text" name="email-address" id="email-address" autocomplete="email"
+                  <input type="text" name="password" id="email-address" autocomplete="password"
                     class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
 
@@ -38,7 +38,7 @@
             </div>
 
             <div class="bg-gray-400 px-4 py-3 text-right sm:px-6" id="div_Button">
-              <button type="submit"
+              <button type="submit" name="btnSubmit" value="logar"
                 class="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Logar</button>
             </div>
             
