@@ -12,7 +12,7 @@ class AuthMiddleware
         //Verifica se o usuário não está autenticado
         if ($this->isAuth() == false) {
             //Caso verdadeiro, é feito um redirecionamento para a rota da Home
-            return $router->redirect("advvm.home");
+            return $router->redirect("advvm.home", ["isAuth" == false]);
         }
 
         //Continua a rota requisitada caso esteja devidamente autenticado

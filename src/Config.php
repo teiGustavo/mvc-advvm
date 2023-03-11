@@ -45,4 +45,6 @@ function initializeSessions(array $sessions = [])
     foreach ($sessions as $nameSession => $value) {
         $_SESSION[$nameSession] = $value;
     }
+
+    return true;
 }

@@ -19,10 +19,11 @@ $router->get("/read", "ReadController:index", "advvm.read");
 //Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
+$router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 
 //Define as rotas do grupo de exemplo / testes de implementação (ex: "example/read")
-$router->group("example",  AuthMiddleware::class);
+$router->group("example");
 $router->get("/read", "Web:read");
 $router->get("/create", "Web:create");
 $router->get("/delete", "Web:delete");

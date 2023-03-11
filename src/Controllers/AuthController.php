@@ -1,7 +1,10 @@
 <?php
 
 namespace Advvm\Controllers;
+
 use Advvm\Models\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthController extends MainController
 {
@@ -23,6 +26,21 @@ class AuthController extends MainController
         
         //Renderiza a página
         echo $this->view->render("login", $params);
+    }
+
+    //Responsável por deslogar o usuário
+    public function logout()
+    {
+        //Inicializa as sessões
+        initializeSessions(); 
+
+        //Verifica se a sessão "Logged" existe, se sim, a torna como falsa
+        if (isset($_SESSION["logged"])) {
+            $_SESSION["logged"] = false;
+        }
+
+        //Redireciona o usuário para a rota de home
+        return $this->router->redirect("advvm.home");
     }
 
     //Responsável por tratar os dados do formulário
@@ -53,5 +71,27 @@ class AuthController extends MainController
             initializeSessions(["logged" => false]);  
             return $this->router->redirect("auth.login");
         }
+    }
+
+    private function JWT()
+    {
+
+        $key = 'ADSHWWTSX2566018GT';
+        $payload = [
+            'iss' => 'http://example.org',
+            'aud' => 'http://example.com',
+            'iat' => 1356999524,
+            'nbf' => 1357000000
+        ];
+
+        $jwt = JWT::encode($payload, $key, 'HS256');
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+
+        print_r($decoded);
+
+        $decoded_array = (array) $decoded;
+
+        JWT::$leeway = 60; // $leeway in seconds
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
     }
 }

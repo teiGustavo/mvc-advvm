@@ -16,17 +16,26 @@
 </head>
 
 <body>
+    <?php initializeSessions(); ?>
 
     <nav class="main_nav">
-        <?php if ($this->section("sidebar")):
+        <?php
+        if ($this->section("sidebar")):
             echo $this->section("sidebar");
-        else:
+        elseif (isset($_SESSION["logged"]) && $_SESSION["logged"] != false):
             ?>
 
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("admin.reports"); ?>">Relatórios</a>
             <a href="<?= $router->route("admin.excel"); ?>">Excel</a>
             <a href="<?= url("/crud") ?>">CRUD</a>
+            <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
+
+            <?php
+        else:
+            ?>
+
+            <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("auth.login"); ?>">Login</a>
 
         <?php endif; ?>
@@ -37,7 +46,8 @@
     </main>
 
     <footer class="main_footer">
-        ©<?= SITE; ?> - Todos os Direitos Reservados
+        ©
+        <?= SITE; ?> - Todos os Direitos Reservados
     </footer>
 
     <script src="<?= url("/views/assets/js/jquery.js") ?>"></script>
