@@ -3,7 +3,8 @@
 ?>
 
 <?php $this->start("sidebar"); ?>
-  <a href="<?= $router->route("advvm.home") ?>">Voltar</a>
+  <a href="<?= $router->route("auth.login") ?>">Logar-se</a>
+  <a href="<?= $router->route("auth.register") ?>">Registar-se</a>
 <?php $this->stop(); ?>
 
 <div id="form">

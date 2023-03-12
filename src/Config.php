@@ -25,6 +25,9 @@ const SITE = "Advvm";
 //Constante que define o estilo de nome dos arquivos das Planilhas (PhpSpreadSheets)
 const URL_BASE_EXCEL = "Relatorio - Mes ";
 
+//cosntante que define a chave secreta e única dos tokens da aplicação
+const JWT_KEY = "DSHWWTSX2566018GT";
+
 function url(string $path): string
 {
     if ($path) {

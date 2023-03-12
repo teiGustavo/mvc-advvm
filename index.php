@@ -12,13 +12,14 @@ $router = new Router(URL_BASE);
 $router->namespace("Advvm\Controllers");
 
 //Define as rotas sem um grupo anexo (ex: "/index")
-$router->group("");
+$router->group("", AuthMiddleware::class);
 $router->get("/", "HomeController:index", "advvm.home");
 $router->get("/read", "ReadController:index", "advvm.read");
 
 //Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
+$router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 

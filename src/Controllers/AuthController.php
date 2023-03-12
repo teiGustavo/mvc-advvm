@@ -32,15 +32,10 @@ class AuthController extends MainController
     public function logout()
     {
         //Inicializa as sessões
-        initializeSessions(); 
-
-        //Verifica se a sessão "Logged" existe, se sim, a torna como falsa
-        if (isset($_SESSION["logged"])) {
-            $_SESSION["logged"] = false;
-        }
+        initializeSessions(["token" => ""]);
 
         //Redireciona o usuário para a rota de home
-        return $this->router->redirect("advvm.home");
+        return $this->router->redirect("auth.login");
     }
 
     //Responsável por tratar os dados do formulário
@@ -65,7 +60,19 @@ class AuthController extends MainController
 
         //Verificando se o Usuário foi encontrado
         if ($user && password_verify($password, $user->senha)) {
-            initializeSessions(["logged" => true]);  
+            //Informações a serem passadas pelo Token
+            $credentials = [
+                "ID" => $user->cod_usuario,
+                "Email" => $email, 
+                "ADM" => $user->adm
+            ];
+
+            //Instancia o método que retorna o token JWT
+            $jwt = $this->JWT($credentials);
+
+            //Define a sessão ou cookie do Token
+            initializeSessions(["token" => $jwt, "logged" => true]);
+
             return $this->router->redirect("advvm.home");
         } else {
             initializeSessions(["logged" => false]);  
@@ -73,25 +80,34 @@ class AuthController extends MainController
         }
     }
 
-    private function JWT()
+    private function JWT(array $credentials): string
     {
+        $expTime = time() + (1 * 1 * 60 * 60); //(Dias * Horas * Minutos * Segundos)
 
-        $key = 'ADSHWWTSX2566018GT';
-        $payload = [
-            'iss' => 'http://example.org',
-            'aud' => 'http://example.com',
-            'iat' => 1356999524,
-            'nbf' => 1357000000
+        //Cabeçalho do token (Primeria parte do token JWT)
+        $header = [
+            'alg' => 'HS256',
+            'typ' => 'JWT'
         ];
 
-        $jwt = JWT::encode($payload, $key, 'HS256');
-        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        $header = base64_encode(json_encode($header));
 
-        print_r($decoded);
+        //Segunda parte do token JWT (Carga útil)
+        $payload = [
+            'iss' => URL_BASE,
+            'aud' => URL_BASE,
+            'exp' => $expTime,
+            'id' =>  $credentials["ID"],
+            'email' =>  $credentials["Email"],
+            'adm' =>  $credentials["ADM"]
+        ];
+        
+        $payload = base64_encode(json_encode($payload)); 
 
-        $decoded_array = (array) $decoded;
+        $signature = hash_hmac('sha256', "$header.$payload", JWT_KEY, true);
+        $signature = base64_encode($signature);
 
-        JWT::$leeway = 60; // $leeway in seconds
-        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        //Retorna o token JWT
+        return "$header.$payload.$signature";
     }
 }

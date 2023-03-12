@@ -22,7 +22,7 @@
         <?php
         if ($this->section("sidebar")):
             echo $this->section("sidebar");
-        elseif (isset($_SESSION["logged"]) && $_SESSION["logged"] != false):
+        else :
             ?>
 
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
@@ -30,13 +30,6 @@
             <a href="<?= $router->route("admin.excel"); ?>">Excel</a>
             <a href="<?= url("/crud") ?>">CRUD</a>
             <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
-
-            <?php
-        else:
-            ?>
-
-            <a href="<?= $router->route("advvm.home"); ?>">Home</a>
-            <a href="<?= $router->route("auth.login"); ?>">Login</a>
 
         <?php endif; ?>
     </nav>
