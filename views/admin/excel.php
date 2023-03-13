@@ -1,24 +1,19 @@
 <?php
 $this->layout("../_theme", ["title" => $title]);
+
+if ($currentMonth != 0) {
+    $router->redirect("/files/" . $file);
+}
 ?>
 
-<?php if ($currentMonth != 0):
-    $this->start("sidebar");
-    ?>
-
-    <a href="<?= url("/admin/excel"); ?>">Voltar</a>
-
-    <?php
-    $this->stop();
-    ?>
-
-    <a href="<?= $router->route("admin.excel") ?>" download="<?= $file; ?>"><button id="download">Baixar Planilha<button></a>
-
-<?php endif; ?>
-
-
-
-<?php $this->start("js"); ?>
-<script>
-</script>
-<?php $this->stop(); ?>
+<form action="">
+    <div>
+        <label for="selectYear">Selecione o ano</label>
+        <select name="selectYear" id="">
+            <?php foreach ($reports as $report):
+                ?>
+                <option value="<?= $report->date_report; ?>"><?= $report->date_report; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</form>
