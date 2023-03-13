@@ -64,7 +64,7 @@ class AdminController extends MainController
             "currentMonth" => $month,
             "caminho" => "files/" . URL_BASE_EXCEL . $month . " de " . $year . ".xlsx",
             "file" => URL_BASE_EXCEL . $month . " de " . $year . ".xlsx",
-            "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")->fetch(true)
+            "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")->order("YEAR(data_report) DESC")->fetch(true)
         ];
 
         //Renderiza a página

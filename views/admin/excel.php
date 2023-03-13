@@ -7,13 +7,15 @@ if ($currentMonth != 0) {
 ?>
 
 <form action="">
-    <div>
-        <label for="selectYear">Selecione o ano</label>
+    <div class="selectYear">
+        <label for="selectYear">Selecione o ano:</label>
         <select name="selectYear" id="">
             <?php foreach ($reports as $report):
                 ?>
                 <option value="<?= $report->date_report; ?>"><?= $report->date_report; ?></option>
             <?php endforeach; ?>
         </select>
+
+        <button type="submit" class="btn">SELECIONAR</button>
     </div>
 </form>
