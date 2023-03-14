@@ -3,7 +3,6 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\Report;
-use Examples\Vardump;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
 
@@ -11,6 +10,8 @@ class AdminController extends MainController
 {
 
     protected $data;
+    private $year;
+    private $month;
 
     //Responsável por passar os parâmetros para o Controller pai (MainController)
     public function __construct($router)
@@ -36,39 +37,43 @@ class AdminController extends MainController
     //Responsável por renderizar a página "Excel" (view)
     public function excel($data): void
     {
-        //Instancia a Planilha e define o conjunto de dados passados via GET pelo router
-        $this->data = $data;
-        $this->generateExcel();
-
-        //Define o ano e o mês requisitado via GET
-        $year = (isset($data["year"])) ? $data["year"] : '0';
-        $month = (isset($data["month"])) ? $data["month"] : '0';
-
-        //Binda os parâmetros para query PDO
-        $params = http_build_query([
-            "year" => "$year",
-            "month" => "$month"
-        ]);
-        
-        //Cosntrói e executa a query
-        $num_reports = (new Report())->find("YEAR(data_report) = :year AND MONTH(data_report) = :month", $params)->count();
-
-        //Verifica se a planilha desejada existe, caso contrário, a aplicação retrocede
-        if ($month > 12 || $month < 0 || ($num_reports == 0 && $month != 0))
-            $this->router->redirect("admin.excel");
-
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "currentYear" => $year,
-            "currentMonth" => $month,
-            "caminho" => "files/" . URL_BASE_EXCEL . $month . " de " . $year . ".xlsx",
-            "file" => URL_BASE_EXCEL . $month . " de " . $year . ".xlsx",
             "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")->order("YEAR(data_report) DESC")->fetch(true)
         ];
 
         //Renderiza a página
         echo $this->view->render("excel", $params);
+    }
+
+    //Responsável por renderizar a página "Spreadsheet" (view) sendo chamada pela rota POST
+    public function spreadsheet()
+    {
+        $year = $_POST["selectYear"];
+        initializeSessions(["year" => $year]);
+
+        $paramsQuery = http_build_query(["year" => $year]);
+
+        //Define os parâmetros a serem passados para o template
+        $params = [
+            "title" => "Excel | " . SITE,
+            "reports" => (new Report())->find("YEAR(data_report) = :year", $paramsQuery, "DISTINCT DATE_FORMAT(data_report, '%M') as date_report")->order("DATE_FORMAT(data_report, '%m')")->fetch(true)
+        ];
+
+        //Renderiza a página
+        echo $this->view->render("spreadsheet", $params);
+    }
+
+    //Responsável por renderizar a página "Spreadsheet" (view) sendo chamada pela rota POST
+    public function download()
+    {
+        $year = $_SESSION["year"];
+        $month = $_POST["selectMonth"];
+
+        $this->generateExcel($year, $month);
+
+        $this->router->redirect("/files/" . $_SESSION["spreadsheet"]);
     }
 
     //Método responsável por fazer a paginação da view de Relatório
@@ -130,12 +135,11 @@ class AdminController extends MainController
 
     //Método responsável por gerar a planilha
 
-    private function generateExcel()
+    private function generateExcel(string $year, string $month)
     {
         //Verificando se a requisição do mês ou do ano foi feita, caso contrário, trava a aplicação
-        if (!isset($this->data["month"]) || !isset($this->data["year"])) 
-            return;
-
+        /* if (!isset($_SESSION["month"]) || !isset($_SESSION["year"])) 
+            return; */
         //Instancia uma novo objeto de Planilha
         $spreadsheet = new Spreadsheet();
 
@@ -153,8 +157,8 @@ class AdminController extends MainController
 
         
         //Definindo o mês selecionado (mês atual) e o ano selecionado (ano atual)
-        $current_month = $this->data["month"];
-        $current_year = $this->data["year"];
+        $current_month = $month;
+        $current_year = $year;
             
         //Definindo o objeto dos relatórios e sua quantidade de linhas
         $params = http_build_query([
@@ -162,8 +166,8 @@ class AdminController extends MainController
             "month" => "$current_month"
         ]);
         
-        $reports = (new Report())->find("YEAR(data_report) = :year AND MONTH(data_report) = :month", $params, "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, valor")->order("data_report")->fetch(true);
-        $num_reports = (new Report())->find("YEAR(data_report) = :year AND MONTH(data_report) = :month", $params)->count();
+        $reports = (new Report())->find("YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month", $params, "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, valor")->order("data_report")->fetch(true);
+        $num_reports = (new Report())->find("YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month", $params)->count();
 
         if (!($reports)) 
             return;
@@ -323,8 +327,12 @@ class AdminController extends MainController
         $writer = new Xlsx($spreadsheet);
 
         //Gera o arquivo
-        $caminho = 'files/' . URL_BASE_EXCEL . $current_month . ' de ' . $current_year . '.xlsx';
+        $current_month = ucfirst($current_month);
+        $file =  URL_BASE_EXCEL . $current_month . ' de ' . $current_year . '.xlsx';
+        $caminho = 'files/' . $file;
         $writer->save($caminho);
+
+        initializeSessions(["spreadsheet" => $file]);
     }
 
 }

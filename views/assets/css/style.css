@@ -178,7 +178,7 @@ button:hover {
     height: 300px;
     flex-direction: column;
     background-color: #2f2841;
-    border-radius: 7px;
+    border-radius: 20px;
     justify-content: center;
 }
 
@@ -190,16 +190,18 @@ button:hover {
 .selectYear select {
     padding: 10px;
     border-radius: 7px;
+    text-transform: capitalize;
 }
 
-.btn {
-    width: 100px;
+.btns {
+    width: 125px;
     height: 50px;
     border-radius: 15px;
     align-self: center;
     margin: 10px;
     border: 1px solid;
     padding: 10px;
+    background: #2ecc71 !important;
 }
 
 @media (min-width: 900px) { 

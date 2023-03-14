@@ -36,8 +36,9 @@ $router->get("/vardump", "Web:vardump");
 $router->group("admin",  AuthMiddleware::class);
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
 $router->get("/excel", "AdminController:excel", "admin.excel");
-$router->get("/excel/spreadsheet", "AdminController:excel", "admin.excel");
-$router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
+$router->post("/excel/spreadsheet", "AdminController:spreadsheet", "admin.excel.spreadsheet");
+$router->post("/excel/download", "AdminController:download", "admin.excel.download");
+//$router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
 $router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports.page");
 
 //Define as rotas do grupo de erros HTTP

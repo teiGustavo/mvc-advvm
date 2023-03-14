@@ -9,7 +9,7 @@ const DATA_LAYER_CONFIG = [
     "username" => "root",
     "passwd" => "root",
     "options" => [
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8; SET lc_time_names = 'pt_BR';",
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
         PDO::ATTR_CASE => PDO::CASE_NATURAL
@@ -23,7 +23,7 @@ const URL_BASE = "http://localhost/mvc-advvm";
 const SITE = "Advvm";
 
 //Constante que define o estilo de nome dos arquivos das Planilhas (PhpSpreadSheets)
-const URL_BASE_EXCEL = "Relatorio - Mes ";
+const URL_BASE_EXCEL = "Relatorio - ";
 
 //cosntante que define a chave secreta e única dos tokens da aplicação
 const JWT_KEY = "DSHWWTSX2566018GT";
