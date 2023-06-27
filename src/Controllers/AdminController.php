@@ -140,6 +140,7 @@ class AdminController extends MainController
         //Verificando se a requisição do mês ou do ano foi feita, caso contrário, trava a aplicação
         /* if (!isset($_SESSION["month"]) || !isset($_SESSION["year"])) 
             return; */
+        
         //Instancia uma novo objeto de Planilha
         $spreadsheet = new Spreadsheet();
 

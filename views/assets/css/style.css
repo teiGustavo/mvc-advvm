@@ -191,6 +191,7 @@ button:hover {
     padding: 10px;
     border-radius: 7px;
     text-transform: capitalize;
+    background: #6f648a;
 }
 
 .btns {

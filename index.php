@@ -35,11 +35,13 @@ $router->get("/vardump", "Web:vardump");
 //Define as rotas do grupo admin (ex: "admin/excel")
 $router->group("admin",  AuthMiddleware::class);
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
-$router->get("/excel", "AdminController:excel", "admin.excel");
-$router->post("/excel/spreadsheet", "AdminController:spreadsheet", "admin.excel.spreadsheet");
-$router->post("/excel/download", "AdminController:download", "admin.excel.download");
-//$router->get("/excel/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
 $router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports.page");
+
+$router->group("admin/excel",  AuthMiddleware::class);
+$router->get("/", "AdminController:excel", "admin.excel");
+$router->post("/spreadsheet", "AdminController:spreadsheet", "admin.excel.spreadsheet");
+$router->post("/download", "AdminController:download", "admin.excel.download");
+//$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");

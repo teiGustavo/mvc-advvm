@@ -28,7 +28,6 @@
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("admin.reports"); ?>">Relatórios</a>
             <a href="<?= $router->route("admin.excel"); ?>">Excel</a>
-            <a href="<?= url("/crud") ?>">CRUD</a>
             <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
 
         <?php endif; ?>
