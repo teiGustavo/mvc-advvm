@@ -5,13 +5,13 @@ namespace Advvm\Controllers;
 use Advvm\Models\Report;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class AdminController extends MainController
 {
 
-    protected $data;
-    private $year;
-    private $month;
+    protected array $data;
 
     //Responsável por passar os parâmetros para o Controller pai (MainController)
     public function __construct($router)
@@ -35,12 +35,14 @@ class AdminController extends MainController
     }
 
     //Responsável por renderizar a página "Excel" (view)
-    public function excel($data): void
+    public function excel(): void
     {
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")->order("YEAR(data_report) DESC")->fetch(true)
+            "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")
+                ->order("YEAR(data_report) DESC")
+                ->fetch(true)
         ];
 
         //Renderiza a página
@@ -48,7 +50,7 @@ class AdminController extends MainController
     }
 
     //Responsável por renderizar a página "Spreadsheet" (view) sendo chamada pela rota POST
-    public function spreadsheet()
+    public function spreadsheet(): void
     {
         $year = $_POST["selectYear"];
         initializeSessions(["year" => $year]);
@@ -58,7 +60,13 @@ class AdminController extends MainController
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => (new Report())->find("YEAR(data_report) = :year", $paramsQuery, "DISTINCT DATE_FORMAT(data_report, '%M') as date_report")->order("DATE_FORMAT(data_report, '%m')")->fetch(true)
+            "reports" => (new Report())->find(
+                    "YEAR(data_report) = :year",
+                    "$paramsQuery",
+                    "DISTINCT DATE_FORMAT(data_report, '%M') as date_report"
+                )
+                ->order("DATE_FORMAT(data_report, '%m')")
+                ->fetch(true)
         ];
 
         //Renderiza a página
@@ -66,7 +74,7 @@ class AdminController extends MainController
     }
 
     //Responsável por renderizar a página "Spreadsheet" (view) sendo chamada pela rota POST
-    public function download()
+    public function download(): void
     {
         $year = $_SESSION["year"];
         $month = $_POST["selectMonth"];
@@ -98,12 +106,12 @@ class AdminController extends MainController
         $last_report = (int) ($limit * $current_page);
         $first_report = (int) ($last_report - $limit);
 
-        //Verifica se há a posibilidade de avançar uma página (next)
+        //Verifica se há a possibilidade de avançar uma página (next)
         $next_page = ($current_page + 1);
         if ($next_page > $total_pages)
             $next_page = $current_page;
 
-        //Verifica se há a posibilidade de retroceder uma página (previous)
+        //Verifica se há a possibilidade de retroceder uma página (previous)
         $previous_page = ($current_page - 1);
         if ($previous_page < 1)
             $previous_page = $current_page;
@@ -112,10 +120,13 @@ class AdminController extends MainController
         $reports = (new Report())->find(
             "",
             "",
-            "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(valor, 2),'.',';'),',','.'),';',',')) as valor"
-        )->limitPagination($first_report, $limit)->fetch(true);
+            "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, 
+                CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(valor, 2),'.',';'),',','.'),';',',')) as valor"
+            )
+            ->limitPagination($first_report, $limit)
+            ->fetch(true);
 
-        //Define os parâmetros a serem passados para o template
+        //Define os parâmetros a serem passados para o modelo
         $params = [
             "title" => "Relatorios | " . SITE,
             "reports" => $reports,
@@ -135,13 +146,9 @@ class AdminController extends MainController
 
     //Método responsável por gerar a planilha
 
-    private function generateExcel(string $year, string $month)
+    private function generateExcel(string $year, string $month): void
     {
-        //Verificando se a requisição do mês ou do ano foi feita, caso contrário, trava a aplicação
-        /* if (!isset($_SESSION["month"]) || !isset($_SESSION["year"])) 
-            return; */
-        
-        //Instancia uma novo objeto de Planilha
+        //Instancia um novo objeto de Planilha
         $spreadsheet = new Spreadsheet();
 
         //Define $sheet como a Planilha ativa
@@ -167,8 +174,19 @@ class AdminController extends MainController
             "month" => "$current_month"
         ]);
         
-        $reports = (new Report())->find("YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month", $params, "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, valor")->order("data_report")->fetch(true);
-        $num_reports = (new Report())->find("YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month", $params)->count();
+        $reports = (new Report())
+            ->find(
+                "YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month",
+                "$params",
+                "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, valor"
+            )->order("data_report")
+            ->fetch(true);
+
+        $num_reports = (new Report())
+            ->find(
+                "YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month",
+                "$params"
+            )->count();
 
         if (!($reports)) 
             return;
@@ -201,25 +219,25 @@ class AdminController extends MainController
         $sheet->setCellValue('A' . $num_reports + 7, 'Saídas');
         $sheet->setCellValue('A' . $num_reports + 8, 'Saldo atual');
 
-        //Preechendo as células da coluna do Saldo Anterior
+        //Preenchendo as células da coluna do Saldo Anterior
         $sheet->setCellValue(
             'B' . $num_reports + 5,
-            '=SUMIF(B3, "=Saldo Anterior", D3)'
+            '=VLOOKUP("Saldo Anterior", B:D, 3, 0)'
         );
 
-        //Preechendo as células da Coluna de Entradas
+        //Preenchendo as células da Coluna de Entradas
         $sheet->setCellValue(
             'B' . $num_reports + 6,
             '=(SUMIF(C:C, "=Entrada", D:D) -B' . $num_reports + 5 . ')'
         );
 
-        //Preechendo as células da Coluna de Saídas
+        //Preenchendo as células da Coluna de Saídas
         $sheet->setCellValue(
             'B' . $num_reports + 7,
             '=SUMIF(C:C, "<>Entrada", D:D)'
         );
 
-        //Preechendo as células da Coluna de Saldo Atual
+        //Preenchendo as células da Coluna de Saldo Atual
         $sheet->setCellValue(
             'B' . ($num_reports + 8),
             "=SUM(B" . ($num_reports + 5) . ",B" . ($num_reports + 6) . ",-B" . ($num_reports + 7) . ")"
@@ -230,7 +248,7 @@ class AdminController extends MainController
             'Borda Externa' => [
                 'borders' => [
                     'outline' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'borderStyle' => Border::BORDER_THIN,
                         'color' => ['argb' => '000000'],
                     ],
                 ],
@@ -239,7 +257,7 @@ class AdminController extends MainController
             'Borda Direita' => [
                 'borders' => [
                     'right' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'borderStyle' => Border::BORDER_THIN,
                         'color' => ['argb' => '000000'],
                     ],
                 ],
@@ -248,7 +266,7 @@ class AdminController extends MainController
             'Borda Inferior' => [
                 'borders' => [
                     'bottom' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'borderStyle' => Border::BORDER_THIN,
                         'color' => ['argb' => '000000'],
                     ],
                 ],
@@ -266,11 +284,16 @@ class AdminController extends MainController
         $sheet->getStyle('A1:D1')->applyFromArray($styleArray['Borda Inferior']);
         $sheet->getStyle('A2:D2')->applyFromArray($styleArray['Borda Inferior']);
 
-        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 8))->applyFromArray($styleArray['Borda Externa']);
-        $sheet->getStyle('A' . ($num_reports + 5) . ':A' . ($num_reports + 8))->applyFromArray($styleArray['Borda Direita']);
-        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 5))->applyFromArray($styleArray['Borda Inferior']);
-        $sheet->getStyle('A' . ($num_reports + 6) . ':B' . ($num_reports + 6))->applyFromArray($styleArray['Borda Inferior']);
-        $sheet->getStyle('A' . ($num_reports + 7) . ':B' . ($num_reports + 7))->applyFromArray($styleArray['Borda Inferior']);
+        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 8))
+            ->applyFromArray($styleArray['Borda Externa']);
+        $sheet->getStyle('A' . ($num_reports + 5) . ':A' . ($num_reports + 8))
+            ->applyFromArray($styleArray['Borda Direita']);
+        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 5))
+            ->applyFromArray($styleArray['Borda Inferior']);
+        $sheet->getStyle('A' . ($num_reports + 6) . ':B' . ($num_reports + 6))
+            ->applyFromArray($styleArray['Borda Inferior']);
+        $sheet->getStyle('A' . ($num_reports + 7) . ':B' . ($num_reports + 7))
+            ->applyFromArray($styleArray['Borda Inferior']);
 
         //Juntando as células para formar o título
         $sheet->mergeCells('A1:D1');
@@ -279,8 +302,8 @@ class AdminController extends MainController
         $sheet->getStyle('A:D')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:D')->getAlignment()->setVertical('center');
         
-        //Backgroynd do Título (Célula Merged A1:D1)
-        $sheet->getStyle('A1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        //Background do Título (Célula Merged A1:D1)
+        $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID);
         $sheet->getStyle('A1')->getFill()->getStartColor()->setARGB('63cbce');
 
         //Definindo as larguras das colunas da Planilha
@@ -293,20 +316,30 @@ class AdminController extends MainController
         $sheet->getRowDimension('2')->setRowHeight('25');
 
         //Estilo da Tabela Resumo
-        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 8))->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 5))->getFill()->getStartColor()->setARGB('ffffa6');
-        $sheet->getStyle('A' . ($num_reports + 6) . ':B' . ($num_reports + 6))->getFill()->getStartColor()->setARGB('81d41a');
-        $sheet->getStyle('A' . ($num_reports + 7) . ':B' . ($num_reports + 7))->getFill()->getStartColor()->setARGB('ff3838');
-        $sheet->getStyle('A' . ($num_reports + 8) . ':B' . ($num_reports + 8))->getFill()->getStartColor()->setARGB('b4c7dc');
+        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 8))->getFill()
+            ->setFillType(Fill::FILL_SOLID);
+        $sheet->getStyle('A' . ($num_reports + 5) . ':B' . ($num_reports + 5))->getFill()
+            ->getStartColor()->setARGB('ffffa6');
+        $sheet->getStyle('A' . ($num_reports + 6) . ':B' . ($num_reports + 6))->getFill()
+            ->getStartColor()->setARGB('81d41a');
+        $sheet->getStyle('A' . ($num_reports + 7) . ':B' . ($num_reports + 7))->getFill()
+            ->getStartColor()->setARGB('ff3838');
+        $sheet->getStyle('A' . ($num_reports + 8) . ':B' . ($num_reports + 8))->getFill()
+            ->getStartColor()->setARGB('b4c7dc');
 
         //Define os padrões de estilo dos números para toda a coluna D (correspondente ao valor) da Planilha
         $sheet->getStyle('D:D')->getNumberFormat()->setFormatCode('R$ #,##0.00');
 
         //Define os padrões de estilo dos números para cada linha da Tabela Resumo
-        $sheet->getStyle('B' . $num_reports + 5)->getNumberFormat()->setFormatCode('R$ #,##0.00');
-        $sheet->getStyle('B' . $num_reports + 6)->getNumberFormat()->setFormatCode('R$ #,##0.00');
-        $sheet->getStyle('B' . $num_reports + 7)->getNumberFormat()->setFormatCode('R$ #,##0.00');
-        $sheet->getStyle('B' . $num_reports + 8)->getNumberFormat()->setFormatCode('R$ #,##0.00');
+        $sheet->getStyle('B' . $num_reports + 5)->getNumberFormat()
+            ->setFormatCode('R$ #,##0.00');
+        $sheet->getStyle('B' . $num_reports + 6)->getNumberFormat()
+            ->setFormatCode('R$ #,##0.00');
+        $sheet->getStyle('B' . $num_reports + 7)->getNumberFormat()
+            ->setFormatCode('R$ #,##0.00');
+        $sheet->getStyle('B' . $num_reports + 8)->getNumberFormat()
+            ->setFormatCode('R$ #,##0.00');
+
 
         //Escapa os erros
         $sheet->getCell('B' . $num_reports + 5)->getStyle()->setQuotePrefix(true);

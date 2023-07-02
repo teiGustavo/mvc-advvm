@@ -17,10 +17,13 @@ const DATA_LAYER_CONFIG = [
 ];
 
 //Constante de URL base do site
-const URL_BASE = "http://localhost/GustavoT/mvc-advvm";
+const URL_BASE = "http://localhost/mvc-advvm";
 
 //Constante que define o nome que acompanha o título das views
 const SITE = "Advvm";
+
+//Constante que define o estado da aplicação
+const EM_DESENVOLVIMENTO = false;
 
 //Constante que define o estilo de nome dos arquivos das Planilhas (PhpSpreadSheets)
 const URL_BASE_EXCEL = "Relatorio - ";

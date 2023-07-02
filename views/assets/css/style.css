@@ -1,5 +1,11 @@
-@font-face {
+/* @font-face {
     src:  url(fonts/Poppins/Poppins-Regular.ttf);
+    font-family: "Poppins";
+    font-weight: normal;
+} */
+
+@font-face {
+    src:  url(fonts/JetBrainsMono/JetBrainsMono-Regular.ttf);
     font-family: "Poppins";
     font-weight: normal;
 }
@@ -64,6 +70,16 @@ p, h4 {
     margin: 1%;
     border-radius: 10px;
     max-height: 160px;
+    text-align: left;
+    display: flex;
+}
+
+.users_user h1 {
+    width: fit-content;
+}
+
+.users_user p {
+   color: black;
 }
 
 .contact {
@@ -203,6 +219,21 @@ button:hover {
     border: 1px solid;
     padding: 10px;
     background: #2ecc71 !important;
+}
+
+.div-list {
+    padding: 25px;
+    background-color: #2f2841;
+    border-radius: 5px;
+}
+
+.div-list p {
+    color: white;
+}
+
+.div-list ul {
+    width: 300px;
+    text-align: start;
 }
 
 @media (min-width: 900px) { 
