@@ -83,31 +83,32 @@
                         <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left" style="width: 430px;">
                             <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Editar Lançamento</h3>
                             <div class="mt-2">
-                                <form>
+                                <form id="form_edit">
                                     <div class="space-y-12">
                                         <div class="border-b border-gray-900/10 pb-12">
                                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+                                                <input type="hidden" value="" id="id_edit" name="id">
                                                 <div class="sm:col-span-4">
-                                                    <label for="data" class="block text-sm font-medium leading-6 text-gray-900">Data</label>
+                                                    <label for="data_edit" class="block text-sm font-medium leading-6 text-gray-900">Data</label>
                                                     <div class="mt-2">
-                                                        <input type="date" name="data" id="data" autocomplete="given-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <input type="date" name="data" id="data_edit" autocomplete="given-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="historico" class="block text-sm font-medium leading-6 text-gray-900">Histórico</label>
+                                                    <label for="historico_edit" class="block text-sm font-medium leading-6 text-gray-900">Histórico</label>
                                                     <div class="mt-2">
-                                                        <input type="text" name="historico" id="historico" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <input type="text" name="historico" id="historico_edit" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="valor" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
+                                                    <label for="valor_edit" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
                                                     <div class="relative mt-2 rounded-md shadow-sm">
                                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                             <span class="text-gray-500 sm:text-sm">R$</span>
                                                         </div>
-                                                        <input type="text" name="valor" id="valor" style="padding: 10px 0px 10px 35px;"
+                                                        <input type="text" name="valor" id="valor_edit" style="padding: 10px 0px 10px 35px;"
                                                                class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
                                                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
                                                                     focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -116,9 +117,9 @@
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
+                                                    <label for="tipo_edit" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
                                                     <div class="mt-2">
-                                                        <select id="tipo" name="tipo" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                                        <select id="tipo_edit" name="tipo" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                                             <option value="Entrada">Entrada</option>
                                                             <option value="Saída">Saída</option>
                                                         </select>
@@ -135,7 +136,7 @@
 
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                            data-edit>Editar</button>
+                            data-edit data-action="<?= $router->route("alterar.update"); ?>">Editar</button>
                     <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                             data-cancel>Cancelar</button>
                 </div>
@@ -243,6 +244,8 @@
     $("body").on("click", "[data-update]", function (e) {
         e.preventDefault();
 
+        let data = $(this).data();
+
         $.ajax({
             url: data.action,
             data: {
@@ -251,14 +254,22 @@
             type: "POST",
             dataType: "JSON",
             success: function (callback) {
-                // $("#cpf_cliente_edit").val(callback.customer.cpf);
-                // $("#nome_cliente_edit").val(callback.customer.nome);
-                // $("#email_cliente_edit").val(callback.customer.email);
-                // $("#datanasc_cliente_edit").val(callback.customer.datanasc);
+                callback = callback.report
+
+                if (callback.tipo === "Saida") {
+                    callback.tipo = "Saída"
+                }
+
+                $("#id_edit").val(callback.cod_lancamento);
+                $("#data_edit").val(callback.data_report);
+                $("#historico_edit").val(callback.historico);
+                $("#valor_edit").val(callback.valor);
+                $("#tipo_edit").val(callback.tipo);
             }
         });
 
         let modal = $("#modal-editar");
+        let div = $(this).parent().parent().parent().parent().parent();
 
         if (modal.hasClass("hidden")) {
             modal.fadeIn(400);
@@ -274,13 +285,25 @@
         })
 
         $("body").on("click", "[data-edit]", function (e) {
-            $.post(data.action, data, "json")
-                .done(function (callback) {
+            data = $(this).data();
+
+            $.ajax({
+                url: data.action,
+                data: $("#form_edit").serialize(),
+                type: "POST",
+                dataType: "JSON",
+                success: function (callback) {
+                    callback = callback.report
+
                     modal.fadeOut(300);
                     modal.addClass("hidden");
-                    div.fadeOut();
-                }).fail(function () {
-                alert("Erro ao processar a requisição!");
+                    div.find("#menu-button").trigger("click");
+
+                    div.find("#p_data").text("Data: " + callback.data_report);
+                    div.find("#p_historico").text("Histórico: " + callback.historico);
+                    div.find("#p_tipo").text("Tipo: " + callback.tipo);
+                    div.find("#p_valor").text("Valor: R$ " + callback.valor);
+                }
             });
         })
     });

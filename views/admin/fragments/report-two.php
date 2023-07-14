@@ -1,23 +1,23 @@
 <article class="users_user">
     <div>
         <h1>
-            <p>
+            <p id="p_id">
                 ID: <?= $report->cod_lancamento; ?>
             </p>
 
-            <p>
+            <p id="p_data">
                 Data: <?= $report->data_report; ?>
             </p>
 
-            <p>
+            <p id="p_historico">
                 Histórico: <?= mb_strimwidth($report->historico, 0, 20, "..."); ?>
             </p>
 
-            <p>
+            <p id="p_tipo">
                 Tipo: <?= $report->tipo; ?>
             </p>
 
-            <p>
+            <p id="p_valor">
                 Valor: <?= $report->valor; ?>
             </p>
         </h1>

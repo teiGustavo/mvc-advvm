@@ -75,6 +75,23 @@ class AlterarController extends MainController
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
+        $report = (new Report())->findById($id);
+        $report->data_report = $data["data"];
+        $report->historico = $data["historico"];
+        $report->valor = $data["valor"];
+        $report->tipo = $data["tipo"];
 
+        if (!$report->save()) {
+            $callback["message"] = "Erro ao salvar!";
+        }
+
+        $data = new \DateTimeImmutable($data["data"]);
+        $report->data_report = $data->format("d/m/Y");
+        $report->historico = mb_strimwidth($report->historico, 0, 20, "...");
+        $report->valor = number_format($report->valor,2,",",".");;
+
+        $callback["report"] = $report->data();
+
+        echo json_encode($callback);
     }
 }
