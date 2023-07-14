@@ -31,7 +31,7 @@ class AlterarController extends MainController
         echo $this->view->render("alterar", $params);
     }
 
-    public function delete(array $data)
+    public function delete(array $data): void
     {
         if (empty($data["id"])) {
             return;
@@ -50,5 +50,31 @@ class AlterarController extends MainController
         }
 
         echo json_encode($callback);
+    }
+
+    public function find(array $data): void
+    {
+        if (empty($data["id"])) {
+            return;
+        }
+
+        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+
+        $report = (new Report())->findById($id);
+
+        $callback["report"] = $report->data();
+
+        echo json_encode($callback);
+    }
+
+    public function update(array $data): void
+    {
+        if (empty($data["id"])) {
+            return;
+        }
+
+        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+
+
     }
 }

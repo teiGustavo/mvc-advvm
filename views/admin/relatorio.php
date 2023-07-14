@@ -95,6 +95,13 @@
                                                 </div>
 
                                                 <div class="sm:col-span-4">
+                                                    <label for="historico" class="block text-sm font-medium leading-6 text-gray-900">Histórico</label>
+                                                    <div class="mt-2">
+                                                        <input type="text" name="historico" id="historico" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                    </div>
+                                                </div>
+
+                                                <div class="sm:col-span-4">
                                                     <label for="valor" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
                                                     <div class="relative mt-2 rounded-md shadow-sm">
                                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -105,13 +112,6 @@
                                                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
                                                                     focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                                     placeholder="0.00">
-                                                    </div>
-                                                </div>
-
-                                                <div class="sm:col-span-4">
-                                                    <label for="valor" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
-                                                    <div class="mt-2">
-                                                        <input type="text" name="valor" id="valor" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                     </div>
                                                 </div>
 
@@ -242,6 +242,21 @@
 
     $("body").on("click", "[data-update]", function (e) {
         e.preventDefault();
+
+        $.ajax({
+            url: data.action,
+            data: {
+                id: data.id
+            },
+            type: "POST",
+            dataType: "JSON",
+            success: function (callback) {
+                // $("#cpf_cliente_edit").val(callback.customer.cpf);
+                // $("#nome_cliente_edit").val(callback.customer.nome);
+                // $("#email_cliente_edit").val(callback.customer.email);
+                // $("#datanasc_cliente_edit").val(callback.customer.datanasc);
+            }
+        });
 
         let modal = $("#modal-editar");
 
