@@ -16,6 +16,9 @@
 - Abrir o bash do container do php:
   - `cd /var/www/html`
   - `chown www-data:www-data ./files`
+- Acessar o PhpMyAdmin:
+  - Selecionar o banco mvc_advvm
+  - Executar o arquivo src/BD.sql
  
 ## URLs padrão:
 - Base: localhost
