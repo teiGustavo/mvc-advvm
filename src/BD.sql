@@ -1,7 +1,3 @@
-DROP SCHEMA IF EXISTS id19770428_bd_relatorio;
-CREATE SCHEMA IF NOT EXISTS id19770428_bd_relatorio;
-USE id19770428_bd_relatorio;
-
 CREATE TABLE IF NOT EXISTS usuario(
 	cod_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(100) NOT NULL DEFAULT 'seuemail@email.com',
