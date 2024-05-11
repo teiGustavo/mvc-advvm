@@ -6,7 +6,7 @@
 
 ## Como iniciar o projeto:
 - Abra o terminal
-- `git clone`
+- `git clone https://github.com/teiGustavo/mvc-advvm.git`
 - `cd mvc-advvm`
 - `composer install`
 - Duplicar o arquivo .env.example na raiz do projeto
