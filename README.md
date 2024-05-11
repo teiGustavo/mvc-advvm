@@ -1,0 +1,24 @@
+## Dependências:
+- PHP 8.2
+- Composer
+- Docker
+- Docker Compose
+
+## Como iniciar o projeto:
+- Abra o terminal
+- `git clone`
+- `cd mvc-advvm`
+- `composer install`
+- Duplicar o arquivo .env.example na raiz do projeto
+  - Renomear a cópia para .env
+  - Realizar as modificações desejadas (lembrar de alterar tambem nos arquivos do docker)
+- `docker compose up`
+- Abrir o bash do container do php:
+  - `cd /var/www/html`
+  - `chown www-data:www-data ./files`
+ 
+## URLs padrão:
+- Base: localhost
+- Portas:
+  - Aplicação: 8000
+  - PhpMyAdmin: 8080
