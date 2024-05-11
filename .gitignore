@@ -475,8 +475,4 @@ composer.lock
 
 .env
 
-files/*
-
-docker/php2
-docker/nginx
-bkp.yml
+files/*.xlsx
