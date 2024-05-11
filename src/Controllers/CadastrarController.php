@@ -35,11 +35,11 @@ class CadastrarController extends MainController
             return date("t", strtotime($month));
         }
 
-        $data = filter_var_array($data, FILTER_SANITIZE_STRING);
+        $data = filter_var_array($data, FILTER_DEFAULT);
 
         if (empty($data["data_lancamento"])) {
-//            $callback["message"] = "Por favor, informe o mês para iniciar!";
-//            echo json_encode($callback);
+            // $callback["message"] = "Por favor, informe o mês para iniciar!";
+            // echo json_encode($callback);
 
             echo $this->router->redirect("cadastrar.selecionarMes");
 
@@ -60,6 +60,8 @@ class CadastrarController extends MainController
 
     public function cadastro(): void
     {
+        initializeSessions();
+
         $params = [
             "title" => "Cadastrar | " . SITE,
             "date" => $_SESSION["date"],
@@ -73,7 +75,7 @@ class CadastrarController extends MainController
 
     public function create($data)
     {
-        $data = filter_var_array($data, FILTER_SANITIZE_STRING);
+        $data = filter_var_array($data, FILTER_DEFAULT);
 
         if (in_array("", $data)) {
             $callback["message"] = "Por favor, informe todos os campos!";
@@ -84,6 +86,7 @@ class CadastrarController extends MainController
 
         //Prevenção de erros
         $data["lancamento"] = ucfirst($data["lancamento"]);
+        $data["valor"] = formatFloatToSqlPattern($data['valor']);
 
         //Checando se o lançamento é uma Entrada ou Saída
         $opcoes = [
@@ -96,13 +99,14 @@ class CadastrarController extends MainController
             $data["tipo"] = "Saída";
         }
 
+
         $report = new Report();
         $report->data_report = $data["data_lancamento"];
         $report->historico = $data["lancamento"];
         $report->tipo = $data["tipo"];
         $report->valor = $data["valor"];
 
-        if (EM_DESENVOLVIMENTO) {
+        if (APP_ENV != 'prod' && APP_ENV != 'production') {
             var_dump($data);
             var_dump($report);
         } else {

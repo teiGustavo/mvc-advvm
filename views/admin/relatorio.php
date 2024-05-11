@@ -1,69 +1,57 @@
 <?php
-    $this->layout("../_theme", ["title" => $title]);
+$this->layout("../_theme", ["title" => $title]);
 ?>
 
 <div class="pagination" id="divPagination">
     <div id="menuPagination">
-    <div class="flex items-center justify-between border-t border-gray-200 bg-inline-flex px-4 py-3 sm:px-6" id="pagination">
-        <div class="flex flex-1 justify-between sm:hidden">
-            <a href="#"
-                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-            <a href="#"
-                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-        </div>
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-                <p class="text-sm text-gray-700">
-                    Exibindo
-                    <span class="font-medium"><?= $first_report+1 ?></span>
-                    a
-                    <span class="font-medium"><?= $last_report < $total_reports ? $last_report : $total_reports; ?></span>
-                    de
-                    <span class="font-medium"><?= $total_reports; ?></span>
-                    resultados
-                </p>
+        <div class="flex items-center justify-between border-t border-gray-200 bg-inline-flex px-4 py-3 sm:px-6" id="pagination">
+            <div class="flex flex-1 justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+                <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
             </div>
-            <div>
-                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination" id="paginacao">
-                    <a href="<?= $router->route("admin.reports.page", ["pagecode" => $previous_page]); ?>"
-                        class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                        <span class="sr-only">Previous</span>
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <a href="<?= $router->route("admin.reports.page", ["pagecode" => 1]); ?>" aria-current="page" id="nav_a"
-                        class="relative z-10 inline-flex items-center ring-1 ring-inset ring-gray-300 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                    <a href="<?= $router->route("admin.reports.page", ["pagecode" => $next_page]); ?>" id="nav_a<?= $current_page; ?>"
-                        class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"><?= $current_page; ?></a>
-                    <span
-                        class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
-                    <a href="<?= $router->route("admin.reports.page", ["pagecode" => $total_pages]); ?>" id="nav_a_limit"
-                        class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"><?= $total_pages; ?></a>
-                    <a href="<?= $router->route("admin.reports.page", ["pagecode" => $next_page]); ?>" id="nav_a"
-                        class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                        <span class="sr-only">Next</span>
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </nav>
+            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Exibindo
+                        <span class="font-medium"><?= $first_report + 1 ?></span>
+                        a
+                        <span class="font-medium"><?= $last_report < $total_reports ? $last_report : $total_reports; ?></span>
+                        de
+                        <span class="font-medium"><?= $total_reports; ?></span>
+                        resultados
+                    </p>
+                </div>
+                <div>
+                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination" id="paginacao">
+                        <a href="<?= $router->route("admin.reports.page", ["pagecode" => $previous_page]); ?>" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                            <span class="sr-only">Previous</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="<?= $router->route("admin.reports.page", ["pagecode" => 1]); ?>" aria-current="page" id="nav_a" class="relative z-10 inline-flex items-center ring-1 ring-inset ring-gray-300 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
+                        <a href="<?= $router->route("admin.reports.page", ["pagecode" => $next_page]); ?>" id="nav_a<?= $current_page; ?>" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"><?= $current_page; ?></a>
+                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
+                        <a href="<?= $router->route("admin.reports.page", ["pagecode" => $total_pages]); ?>" id="nav_a_limit" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"><?= $total_pages; ?></a>
+                        <a href="<?= $router->route("admin.reports.page", ["pagecode" => $next_page]); ?>" id="nav_a" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                            <span class="sr-only">Next</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div id="reports">
-        <?php if ($reports):
-            foreach ($reports as $report):
+        <?php if ($reports) :
+            foreach ($reports as $report) :
                 $this->insert("fragments/report-two", ["report" => $report]);
             endforeach;
-        else:
-            ?>
+        else :
+        ?>
 
             <h4>Não existem relatórios cadastrados!</h4>
 
@@ -108,18 +96,16 @@
                                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                             <span class="text-gray-500 sm:text-sm">R$</span>
                                                         </div>
-                                                        <input type="text" name="valor" id="valor_edit" style="padding: 10px 0px 10px 35px;"
-                                                               class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
+                                                        <input type="text" name="valor" id="valor_edit" style="padding: 10px 0px 10px 35px;" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
                                                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
-                                                                    focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                                    placeholder="0.00">
+                                                                    focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0.00">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
                                                     <label for="tipo_edit" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
                                                     <div class="mt-2">
-                                                        <select id="tipo_edit" name="tipo" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                                        <select id="tipo_edit" name="tipo" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                             <option value="Entrada">Entrada</option>
                                                             <option value="Saída">Saída</option>
                                                         </select>
@@ -135,10 +121,8 @@
                 </div>
 
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                            data-edit data-action="<?= $router->route("alterar.update"); ?>">Editar</button>
-                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                            data-cancel>Cancelar</button>
+                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" data-edit data-action="<?= $router->route("alterar.update"); ?>">Editar</button>
+                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" data-cancel>Cancelar</button>
                 </div>
             </div>
         </div>
@@ -169,10 +153,8 @@
                 </div>
 
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                        data-confirm>Excluir</button>
-                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        data-cancel>Cancelar</button>
+                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" data-confirm>Excluir</button>
+                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" data-cancel>Cancelar</button>
                 </div>
             </div>
         </div>
@@ -229,7 +211,7 @@
 
     updateReportCss();
 
-    $("button").on("click", function () {
+    $("button").on("click", function() {
         let div_menu = ($(this).parent().parent().find("#div-menu"));
 
         if (div_menu.hasClass("hidden")) {
@@ -241,7 +223,7 @@
         }
     });
 
-    $("body").on("click", "[data-update]", function (e) {
+    $("body").on("click", "[data-update]", function(e) {
         e.preventDefault();
 
         let data = $(this).data();
@@ -253,7 +235,7 @@
             },
             type: "POST",
             dataType: "JSON",
-            success: function (callback) {
+            success: function(callback) {
                 callback = callback.report
 
                 if (callback.tipo === "Saida") {
@@ -279,12 +261,12 @@
             modal.addClass("hidden");
         }
 
-        $("body").on("click", "[data-cancel]", function (e) {
+        $("body").on("click", "[data-cancel]", function(e) {
             modal.fadeOut(300);
             modal.addClass("hidden");
         })
 
-        $("body").on("click", "[data-edit]", function (e) {
+        $("body").on("click", "[data-edit]", function(e) {
             data = $(this).data();
 
             $.ajax({
@@ -292,7 +274,7 @@
                 data: $("#form_edit").serialize(),
                 type: "POST",
                 dataType: "JSON",
-                success: function (callback) {
+                success: function(callback) {
                     callback = callback.report
 
                     modal.fadeOut(300);
@@ -308,7 +290,7 @@
         })
     });
 
-    $("body").on("click", "[data-delete]", function (e) {
+    $("body").on("click", "[data-delete]", function(e) {
         e.preventDefault();
 
         let data = $(this).data();
@@ -324,20 +306,20 @@
             modal.addClass("hidden");
         }
 
-        $("body").on("click", "[data-cancel]", function (e) {
+        $("body").on("click", "[data-cancel]", function(e) {
             modal.fadeOut(300);
             modal.addClass("hidden");
         })
 
-        $("body").on("click", "[data-confirm]", function (e) {
+        $("body").on("click", "[data-confirm]", function(e) {
             $.post(data.action, data, "json")
-                .done(function (callback) {
+                .done(function(callback) {
                     modal.fadeOut(300);
                     modal.addClass("hidden");
                     div.fadeOut();
-                }).fail(function () {
-                alert("Erro ao processar a requisição!");
-            });
+                }).fail(function() {
+                    alert("Erro ao processar a requisição!");
+                });
         })
     });
 </script>

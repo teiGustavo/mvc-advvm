@@ -1,18 +1,19 @@
 <?php
 
-require __DIR__ . "/vendor/autoload.php";
-
 use CoffeeCode\Router\Router;
 use Advvm\Middlewares\AuthMiddleware;
 
+
 //Instancia um novo roteador na URL base do site
-$router = new Router(URL_BASE);
+$router = new Router(APP_URL);
 
 //Define o namespace dos Controllers
 $router->namespace("Advvm\Controllers");
 
-//Define as rotas sem um grupo anexo (ex: "/index")
+//Define o middleware de autenticação para todas as rotas
 $router->group("", AuthMiddleware::class);
+
+//Define as rotas sem um grupo anexo (ex: "/index")
 $router->get("/", "HomeController:index", "advvm.home");
 $router->get("/read", "ReadController:index", "advvm.read");
 
@@ -63,6 +64,7 @@ $router->get("/{errcode}", "Web:error");
 $router->dispatch();
 
 //Verifica se houve alguma requisição via GET de algum erro HTTP
-if ($router->error())
+if ($router->error()) {
     //Caso tenha ocorrido, redireciona para o respectivo erro HTTP
     $router->redirect("/error/{$router->error()}");
+}

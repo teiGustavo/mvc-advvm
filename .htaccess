@@ -1,5 +1,5 @@
 RewriteEngine On
-#Options All -Indexes
+Options All -Indexes
 
 ## ROUTER WWW Redirect.
 #RewriteCond %{HTTP_HOST} !^www\. [NC]
@@ -13,4 +13,4 @@ RewriteEngine On
 # ROUTER URL Rewrite
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?route=/$1 [L,QSA]
+RewriteRule ^(.*)$ /public/index.php?route=/$1 [L,QSA]

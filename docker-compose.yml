@@ -1,0 +1,46 @@
+services:
+  php-apache:
+    container_name: advvm-php
+    build: ./docker/php
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - /home/gteixeira/projects/mvc-advvm:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - mvc-advvm
+
+  mysql:
+    container_name: advvm-mysql
+    image: mysql:8.4
+    restart: always
+    ports:
+      - 8806:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mvc_advvm
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mvc-advvm
+    
+
+  phpmyadmin:
+    container_name: advvm-phpmyadmin
+    image: phpmyadmin:latest
+    environment:
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
+    networks:
+      - mvc-advvm
+
+networks:
+  mvc-advvm:
+  
+volumes:
+  mysql-data:

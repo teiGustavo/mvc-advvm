@@ -1,11 +1,12 @@
 <?php
 
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/../../vendor/autoload.php";
 
 use Advvm\Models\User;
 use Advvm\Models\Report;
 
 $modelUser = new User();
+
 $users = $modelUser->find()->fetch(true);
 
 foreach ($users as $user) {

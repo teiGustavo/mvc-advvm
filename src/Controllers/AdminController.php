@@ -57,16 +57,19 @@ class AdminController extends MainController
 
         $paramsQuery = http_build_query(["year" => $year]);
 
+        $reports = (new Report())->find(
+            "YEAR(data_report) = :year",
+            "$paramsQuery",
+            "DISTINCT DATE_FORMAT(data_report, '%M') as date_report"
+        )
+        ->order("DATE_FORMAT(date_report, '%m')")
+        ->fetch(true);
+
+
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => (new Report())->find(
-                    "YEAR(data_report) = :year",
-                    "$paramsQuery",
-                    "DISTINCT DATE_FORMAT(data_report, '%M') as date_report"
-                )
-                ->order("DATE_FORMAT(data_report, '%m')")
-                ->fetch(true)
+            "reports" => $reports
         ];
 
         //Renderiza a página
@@ -76,6 +79,8 @@ class AdminController extends MainController
     //Responsável por renderizar a página "Spreadsheet" (view) sendo chamada pela rota POST
     public function download(): void
     {
+        initializeSessions();
+
         $year = $_SESSION["year"];
         $month = $_POST["selectMonth"];
 
@@ -123,7 +128,8 @@ class AdminController extends MainController
             "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, 
                 CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(valor, 2),'.',';'),',','.'),';',',')) as valor"
             )
-            ->limitPagination($first_report, $limit)
+            ->limit($limit)
+            ->offset($first_report)
             ->fetch(true);
 
         //Define os parâmetros a serem passados para o modelo
@@ -359,11 +365,11 @@ class AdminController extends MainController
 
         //Instancia a Planilha
         $writer = new Xlsx($spreadsheet);
-
+    
         //Gera o arquivo
         $current_month = ucfirst($current_month);
-        $file =  URL_BASE_EXCEL . $current_month . ' de ' . $current_year . '.xlsx';
-        $caminho = 'files/' . $file;
+        $file =  NAME_TEMPLATE . $current_month . ' de ' . $current_year . '.xlsx';
+        $caminho = __DIR__ . '/../../files/' . $file;
         $writer->save($caminho);
 
         initializeSessions(["spreadsheet" => $file]);

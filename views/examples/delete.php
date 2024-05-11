@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/../../vendor/autoload.php";
 
 use Advvm\Models\User;
 
@@ -10,5 +10,5 @@ if ($user)
     $user->destroy();
 
 echo '<pre>';
-    var_dump($user);
+var_dump($user);
 echo '</pre>';

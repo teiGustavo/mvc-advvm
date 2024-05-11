@@ -3,6 +3,7 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\User;
+use PDO;
 
 class HomeController extends MainController
 {
@@ -21,10 +22,9 @@ class HomeController extends MainController
         $params = [
             "title" => "Início | " . SITE,
             "users" => (new User())->find()->fetch(true)
-        ];   
-        
+        ];
+
         //Renderiza a página
         echo $this->view->render("home", $params);
     }
 }
-

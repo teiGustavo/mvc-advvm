@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/../../vendor/autoload.php";
 
 use Advvm\Models\User;
 
@@ -11,5 +11,5 @@ if (!$userId = $user->save())
     echo $user->fail->getMessage();
 
 echo '<pre>';
-    var_dump($user);
+var_dump($user);
 echo '</pre>';

@@ -1,42 +1,50 @@
 <?php
 
-//Constante de valores para conexao PDO
-const DATA_LAYER_CONFIG = [
-    "driver" => "mysql",
-    "host" => "localhost",
-    "port" => "3306",
-    "dbname" => "id19770428_bd_relatorio",
-    "username" => "root",
-    "passwd" => "root",
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+
+// Constante de valores para conexão PDO
+define('DATA_LAYER_CONFIG', [
+    "driver" => $_ENV['DB_DRIVER'] ?? "mysql",
+    "host" => $_ENV['DB_HOST'] ?? "localhost",
+    "port" => $_ENV['DB_PORT'] ?? "3306",
+    "dbname" => $_ENV['DB_NAME'] ?? "advvm",
+    "username" => $_ENV['DB_USER'] ?? "root",
+    "passwd" => $_ENV['DB_PASSWORD'] ?? "",
     "options" => [
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8; SET lc_time_names = 'pt_BR';",
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
         PDO::ATTR_CASE => PDO::CASE_NATURAL
     ]
-];
+]);
 
 //Constante de URL base do site
-const URL_BASE = "http://localhost/mvc-advvm";
+define('APP_URL', $_ENV['APP_URL']);
 
 //Constante que define o nome que acompanha o título das views
-const SITE = "Advvm";
+define('SITE', $_ENV['VW_TITLE']);
 
 //Constante que define o estado da aplicação
-const EM_DESENVOLVIMENTO = false;
+define('APP_ENV', $_ENV['APP_ENV']);
+
+//Constante que define o estado da autenticação
+define('NEEDS_AUTH', $_ENV['APP_NEEDS_AUTH']);
 
 //Constante que define o estilo de nome dos arquivos das Planilhas (PhpSpreadSheets)
-const URL_BASE_EXCEL = "Relatorio - ";
+define('NAME_TEMPLATE', $_ENV['SP_NAME_TEMPLATE']);
 
-//cosntante que define a chave secreta e única dos tokens da aplicação
-const JWT_KEY = "DSHWWTSX2566018GT";
+//Constante que define a chave secreta e única dos tokens da aplicação
+define('JWT_KEY', $_ENV['JWT_KEY']);
+
 
 function url(string $path): string
 {
     if ($path) {
-        return URL_BASE . "{$path}";
+        return APP_URL . "{$path}";
     }
-    return URL_BASE;
+    return APP_URL;
 }
 
 //Responsável por inicializar as sessões
@@ -53,4 +61,14 @@ function initializeSessions(array $sessions = [])
     }
 
     return true;
+}
+
+//Responsável por formatar os valores em float para o padrão do SQL
+function formatFloatToSqlPattern(string $float) {
+    if (str_contains($float, ',')) {
+        $float = str_replace('.', '', $float);
+        $float = str_replace(',', '.', $float);
+    }
+
+    return $float;
 }

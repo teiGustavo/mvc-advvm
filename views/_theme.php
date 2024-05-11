@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="icon" type="image/x-icon" href="<?= url("/public/favicon.ico"); ?>">
+
     <?= $this->section("css"); ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?= url("/views/assets/css/style.css") ?>">
@@ -28,7 +30,7 @@
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("cadastrar.selecionarMes"); ?>">Cadastrar</a>
             <a href="<?= $router->route("admin.reports"); ?>">Lançamentos</a>
-            <a href="<?= $router->route("admin.excel"); ?>">Excel</a>
+            <a href="<?= $router->route("admin.excel"); ?>">Gerar Relatório</a>
             <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
 
         <?php endif; ?>

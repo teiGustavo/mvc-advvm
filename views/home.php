@@ -3,7 +3,7 @@
 ?>
 
 <div class="users">
-    <?php if ($users):
+    <?php if (isset($users)):
         foreach ($users as $user):
             ?>
 
@@ -19,7 +19,6 @@
         ?>
 
         <h4>Não existem usuários cadastrados!</h4>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, laboriosam.</p>
 
     <?php endif; ?>
 </div>

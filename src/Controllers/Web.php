@@ -2,7 +2,6 @@
 
 namespace Advvm\Controllers;
 
-use Examples\vardump;
 use League\Plates\Engine;
 
 class Web 
@@ -26,13 +25,13 @@ class Web
     //Responsável por retornar um teste do phpinfo()
     public function phpinfo($data)
     {
-        require(__DIR__ . "/../../examples/phpinfo.php");
+        require(__DIR__ . "/../../views/examples/phpinfo.php");
     }
 
     //Responsável por retornar um teste do vardump()
     public function vardump($data)
     {
-        require(__DIR__ . "/../../examples/vardump.php");
+        require(__DIR__ . "/../../views/examples/vardump.php");
     }
 
     //Responsável por renderizar a página de erros (view)
@@ -54,24 +53,24 @@ class Web
     //Teste de implementação da função Create do CRUD (examples)
     public function create($data)
     {
-        require(__DIR__ . "/../../examples/create.php");
+        require(__DIR__ . "/../../views/examples/create.php");
     }
 
     //Teste de implementação da função Read do CRUD (examples)
     public function read($data)
     {
-        require(__DIR__ . "/../../examples/read.php");
+        require(__DIR__ . "/../../views/examples/read.php");
     }
 
     //Teste de implementação da função Update do CRUD (examples)
     public function update($data)
     {
-        require(__DIR__ . "/../../examples/update.php");
+        require(__DIR__ . "/../../views/examples/update.php");
     }
 
     //Teste de implementação da função Delete do CRUD (examples)
     public function delete($data)
     {
-        require(__DIR__ . "/../../examples/delete.php");
+        require(__DIR__ . "/../../views/examples/delete.php");
     }
 }

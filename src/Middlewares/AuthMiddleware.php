@@ -14,8 +14,8 @@ class AuthMiddleware
     {
         $this->router = $router;
         
-        //Verifica se o usuário não está autenticado
-        if ($this->isAuth() == false) {
+        //Verifica se a autenticação está habilitada e se o usuário não está autenticado
+        if (filter_var(NEEDS_AUTH, FILTER_VALIDATE_BOOLEAN) == 'true' && $this->isAuth() == false) {
             //Caso verdadeiro, é feito um redirecionamento para a rota da Home
             return $router->redirect("auth.login", ["isAuth" == false]);
         }

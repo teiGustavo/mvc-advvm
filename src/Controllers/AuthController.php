@@ -94,8 +94,8 @@ class AuthController extends MainController
 
         //Segunda parte do token JWT (Carga útil)
         $payload = [
-            'iss' => URL_BASE,
-            'aud' => URL_BASE,
+            'iss' => APP_URL,
+            'aud' => APP_URL,
             'exp' => $expTime,
             'id' =>  $credentials["ID"],
             'email' =>  $credentials["Email"],
