@@ -11,7 +11,7 @@
 - `composer install`
 - Duplicar o arquivo .env.example na raiz do projeto
   - Renomear a cópia para .env
-  - Realizar as modificações desejadas (lembrar de alterar tambem nos arquivos do docker)
+  - Realizar as modificações desejadas (lembrar de alterar também nos arquivos do docker)
 - `docker compose up`
 - Abrir o bash do container do php:
   - `cd /var/www/html`
