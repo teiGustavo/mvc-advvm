@@ -9,7 +9,7 @@ RUN pecl install xdebug-3.2.1 \
 
 RUN a2enmod rewrite
 
-COPY ./configs/docker-php.conf /etc/apache2/conf-available/docker-php.conf
+COPY ./docker-php.conf /etc/apache2/conf-available/docker-php.conf
 
 EXPOSE 80
 
