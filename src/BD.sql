@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS usuario(
-	cod_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(100) NOT NULL DEFAULT 'seuemail@email.com',
-    senha VARCHAR(64) NOT NULL DEFAULT 'NÂO DEFINIDA',
+CREATE TABLE IF NOT EXISTS users(
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	email VARCHAR(100) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     adm TINYINT(1) NOT NULL DEFAULT 0
 );
 
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS reports(
     valor DOUBLE NOT NULL DEFAULT 0.0	
 );
 
-INSERT INTO usuario(email, senha, adm) VALUES ('adm@adm.adm', "$2y$10$FkiJVACsvbgAfTITymj0K.lTciE8ksgUky8HyON0Oa/prJoCnTzLe", 1);
+INSERT INTO users(email, password, adm) VALUES ('adm@adm.adm', "$2y$10$FkiJVACsvbgAfTITymj0K.lTciE8ksgUky8HyON0Oa/prJoCnTzLe", 1);
 
 INSERT INTO `reports` (`cod_lancamento`, `data_report`, `historico`, `tipo`, `valor`) VALUES
 (19, '2022-07-01', 'Saldo Anterior', 'Entrada', 975.46),
