@@ -15,7 +15,6 @@ $router->group("", AuthMiddleware::class);
 
 //Define as rotas sem um grupo anexo (ex: "/index")
 $router->get("/", "HomeController:index", "advvm.home");
-$router->get("/read", "ReadController:index", "advvm.read");
 
 //Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
@@ -24,14 +23,6 @@ $router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 
-//Define as rotas do grupo de exemplo / testes de implementação (ex: "example/read")
-$router->group("example");
-$router->get("/read", "Web:read");
-$router->get("/create", "Web:create");
-$router->get("/delete", "Web:delete");
-$router->get("/update", "Web:update");
-$router->get("/phpinfo", "Web:phpinfo");
-$router->get("/vardump", "Web:vardump");
 
 //Define as rotas do grupo admin (ex: "admin/excel")
 $router->group("admin",  AuthMiddleware::class);

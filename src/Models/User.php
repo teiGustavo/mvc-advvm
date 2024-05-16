@@ -13,7 +13,7 @@ class User extends DataLayer
     public function __construct() 
     {
         //Instancia o construtor da Classe pai (DataLayer)
-        parent::__construct("usuario", ["email", "senha"], "cod_usuario", false);
+        parent::__construct("users", ["email", "password"], "id", false);
     }
 
     //Polimorfismo do comportamento de persistir os dados no BD
@@ -63,15 +63,15 @@ class User extends DataLayer
     public function validatePassword(): bool
     {
         //Verifica se a senha esta no formato correto
-        if (empty($this->senha) || (strlen($this->senha) < 5)) {
+        if (empty($this->password) || (strlen($this->password) < 5)) {
             //Caso a senha seja nula ou não cumpra o mínimo de caracteres, uma Exception PDO é gerada
             $this->fail = new PDOException("Informe uma senha com pelo menos 5 caracteres");
             return false;
         }
 
         //Verifica através do gerenciador de senhas do PHP se a senha necessita de atualização
-        if (password_needs_rehash($this->senha, PASSWORD_DEFAULT)) {
-            $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        if (password_needs_rehash($this->password, PASSWORD_DEFAULT)) {
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         }
        
         return true;

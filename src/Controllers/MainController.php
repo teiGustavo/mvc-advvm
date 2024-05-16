@@ -5,7 +5,7 @@ namespace Advvm\Controllers;
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 
-//Classe a ser extendida pelos Controllers
+//Classe a ser estendida pelos Controllers
 abstract class MainController
 {
     protected $view;
@@ -25,7 +25,7 @@ abstract class MainController
         //Define o roteador
         $this->router = $router;
 
-        //Adiciona o roteador globalmente a todos os Controllers que extendam o MainController
+        //Adiciona o roteador globalmente a todos os Controllers que estendam o MainController
         $this->view->addData(["router" => $this->router]);
         if ($globals)
             $this->view->addData($globals);

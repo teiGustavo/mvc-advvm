@@ -2,8 +2,6 @@
 
 namespace Advvm\Controllers;
 
-use Advvm\Models\User;
-use PDO;
 
 class HomeController extends MainController
 {
@@ -20,8 +18,7 @@ class HomeController extends MainController
     {
         //Define os parâmetros a serem passados para o template
         $params = [
-            "title" => "Início | " . SITE,
-            "users" => (new User())->find()->fetch(true)
+            "title" => "Início | " . SITE
         ];
 
         //Renderiza a página
