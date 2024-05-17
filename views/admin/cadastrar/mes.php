@@ -19,7 +19,7 @@ $this->layout("../../_theme", ["title" => $title]);
 
                                 <div class="col-span-4 sm:col-span-4">
                                     <label for="data" class="block text-sm font-medium leading-6 text-gray-900">Mês dos lançamentos: </label>
-                                    <input type="month" name="data_lancamento" id="data" autocomplete="data"
+                                    <input type="month" name="date" id="data" autocomplete="data"
                                            class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                 </div>
 

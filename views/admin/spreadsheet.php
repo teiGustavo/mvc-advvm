@@ -11,9 +11,9 @@ $this->layout("../_theme", ["title" => $title]);
     <div class="selectYear">
         <label for="selectMonth">Selecione o mês:</label>
         <select name="selectMonth" id="">
-            <?php foreach ($reports as $report):
+            <?php foreach ($months as $month):
                 ?>
-                <option value="<?= $report->date_report; ?>"><?= $report->date_report; ?></option>
+                <option value="<?= $month; ?>"><?= $month; ?></option>
             <?php endforeach; ?>
         </select>
 

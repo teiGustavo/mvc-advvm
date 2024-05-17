@@ -40,8 +40,8 @@ class AdminController extends MainController
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => (new Report())->find("", "", "DISTINCT YEAR(data_report) as date_report")
-                ->order("YEAR(data_report) DESC")
+            "reports" => (new Report())->find("", "", "DISTINCT YEAR(date) as date")
+                ->order("YEAR(date) DESC")
                 ->fetch(true)
         ];
 
@@ -58,18 +58,43 @@ class AdminController extends MainController
         $paramsQuery = http_build_query(["year" => $year]);
 
         $reports = (new Report())->find(
-            "YEAR(data_report) = :year",
+            "YEAR(date) = :year",
             "$paramsQuery",
-            "DISTINCT DATE_FORMAT(data_report, '%M') as date_report"
+            "DISTINCT DATE_FORMAT(date, '%m') as date"
         )
-        ->order("DATE_FORMAT(date_report, '%m')")
-        ->fetch(true);
+            ->order("DATE_FORMAT(date, '%m')")
+            ->fetch(true);
 
+        $months = [];
+
+        foreach ($reports as $report) {
+            $months[] = $report->date;
+        }
+
+        //Transforma os meses recebidos em dias (%mm) para nome do mês por extenso
+        $func = function ($n) {
+            return match ($n) {
+                '01' => 'janeiro',
+                '02' => 'fevereiro',
+                '03' => 'março',
+                '04' => 'abril',
+                '05' => 'maio',
+                '06' => 'junho',
+                '07' => 'julho',
+                '08' => 'agosto',
+                '09' => 'setembro',
+                '10' => 'outubro',
+                '11' => 'novembro',
+                '12' => 'dezembro',
+            };
+        };
+
+        $months = array_map($func, $months);
 
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => $reports
+            "months" => $months
         ];
 
         //Renderiza a página
@@ -125,16 +150,16 @@ class AdminController extends MainController
         $reports = (new Report())->find(
             "",
             "",
-            "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, 
-                CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(valor, 2),'.',';'),',','.'),';',',')) as valor"
-            )
+            "id, DATE_FORMAT(date, '%d/%m/%Y') as date, report, type, 
+                CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(amount, 2),'.',';'),',','.'),';',',')) as amount"
+        )
             ->limit($limit)
             ->offset($first_report)
             ->fetch(true);
 
         //Define os parâmetros a serem passados para o modelo
         $params = [
-            "title" => "Relatorios | " . SITE,
+            "title" => "Lançamentos | " . SITE,
             "reports" => $reports,
             "total_reports" => $total_reports,
             "total_pages" => $total_pages,
@@ -169,41 +194,41 @@ class AdminController extends MainController
         $sheet->setCellValue('C2', 'TIPO');
         $sheet->setCellValue('D2', 'VALOR');
 
-        
+
         //Definindo o mês selecionado (mês atual) e o ano selecionado (ano atual)
         $current_month = $month;
         $current_year = $year;
-            
+
         //Definindo o objeto dos relatórios e sua quantidade de linhas
         $params = http_build_query([
             "year" => "$current_year",
             "month" => "$current_month"
         ]);
-        
+
         $reports = (new Report())
             ->find(
-                "YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month",
+                "YEAR(date) = :year AND DATE_FORMAT(date, '%M') = :month",
                 "$params",
-                "cod_lancamento, DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, valor"
-            )->order("data_report")
+                "id, DATE_FORMAT(date, '%d/%m/%Y') as date, report, type, amount"
+            )->order("date")
             ->fetch(true);
 
         $num_reports = (new Report())
             ->find(
-                "YEAR(data_report) = :year AND DATE_FORMAT(data_report, '%M') = :month",
+                "YEAR(date) = :year AND DATE_FORMAT(date, '%M') = :month",
                 "$params"
             )->count();
 
-        if (!($reports)) 
+        if (!($reports))
             return;
 
         //Definindo a matriz que será usada para preencher a Planilha
         foreach ($reports as $key => $report) {
-            $texto[$key][0] = $report->cod_lancamento;
-            $texto[$key][1] = $report->data_report;
-            $texto[$key][2] = $report->historico;
-            $texto[$key][3] = $report->tipo;
-            $texto[$key][4] = $report->valor;
+            $texto[$key][0] = $report->id;
+            $texto[$key][1] = $report->date;
+            $texto[$key][2] = $report->report;
+            $texto[$key][3] = $report->type;
+            $texto[$key][4] = $report->amount;
         }
 
         //Preenchendo as células da Planilha
@@ -307,7 +332,7 @@ class AdminController extends MainController
         //Alinhando o título ao centro
         $sheet->getStyle('A:D')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:D')->getAlignment()->setVertical('center');
-        
+
         //Background do Título (Célula Merged A1:D1)
         $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID);
         $sheet->getStyle('A1')->getFill()->getStartColor()->setARGB('63cbce');
@@ -333,7 +358,7 @@ class AdminController extends MainController
         $sheet->getStyle('A' . ($num_reports + 8) . ':B' . ($num_reports + 8))->getFill()
             ->getStartColor()->setARGB('b4c7dc');
 
-        //Define os padrões de estilo dos números para toda a coluna D (correspondente ao valor) da Planilha
+        //Define os padrões de estilo dos números para toda a coluna D (correspondente ao amount) da Planilha
         $sheet->getStyle('D:D')->getNumberFormat()->setFormatCode('R$ #,##0.00');
 
         //Define os padrões de estilo dos números para cada linha da Tabela Resumo
@@ -365,7 +390,7 @@ class AdminController extends MainController
 
         //Instancia a Planilha
         $writer = new Xlsx($spreadsheet);
-    
+
         //Gera o arquivo
         $current_month = ucfirst($current_month);
         $file =  NAME_TEMPLATE . $current_month . ' de ' . $current_year . '.xlsx';
@@ -374,5 +399,4 @@ class AdminController extends MainController
 
         initializeSessions(["spreadsheet" => $file]);
     }
-
 }

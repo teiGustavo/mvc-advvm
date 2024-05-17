@@ -10,7 +10,7 @@ $this->layout("../_theme", ["title" => $title]);
             <select name="selectYear" id="">
                 <?php foreach ($reports as $report) :
                 ?>
-                    <option value="<?= $report->date_report; ?>"><?= $report->date_report; ?></option>
+                    <option value="<?= $report->date; ?>"><?= $report->date; ?></option>
                 <?php endforeach; ?>
             </select>
 

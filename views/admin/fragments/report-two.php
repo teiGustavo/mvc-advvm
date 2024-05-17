@@ -2,23 +2,23 @@
     <div>
         <h1>
             <p id="p_id">
-                ID: <?= $report->cod_lancamento; ?>
+                ID: <?= $report->id; ?>
             </p>
 
-            <p id="p_data">
-                Data: <?= $report->data_report; ?>
+            <p id="p_date">
+                Data: <?= $report->date; ?>
             </p>
 
-            <p id="p_historico">
-                Histórico: <?= mb_strimwidth($report->historico, 0, 20, "..."); ?>
+            <p id="p_report">
+                Histórico: <?= mb_strimwidth($report->report, 0, 20, "..."); ?>
             </p>
 
-            <p id="p_tipo">
-                Tipo: <?= $report->tipo; ?>
+            <p id="p_type">
+                Tipo: <?= $report->type; ?>
             </p>
 
-            <p id="p_valor">
-                Valor: <?= $report->valor; ?>
+            <p id="p_amount">
+                Valor: <?= $report->amount; ?>
             </p>
         </h1>
     </div>
@@ -40,7 +40,7 @@
                 <div class="py-1" role="none">
                     <button type="button" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                             id="menu-item-0" data-action="<?= $router->route("alterar.find"); ?>" data-update
-                            data-id="<?= $report->cod_lancamento; ?>">
+                            data-id="<?= $report->id; ?>">
                         Editar
                     </button>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="py-1" role="none">
                     <button type="button" class="text-red-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                             id="menu-item-1" data-action="<?= $router->route("alterar.delete"); ?>" data-delete
-                            data-id="<?= $report->cod_lancamento; ?>">
+                            data-id="<?= $report->id; ?>">
                         Excluir
                     </button>
                 </div>

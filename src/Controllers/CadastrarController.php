@@ -37,7 +37,7 @@ class CadastrarController extends MainController
 
         $data = filter_var_array($data, FILTER_DEFAULT);
 
-        if (empty($data["data_lancamento"])) {
+        if (empty($data["date"])) {
             // $callback["message"] = "Por favor, informe o mês para iniciar!";
             // echo json_encode($callback);
 
@@ -46,13 +46,13 @@ class CadastrarController extends MainController
             return;
         }
 
-        $data_lancamento = explode("-", $data['data_lancamento']);
+        $date = explode("-", $data['date']);
 
         initializeSessions([
-            "date" => $data["data_lancamento"],
-            "month" => $data_lancamento[1],
-            "year" => $data_lancamento[0],
-            "lastDay" => getLastDayFromCurrentMonth($data["data_lancamento"])
+            "date" => $data["date"],
+            "month" => $date[1],
+            "year" => $date[0],
+            "lastDay" => getLastDayFromCurrentMonth($data["date"])
         ]);
 
         $this->router->redirect("cadastrar.cadastro");
@@ -85,26 +85,26 @@ class CadastrarController extends MainController
         }
 
         //Prevenção de erros
-        $data["lancamento"] = ucfirst($data["lancamento"]);
-        $data["valor"] = formatFloatToSqlPattern($data['valor']);
+        $data["report"] = ucfirst($data["report"]);
+        $data["amount"] = formatFloatToSqlPattern($data['amount']);
 
         //Checando se o lançamento é uma Entrada ou Saída
         $opcoes = [
           "Oferta", "Ofertas", "Dízimo", "Dízimos", "Dizimo", "Dizimos", "Saldo Anterior"
         ];
 
-        if (($data["tipo"] === "Automático") && (in_array($data["lancamento"], $opcoes))) {
-            $data["tipo"] = "Entrada";
+        if (($data["type"] === "Automático") && (in_array($data["report"], $opcoes))) {
+            $data["type"] = "Entrada";
         } else {
-            $data["tipo"] = "Saída";
+            $data["type"] = "Saída";
         }
 
 
         $report = new Report();
-        $report->data_report = $data["data_lancamento"];
-        $report->historico = $data["lancamento"];
-        $report->tipo = $data["tipo"];
-        $report->valor = $data["valor"];
+        $report->date = $data["date"];
+        $report->report = $data["report"];
+        $report->type = $data["type"];
+        $report->amount = $data["amount"];
 
         if (APP_ENV != 'prod' && APP_ENV != 'production') {
             var_dump($data);

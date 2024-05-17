@@ -59,10 +59,10 @@ class AuthController extends MainController
         $user = $user[0];
 
         //Verificando se o Usuário foi encontrado
-        if ($user && password_verify($password, $user->senha)) {
+        if ($user && password_verify($password, $user->password)) {
             //Informações a serem passadas pelo Token
             $credentials = [
-                "ID" => $user->cod_usuario,
+                "ID" => $user->id,
                 "Email" => $email, 
                 "ADM" => $user->adm
             ];
@@ -84,7 +84,7 @@ class AuthController extends MainController
     {
         $expTime = time() + (1 * 1 * 60 * 60); //(Dias * Horas * Minutos * Segundos)
 
-        //Cabeçalho do token (Primeria parte do token JWT)
+        //Cabeçalho do token (Primeira parte do token JWT)
         $header = [
             'alg' => 'HS256',
             'typ' => 'JWT'

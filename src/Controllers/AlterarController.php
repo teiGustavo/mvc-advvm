@@ -14,21 +14,7 @@ class AlterarController extends MainController
         $this->router = $router;
 
         //Instancia o construtor da Classe pai
-        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/admin/alterar");
-    }
-
-    public function index($data): void
-    {
-        $params = [
-            "title" => "Alterar Lançamentos | " . SITE,
-            "reports" => (new Report())->find(columns: "cod_lancamento, 
-                DATE_FORMAT(data_report, '%d/%m/%Y') as data_report, historico, tipo, 
-                CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(valor, 2),'.',';'),',','.'),';',',')) as valor")
-                ->limit(5)
-                ->fetch(true)
-        ];
-
-        echo $this->view->render("alterar", $params);
+        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/admin");
     }
 
     public function delete(array $data): void
@@ -76,19 +62,19 @@ class AlterarController extends MainController
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
         $report = (new Report())->findById($id);
-        $report->data_report = $data["data"];
-        $report->historico = $data["historico"];
-        $report->valor = $data["valor"];
-        $report->tipo = $data["tipo"];
+        $report->date = $data["date"];
+        $report->report = $data["report"];
+        $report->amount = $data["amount"];
+        $report->type = $data["type"];
 
         if (!$report->save()) {
             $callback["message"] = "Erro ao salvar!";
         }
 
-        $data = new \DateTimeImmutable($data["data"]);
-        $report->data_report = $data->format("d/m/Y");
-        $report->historico = mb_strimwidth($report->historico, 0, 20, "...");
-        $report->valor = number_format($report->valor,2,",",".");;
+        $data = new \DateTimeImmutable($data["date"]);
+        $report->date = $data->format("d/m/Y");
+        $report->report = mb_strimwidth($report->report, 0, 20, "...");
+        $report->amount = number_format($report->amount,2,",",".");
 
         $callback["report"] = $report->data();
 

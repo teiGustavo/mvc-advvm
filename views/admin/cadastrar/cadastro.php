@@ -20,14 +20,14 @@ $this->layout("../../_theme", ["title" => $title]);
                                 <div>
                                     <div class="col-span-2 sm:col-span-2 mb-5">
                                         <label for="dia" class="block text-sm font-medium leading-6 text-gray-900">Dia: </label>
-                                        <input type="date" name="data_lancamento" id="dia" autocomplete="dia"
+                                        <input type="date" name="date" id="dia" autocomplete="dia"
                                                min="<?= $date . "-01"; ?>" max="<?= $date . "-" . $lastDay; ?>"
                                                class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
 
                                     <div class="col-span-2 sm:col-span-2">
-                                        <label for="lancamento" class="block text-sm font-medium leading-6 text-gray-900">Lançamento: </label>
-                                        <input type="text" name="lancamento" id="lancamento" autocomplete="lancamento"
+                                        <label for="report" class="block text-sm font-medium leading-6 text-gray-900">Lançamento: </label>
+                                        <input type="text" name="report" id="report" autocomplete="report"
                                                class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
@@ -39,7 +39,7 @@ $this->layout("../../_theme", ["title" => $title]);
                                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                 <span class="text-gray-500 sm:text-sm">R$</span>
                                             </div>
-                                            <input type="text" name="valor" id="valor"
+                                            <input type="text" name="amount" id="amount"
                                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
                                                    ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
                                                    focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -48,8 +48,8 @@ $this->layout("../../_theme", ["title" => $title]);
                                     </div>
 
                                     <div class="col-span-2 sm:col-span-2">
-                                        <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Tipo: </label>
-                                        <select name="tipo" id="tipo" class="text-gray-900 placeholder:text-gray-400 rounded-md">
+                                        <label for="type" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Tipo: </label>
+                                        <select name="type" id="type" class="text-gray-900 placeholder:text-gray-400 rounded-md">
                                             <option value="Automático">Automático</option>
                                             <option value="Entrada">Entrada</option>
                                             <option value="Saída">Saída</option>
@@ -94,8 +94,8 @@ $this->layout("../../_theme", ["title" => $title]);
 
         $("#dia").css("padding-bottom", "8px");
 
-        $("#tipo").css("width", "100%");
-        $("#tipo").css("padding", "9.7px");
+        $("#type").css("width", "100%");
+        $("#type").css("padding", "9.7px");
 
         $("#div_Button").css("text-align", "center");
 

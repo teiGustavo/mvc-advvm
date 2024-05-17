@@ -10,6 +10,6 @@ class Report extends DataLayer
     public function __construct()
     {
         //Instancia o construtor da Classe pai (DataLayer)
-        parent::__construct("reports", ["data_report", "historico", "tipo", "valor"], "cod_lancamento", false);
+        parent::__construct("reports", ["date", "report", "type", "amount"], "id", false);
     }
 }

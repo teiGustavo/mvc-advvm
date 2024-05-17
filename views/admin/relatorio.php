@@ -77,35 +77,35 @@ $this->layout("../_theme", ["title" => $title]);
                                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
                                                 <input type="hidden" value="" id="id_edit" name="id">
                                                 <div class="sm:col-span-4">
-                                                    <label for="data_edit" class="block text-sm font-medium leading-6 text-gray-900">Data</label>
+                                                    <label for="date_edit" class="block text-sm font-medium leading-6 text-gray-900">Data</label>
                                                     <div class="mt-2">
-                                                        <input type="date" name="data" id="data_edit" autocomplete="given-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <input type="date" name="date" id="date_edit" autocomplete="given-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="historico_edit" class="block text-sm font-medium leading-6 text-gray-900">Histórico</label>
+                                                    <label for="report_edit" class="block text-sm font-medium leading-6 text-gray-900">Histórico</label>
                                                     <div class="mt-2">
-                                                        <input type="text" name="historico" id="historico_edit" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <input type="text" name="report" id="report_edit" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="valor_edit" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
+                                                    <label for="amount_edit" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
                                                     <div class="relative mt-2 rounded-md shadow-sm">
                                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                             <span class="text-gray-500 sm:text-sm">R$</span>
                                                         </div>
-                                                        <input type="text" name="valor" id="valor_edit" style="padding: 10px 0px 10px 35px;" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
+                                                        <input type="text" name="amount" id="amount_edit" style="padding: 10px 0px 10px 35px;" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900
                                                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
                                                                     focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0.00">
                                                     </div>
                                                 </div>
 
                                                 <div class="sm:col-span-4">
-                                                    <label for="tipo_edit" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
+                                                    <label for="type_edit" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
                                                     <div class="mt-2">
-                                                        <select id="tipo_edit" name="tipo" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <select id="type_edit" name="type" autocomplete="country-name" style="padding: 10px;" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                                             <option value="Entrada">Entrada</option>
                                                             <option value="Saída">Saída</option>
                                                         </select>
@@ -242,11 +242,11 @@ $this->layout("../_theme", ["title" => $title]);
                     callback.tipo = "Saída"
                 }
 
-                $("#id_edit").val(callback.cod_lancamento);
-                $("#data_edit").val(callback.data_report);
-                $("#historico_edit").val(callback.historico);
-                $("#valor_edit").val(callback.valor);
-                $("#tipo_edit").val(callback.tipo);
+                $("#id_edit").val(callback.id);
+                $("#date_edit").val(callback.date);
+                $("#report_edit").val(callback.report);
+                $("#amount_edit").val(callback.amount);
+                $("#type_edit").val(callback.type);
             }
         });
 
@@ -281,10 +281,10 @@ $this->layout("../_theme", ["title" => $title]);
                     modal.addClass("hidden");
                     div.find("#menu-button").trigger("click");
 
-                    div.find("#p_data").text("Data: " + callback.data_report);
-                    div.find("#p_historico").text("Histórico: " + callback.historico);
-                    div.find("#p_tipo").text("Tipo: " + callback.tipo);
-                    div.find("#p_valor").text("Valor: R$ " + callback.valor);
+                    div.find("#p_date").text("Data: " + callback.date);
+                    div.find("#p_report").text("Histórico: " + callback.report);
+                    div.find("#p_type").text("Tipo: " + callback.type);
+                    div.find("#p_amount").text("Valor: R$ " + callback.amount);
                 }
             });
         })

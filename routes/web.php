@@ -42,7 +42,6 @@ $router->post("/download", "AdminController:download", "admin.excel.download");
 //$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
 
 $router->group("admin/alterar",  AuthMiddleware::class);
-$router->get("/", "AlterarController:index", "admin.alterar");
 $router->post("/delete", "AlterarController:delete", "alterar.delete");
 $router->post("/find", "AlterarController:find", "alterar.find");
 $router->post("/update", "AlterarController:update", "alterar.update");
