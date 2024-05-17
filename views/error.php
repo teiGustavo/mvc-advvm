@@ -7,8 +7,8 @@
 ?>
 
 <div class="error">
-    <h2>Ooooops, Algo deu errado!</h2>
-    <h1><?= "Erro " .  $error ?></h1>
+    <h2 class="text-white">Ooooops, Algo deu errado!</h2>
+    <h1 class="text-white"><?= "Erro " .  $error ?></h1>
 </div>
 
 <?php $this->start("sidebar"); ?>

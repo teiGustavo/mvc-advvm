@@ -23,7 +23,6 @@ $router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 
-
 //Define as rotas do grupo admin (ex: "admin/excel")
 $router->group("admin",  AuthMiddleware::class);
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
@@ -48,7 +47,7 @@ $router->post("/update", "AlterarController:update", "alterar.update");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");
-$router->get("/{errcode}", "Web:error");
+$router->get("/{errcode}", "HomeController:error");
 
 //Responsável por despachar as rotas
 $router->dispatch();
