@@ -6,16 +6,16 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 CREATE TABLE IF NOT EXISTS reports(
-	cod_lancamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    data_report DATE NOT NULL DEFAULT "2023-01-01",
-    historico VARCHAR(100) NOT NULL DEFAULT 'INDEFINIDO',
-    tipo VARCHAR(7) NOT NULL DEFAULT "TYPE",
-    valor DOUBLE NOT NULL DEFAULT 0.0	
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    date DATE NOT NULL DEFAULT "2024-01-01",
+    report VARCHAR(100) NOT NULL DEFAULT 'INDEFINIDO',
+    type VARCHAR(7) NOT NULL DEFAULT "TYPE",
+    amount DOUBLE NOT NULL DEFAULT 0.0	
 );
 
 INSERT INTO users(email, password, adm) VALUES ('adm@adm.adm', "$2y$10$FkiJVACsvbgAfTITymj0K.lTciE8ksgUky8HyON0Oa/prJoCnTzLe", 1);
 
-INSERT INTO `reports` (`cod_lancamento`, `data_report`, `historico`, `tipo`, `valor`) VALUES
+INSERT INTO `reports` (`id`, `date`, `report`, `type`, `amount`) VALUES
 (19, '2022-07-01', 'Saldo Anterior', 'Entrada', 975.46),
 (20, '2022-07-01', 'Dízimo', 'Entrada', 100),
 (21, '2022-07-03', 'Dízimo', 'Entrada', 120),
