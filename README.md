@@ -18,7 +18,7 @@
   - `chown www-data:www-data ./files`
 - Acessar o PhpMyAdmin:
   - Selecionar o banco mvc_advvm
-  - Executar o arquivo src/BD.sql
+  - Executar o arquivo DB.sql
  
 ## URLs padrão:
 - Base: localhost
