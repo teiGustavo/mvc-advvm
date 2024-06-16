@@ -57,7 +57,9 @@ class ReportDTO
             "Oferta", "Ofertas", "Dízimo", "Dízimos", "Dizimo", "Dizimos", "Saldo Anterior"
         ];
 
-        if ((in_array(ucfirst($type), ['Entrada', 'Saida', 'Saída'])) && (in_array(ucfirst($type), $options))) {
+        if (in_array(ucfirst($type), ['Entrada', 'Saída'])) {
+            $this->type = $type;
+        } else if (in_array(ucfirst($this->report), $options)) {
             $this->type = "Entrada";
         } else {
             $this->type = "Saída";
