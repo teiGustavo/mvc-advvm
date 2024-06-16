@@ -2,7 +2,7 @@
 $this->layout("../../_theme", ["title" => $title]);
 ?>
 
-<div id="form">
+<div id="divForm">
     <div class="mt-10 sm:mt-0">
         <div class="md:gap-6">
             <div class="md:col-span-1 my-8">
@@ -12,15 +12,15 @@ $this->layout("../../_theme", ["title" => $title]);
             </div>
             <div class="mt-5 md:col-span-2 md:mt-0">
 
-                <form action="<?= $router->route("cadastrar.create"); ?>" method="POST">
+                <form action="<?= $router->route("cadastrar.create"); ?>" method="POST" id="form">
                     <div class="overflow-hidden sm:rounded-md" id="personal_info">
                         <div class="px-4 py-5 sm:p-6" id="personal_info">
                             <div class="grid grid-cols-2 gap-6">
 
                                 <div>
                                     <div class="col-span-2 sm:col-span-2 mb-5">
-                                        <label for="dia" class="block text-sm font-medium leading-6 text-gray-900">Dia: </label>
-                                        <input type="date" name="date" id="dia" autocomplete="dia" min="<?= $date . "-01"; ?>" max="<?= $date . "-" . $lastDay; ?>" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <label for="day" class="block text-sm font-medium leading-6 text-gray-900">Dia: </label>
+                                        <input type="date" name="date" id="day" autocomplete="day" min="<?= $date . "-01"; ?>" max="<?= $date . "-" . $lastDay; ?>" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
 
                                     <div class="col-span-2 sm:col-span-2">
@@ -31,7 +31,7 @@ $this->layout("../../_theme", ["title" => $title]);
 
                                 <div>
                                     <div class="col-span-2 sm:col-span-2 mb-5">
-                                        <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
+                                        <label for="amount" class="block text-sm font-medium leading-6 text-gray-900">Valor: </label>
                                         <div class="relative mt-2 rounded-md shadow-sm">
                                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                 <span class="text-gray-500 sm:text-sm">R$</span>
@@ -80,17 +80,17 @@ $this->layout("../../_theme", ["title" => $title]);
 
         $("input").addClass("bg-gray-200");
 
-        $("#form").css("max-widht", "1000px");
-        $("#form").css("width", "60%");
-        $("#form").css("min-width", "350px");
-        $("#form").css("border-radius", "20px");
-        $("#form").css("padding", "50px");
-        $("#form").css("background", "#2f2841");
+        $("#divForm").css("max-widht", "1000px");
+        $("#divForm").css("width", "60%");
+        $("#divForm").css("min-width", "350px");
+        $("#divForm").css("border-radius", "20px");
+        $("#divForm").css("padding", "50px");
+        $("#divForm").css("background", "#2f2841");
 
         $("input").css("padding", "10px");
         $("input").css("padding-left", "35px");
 
-        $("#dia").css("padding-bottom", "8px");
+        $("#day").css("padding-bottom", "8px");
 
         $("#type").css("width", "100%");
         $("#type").css("padding", "9.7px");
@@ -105,5 +105,28 @@ $this->layout("../../_theme", ["title" => $title]);
     }
 
     updateFormCss();
+
+    let form = document.getElementById('form');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target).entries());
+        const formData = new FormData(form);
+
+        fetch(form.getAttribute('action'), {
+                method: 'POST',
+                body: formData
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                document.getElementById('day').value = ''
+                document.getElementById('report').value = ''
+                document.getElementById('amount').value = ''
+                document.getElementById('type').value = 'Automático'
+            })
+    });
 </script>
 <?php $this->stop(); ?>

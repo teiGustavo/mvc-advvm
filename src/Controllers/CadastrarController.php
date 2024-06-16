@@ -76,11 +76,11 @@ class CadastrarController extends MainController
         echo $this->view->render("cadastro", $params);
     }
 
-    public function create($data)
+    public function create(array $data)
     {
         $data = filter_var_array($data, FILTER_DEFAULT);
 
-        if (in_array("", $data)) {
+        if (empty($data) || in_array("", $data)) {
             $callback["message"] = "Por favor, informe todos os campos!";
             echo json_encode($callback);
 
@@ -90,6 +90,7 @@ class CadastrarController extends MainController
         $report = ReportDTO::create(date: $data["date"], report: $data["report"]);
         $report->setType($data["type"]);
         $report->setAmount($data["amount"]);
+
 
         if (APP_ENV != 'prod' && APP_ENV != 'production') {
             var_dump($data);
@@ -101,8 +102,10 @@ class CadastrarController extends MainController
 
                 return;
             }
-            
-            $this->router->redirect("cadastrar.cadastro");
+
+            $callback["message"] = "Registro cadastrado com sucesso!";
+
+            echo json_encode($callback);
         }
     }
 }
