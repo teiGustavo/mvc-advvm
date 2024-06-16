@@ -2,23 +2,23 @@
     <div>
         <h1>
             <p id="p_id">
-                ID: <?= $report->id; ?>
+                ID: <?= $report->getId(); ?>
             </p>
 
             <p id="p_date">
-                Data: <?= $report->date; ?>
+                Data: <?= $report->getFormattedDate(); ?>
             </p>
 
             <p id="p_report">
-                Histórico: <?= mb_strimwidth($report->report, 0, 20, "..."); ?>
+                Histórico: <?= $report->getReportWithTruncatedWidth(); ?>
             </p>
 
             <p id="p_type">
-                Tipo: <?= $report->type; ?>
+                Tipo: <?= $report->getType(); ?>
             </p>
 
             <p id="p_amount">
-                Valor: <?= $report->amount; ?>
+                Valor: <?= $report->getAmountInBRLFormat(); ?>
             </p>
         </h1>
     </div>
@@ -40,7 +40,7 @@
                 <div class="py-1" role="none">
                     <button type="button" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                             id="menu-item-0" data-action="<?= $router->route("alterar.find"); ?>" data-update
-                            data-id="<?= $report->id; ?>">
+                            data-id="<?= $report->getId(); ?>">
                         Editar
                     </button>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="py-1" role="none">
                     <button type="button" class="text-red-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                             id="menu-item-1" data-action="<?= $router->route("alterar.delete"); ?>" data-delete
-                            data-id="<?= $report->id; ?>">
+                            data-id="<?= $report->getId(); ?>">
                         Excluir
                     </button>
                 </div>

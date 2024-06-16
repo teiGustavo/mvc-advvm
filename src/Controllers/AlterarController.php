@@ -3,13 +3,18 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\Report;
+use Advvm\DTOs\ReportDTO;
+use Advvm\Repositories\ReportRepositoryInterface;
+use Advvm\Repositories\ReportRepository;
 
 class AlterarController extends MainController
 {
     protected array $data;
 
-    public function __construct($router)
-    {
+    public function __construct(
+        $router,
+        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+    ) {
         //Define o roteamento do AdminController
         $this->router = $router;
 
@@ -25,15 +30,13 @@ class AlterarController extends MainController
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
-        $report = (new Report())->findById($id);
-        if ($report) {
-            if ($report->destroy()) {
-                $callback["remove"] = true;
-            } else {
-                $callback["remove"] = false;
-                $callback["messages"] = "Não foi possível excluir este campo!";
-            }
+        $result = $this->repository->deleteReportById($id);
+
+        if ($result === false) {
+            $callback["messages"] = "Não foi possível excluir este campo!";
         }
+
+        $callback["remove"] = $result;
 
         echo json_encode($callback);
     }
@@ -46,9 +49,13 @@ class AlterarController extends MainController
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
-        $report = (new Report())->findById($id);
+        $report = $this->repository->findReportById($id);
 
-        $callback["report"] = $report->data();
+        if ($report) {
+            $callback["report"] = $report->toArray();
+        } else {
+            $callback["report"] = 'Relatório não encontrado!';
+        }
 
         echo json_encode($callback);
     }
@@ -61,22 +68,24 @@ class AlterarController extends MainController
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
-        $report = (new Report())->findById($id);
-        $report->date = $data["date"];
-        $report->report = $data["report"];
-        $report->amount = $data["amount"];
-        $report->type = $data["type"];
+        $newReport = ReportDTO::create(date: $data["date"], report: $data["report"], type: $data["type"]);
+        $newReport->setAmount($data["amount"]);
 
-        if (!$report->save()) {
+        $result = $this->repository->updateReportById($newReport, $id);
+
+        if ($result === false) {
             $callback["message"] = "Erro ao salvar!";
+        } else {
+            $newReport->setId($id);
+
+            $callback["report"] = [
+                'id' => $newReport->getId(),
+                'date' => $newReport->getFormattedDate(),
+                'report' => $newReport->getReportWithTruncatedWidth(),
+                'type' => $newReport->getType(),
+                'amount' => $newReport->getAmountInBRLFormat(),
+            ];
         }
-
-        $data = new \DateTimeImmutable($data["date"]);
-        $report->date = $data->format("d/m/Y");
-        $report->report = mb_strimwidth($report->report, 0, 20, "...");
-        $report->amount = number_format($report->amount,2,",",".");
-
-        $callback["report"] = $report->data();
 
         echo json_encode($callback);
     }

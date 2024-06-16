@@ -2,24 +2,24 @@
 $this->layout("../_theme", ["title" => $title]);
 ?>
 
-<?php if (isset($reports) && !empty($reports)) : ?>
+<?php if (isset($years) && !empty($years)) : ?>
 
-    <form action="<?= $router->route("admin.excel.spreadsheet"); ?>" method="POST">
-        <div class="selectYear">
-            <label for="selectYear">Selecione o ano:</label>
-            <select name="selectYear" id="">
-                <?php foreach ($reports as $report) :
-                ?>
-                    <option value="<?= $report->date; ?>"><?= $report->date; ?></option>
-                <?php endforeach; ?>
-            </select>
+<form action="<?= $router->route("admin.excel.spreadsheet"); ?>" method="POST">
+    <div class="selectYear">
+        <label for="selectYear">Selecione o ano:</label>
+        <select name="selectYear" id="">
+            <?php foreach ($years as $year) :
+            ?>
+                <option value="<?= $year; ?>"><?= $year; ?></option>
+            <?php endforeach; ?>
+        </select>
 
-            <button type="submit" class="btns">SELECIONAR</button>
-        </div>
-    </form>
+        <button type="submit" class="btns">SELECIONAR</button>
+    </div>
+</form>
 
 <?php else : ?>
 
-    <h1 class="text-white">Não há lançamentos para gerar um relatório!</h1>
+<h1 class="text-white">Não há lançamentos para gerar um relatório!</h1>
 
 <?php endif; ?>

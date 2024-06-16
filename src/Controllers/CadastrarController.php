@@ -3,16 +3,19 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\Report;
+use Advvm\DTOs\ReportDTO;
+use Advvm\Repositories\ReportRepositoryInterface;
+use Advvm\Repositories\ReportRepository;
 
 class CadastrarController extends MainController
 {
-
     protected array $data;
 
     //Responsável por passar os parâmetros para o Controller pai (MainController)
-    public function __construct($router)
-    {
-        //Define o roteamento do AdminController
+    public function __construct(
+        $router,
+        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+    ) {
         $this->router = $router;
 
         //Instancia o construtor da Classe pai
@@ -84,33 +87,21 @@ class CadastrarController extends MainController
             return;
         }
 
-        //Prevenção de erros
-        $data["report"] = ucfirst($data["report"]);
-        $data["amount"] = formatFloatToSqlPattern($data['amount']);
-
-        //Checando se o lançamento é uma Entrada ou Saída
-        $opcoes = [
-          "Oferta", "Ofertas", "Dízimo", "Dízimos", "Dizimo", "Dizimos", "Saldo Anterior"
-        ];
-
-        if (($data["type"] === "Automático") && (in_array($data["report"], $opcoes))) {
-            $data["type"] = "Entrada";
-        } else {
-            $data["type"] = "Saída";
-        }
-
-
-        $report = new Report();
-        $report->date = $data["date"];
-        $report->report = $data["report"];
-        $report->type = $data["type"];
-        $report->amount = $data["amount"];
+        $report = ReportDTO::create(date: $data["date"], report: $data["report"]);
+        $report->setType($data["type"]);
+        $report->setAmount($data["amount"]);
 
         if (APP_ENV != 'prod' && APP_ENV != 'production') {
             var_dump($data);
             var_dump($report);
         } else {
-            $report->save();
+            if (!$this->repository->createNewReport($report)) {
+                $callback["message"] = "Erro ao cadastrar o registro!";
+                echo json_encode($callback);
+
+                return;
+            }
+            
             $this->router->redirect("cadastrar.cadastro");
         }
     }

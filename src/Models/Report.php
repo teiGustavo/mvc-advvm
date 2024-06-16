@@ -12,4 +12,6 @@ class Report extends DataLayer
         //Instancia o construtor da Classe pai (DataLayer)
         parent::__construct("reports", ["date", "report", "type", "amount"], "id", false);
     }
+
+    // TODO: Implementar lógica de prevenção de salvamento caso DTO esteja com algum argumento vazio
 }

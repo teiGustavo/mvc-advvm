@@ -3,6 +3,8 @@
 namespace Advvm\Controllers;
 
 use Advvm\Models\Report;
+use Advvm\Repositories\ReportRepositoryInterface;
+use Advvm\Repositories\ReportRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -14,8 +16,10 @@ class AdminController extends MainController
     protected array $data;
 
     //Responsável por passar os parâmetros para o Controller pai (MainController)
-    public function __construct($router)
-    {
+    public function __construct(
+        $router,
+        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+    ) {
         //Define o roteamento do AdminController
         $this->router = $router;
 
@@ -40,9 +44,7 @@ class AdminController extends MainController
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "reports" => (new Report())->find("", "", "DISTINCT YEAR(date) as date")
-                ->order("YEAR(date) DESC")
-                ->fetch(true)
+            "years" => $this->repository->getAllYearsOfReports()
         ];
 
         //Renderiza a página
@@ -55,46 +57,10 @@ class AdminController extends MainController
         $year = $_POST["selectYear"];
         initializeSessions(["year" => $year]);
 
-        $paramsQuery = http_build_query(["year" => $year]);
-
-        $reports = (new Report())->find(
-            "YEAR(date) = :year",
-            "$paramsQuery",
-            "DISTINCT DATE_FORMAT(date, '%m') as date"
-        )
-            ->order("DATE_FORMAT(date, '%m')")
-            ->fetch(true);
-
-        $months = [];
-
-        foreach ($reports as $report) {
-            $months[] = $report->date;
-        }
-
-        //Transforma os meses recebidos em dias (%mm) para nome do mês por extenso
-        $func = function ($n) {
-            return match ($n) {
-                '01' => 'janeiro',
-                '02' => 'fevereiro',
-                '03' => 'março',
-                '04' => 'abril',
-                '05' => 'maio',
-                '06' => 'junho',
-                '07' => 'julho',
-                '08' => 'agosto',
-                '09' => 'setembro',
-                '10' => 'outubro',
-                '11' => 'novembro',
-                '12' => 'dezembro',
-            };
-        };
-
-        $months = array_map($func, $months);
-
         //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Excel | " . SITE,
-            "months" => $months
+            "months" => $this->repository->getFullNameOfMonthsOfReportsByYear($year)
         ];
 
         //Renderiza a página
@@ -121,7 +87,7 @@ class AdminController extends MainController
         $limit = 6;
 
         //Define o total de Relatórios e de páginas para a Paginação
-        $total_reports = (new Report())->find()->count();
+        $total_reports = $this->repository->countAll();
         $total_pages = ceil($total_reports / $limit);
 
         //Define a url base da requisição
@@ -147,15 +113,7 @@ class AdminController extends MainController
             $previous_page = $current_page;
 
         //Instancia o objeto de Relatórios com os limites da paginação
-        $reports = (new Report())->find(
-            "",
-            "",
-            "id, DATE_FORMAT(date, '%d/%m/%Y') as date, report, type, 
-                CONCAT('R$ ', REPLACE(REPLACE(REPLACE(FORMAT(amount, 2),'.',';'),',','.'),';',',')) as amount"
-        )
-            ->limit($limit)
-            ->offset($first_report)
-            ->fetch(true);
+        $reports = $this->repository->getAllReports($limit, $first_report);
 
         //Define os parâmetros a serem passados para o modelo
         $params = [
@@ -199,36 +157,19 @@ class AdminController extends MainController
         $current_month = $month;
         $current_year = $year;
 
-        //Definindo o objeto dos relatórios e sua quantidade de linhas
-        $params = http_build_query([
-            "year" => "$current_year",
-            "month" => "$current_month"
-        ]);
-
-        $reports = (new Report())
-            ->find(
-                "YEAR(date) = :year AND DATE_FORMAT(date, '%M') = :month",
-                "$params",
-                "id, DATE_FORMAT(date, '%d/%m/%Y') as date, report, type, amount"
-            )->order("date")
-            ->fetch(true);
-
-        $num_reports = (new Report())
-            ->find(
-                "YEAR(date) = :year AND DATE_FORMAT(date, '%M') = :month",
-                "$params"
-            )->count();
+        $reports = $this->repository->getAllReportsByYearAndMonthFullName($year, $current_month);
+        $num_reports = count($reports);
 
         if (!($reports))
             return;
 
         //Definindo a matriz que será usada para preencher a Planilha
         foreach ($reports as $key => $report) {
-            $texto[$key][0] = $report->id;
-            $texto[$key][1] = $report->date;
-            $texto[$key][2] = $report->report;
-            $texto[$key][3] = $report->type;
-            $texto[$key][4] = $report->amount;
+            $texto[$key][0] = $report->getId();
+            $texto[$key][1] = $report->getFormattedDate();
+            $texto[$key][2] = $report->getReport();
+            $texto[$key][3] = $report->getType();
+            $texto[$key][4] = $report->getAmount();
         }
 
         //Preenchendo as células da Planilha
