@@ -1,6 +1,6 @@
 <?php
 
-namespace Advvm\Repositories;
+namespace Advvm\Repositories\Report;
 
 use Advvm\Models\Report;
 use Advvm\DTOs\ReportDTO;

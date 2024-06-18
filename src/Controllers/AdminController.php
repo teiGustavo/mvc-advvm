@@ -4,7 +4,7 @@ namespace Advvm\Controllers;
 
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
-use Advvm\Repositories\ReportRepositoryInterface;
+use Advvm\Repositories\Report\ReportRepositoryInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
 use PhpOffice\PhpSpreadsheet\Style\Border;

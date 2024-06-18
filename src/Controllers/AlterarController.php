@@ -3,7 +3,7 @@
 namespace Advvm\Controllers;
 
 use CoffeeCode\Router\Router;
-use Advvm\Repositories\ReportRepositoryInterface;
+use Advvm\Repositories\Report\ReportRepositoryInterface;
 use Advvm\DTOs\ReportDTO;
 
 class AlterarController
