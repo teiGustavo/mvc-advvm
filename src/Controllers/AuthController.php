@@ -12,6 +12,7 @@ class AuthController
         protected Router $router,
         private Engine $view
     ) {
+        $this->view->setDirectory($this->view->getDirectory() . '/auth');
     }
 
     //Responsável por renderizar a página "Login"
