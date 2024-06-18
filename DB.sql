@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS reports(
     amount DOUBLE NOT NULL DEFAULT 0.0	
 );
 
-INSERT INTO users(email, password, adm) VALUES ('adm@adm.adm', "$2y$10$FkiJVACsvbgAfTITymj0K.lTciE8ksgUky8HyON0Oa/prJoCnTzLe", 1);
+INSERT INTO users(email, password, adm) VALUES ('root', "$2y$10$O/H/mw2ya8k6NJ6EK7MenemWdrq6Suvx88j2xQ5oMX6khB2Qk.lJK", 1);
 
 INSERT INTO `reports` (`id`, `date`, `report`, `type`, `amount`) VALUES
 (19, '2022-07-01', 'Saldo Anterior', 'Entrada', 975.46),
