@@ -9,7 +9,9 @@
         "league/plates": "^3.5",
         "phpoffice/phpspreadsheet": "^1.28",
         "firebase/php-jwt": "^6.4",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "php-di/php-di": "^7.0",
+        "gteixeira/router": "^1.0"
     },
     "license": "proprietary",
     "autoload": {

@@ -3,9 +3,17 @@
 use CoffeeCode\Router\Router;
 use Advvm\Middlewares\AuthMiddleware;
 
+use DI\ContainerBuilder;
+
+$services = include __DIR__ . '/../src/Services/services.php';
+
+$builder = new ContainerBuilder();
+$builder->addDefinitions($services);
+
+$container = $builder->build();
 
 //Instancia um novo roteador na URL base do site
-$router = new Router(APP_URL);
+$router = $container->get(Router::class);
 
 //Define o namespace dos Controllers
 $router->namespace("Advvm\Controllers");

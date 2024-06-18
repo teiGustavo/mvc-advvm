@@ -12,7 +12,7 @@ abstract class MainController
     protected $router;
 
     //Método responsável por definir todos os valores comuns entre os Controllers (Sistema de plates do PHP)
-    public function __construct($router, $globals = [], $dir = null)
+    public function __construct(Router $router, $globals = [], $dir = null)
     {
         //$this->templates->addFolder("login", __DIR__ . "/../../views/auth");
         

@@ -2,29 +2,25 @@
 
 namespace Advvm\Controllers;
 
-use Advvm\Models\Report;
+use CoffeeCode\Router\Router;
+use League\Plates\Engine;
 use Advvm\Repositories\ReportRepositoryInterface;
-use Advvm\Repositories\ReportRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; //Classe responsável pela manipulação da Planilha
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; //Classe que salvará a Planilha em .xlsx 
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class AdminController extends MainController
+class AdminController
 {
 
     protected array $data;
 
-    //Responsável por passar os parâmetros para o Controller pai (MainController)
     public function __construct(
-        $router,
-        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+        protected Router $router,
+        private Engine $view,
+        private ReportRepositoryInterface $repository
     ) {
-        //Define o roteamento do AdminController
-        $this->router = $router;
-
-        //Instancia o construtor da Classe pai
-        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/admin");
+        $this->view->setDirectory($this->view->getDirectory() . '/admin');
     }
 
     //Responsável por renderizar a página "Relatório" (view)

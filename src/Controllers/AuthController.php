@@ -2,18 +2,16 @@
 
 namespace Advvm\Controllers;
 
+use CoffeeCode\Router\Router;
+use League\Plates\Engine;
 use Advvm\Models\User;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
-class AuthController extends MainController
+class AuthController
 {
-
-    //Responsável por passar os parâmetros para o Controller pai (MainController)
-    public function __construct($router)
-    {
-        //Instancia o construtor da classe pai
-        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/auth");
+    public function __construct(
+        protected Router $router,
+        private Engine $view
+    ) {
     }
 
     //Responsável por renderizar a página "Login"
@@ -23,7 +21,7 @@ class AuthController extends MainController
         $params = [
             "title" => "Login | " . SITE
         ];
-        
+
         //Renderiza a página
         echo $this->view->render("login", $params);
     }
@@ -63,7 +61,7 @@ class AuthController extends MainController
             //Informações a serem passadas pelo Token
             $credentials = [
                 "ID" => $user->id,
-                "Email" => $email, 
+                "Email" => $email,
                 "ADM" => $user->adm
             ];
 
@@ -75,7 +73,7 @@ class AuthController extends MainController
 
             return $this->router->redirect("advvm.home");
         } else {
-            initializeSessions(["logged" => false]);  
+            initializeSessions(["logged" => false]);
             return $this->router->redirect("auth.login");
         }
     }
@@ -101,8 +99,8 @@ class AuthController extends MainController
             'email' =>  $credentials["Email"],
             'adm' =>  $credentials["ADM"]
         ];
-        
-        $payload = base64_encode(json_encode($payload)); 
+
+        $payload = base64_encode(json_encode($payload));
 
         $signature = hash_hmac('sha256', "$header.$payload", JWT_KEY, true);
         $signature = base64_encode($signature);

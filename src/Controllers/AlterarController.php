@@ -2,24 +2,18 @@
 
 namespace Advvm\Controllers;
 
-use Advvm\Models\Report;
-use Advvm\DTOs\ReportDTO;
+use CoffeeCode\Router\Router;
 use Advvm\Repositories\ReportRepositoryInterface;
-use Advvm\Repositories\ReportRepository;
+use Advvm\DTOs\ReportDTO;
 
-class AlterarController extends MainController
+class AlterarController
 {
     protected array $data;
 
     public function __construct(
-        $router,
-        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+        protected Router $router,
+        private ReportRepositoryInterface $repository
     ) {
-        //Define o roteamento do AdminController
-        $this->router = $router;
-
-        //Instancia o construtor da Classe pai
-        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/admin");
     }
 
     public function delete(array $data): void

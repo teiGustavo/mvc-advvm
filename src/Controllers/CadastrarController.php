@@ -2,27 +2,24 @@
 
 namespace Advvm\Controllers;
 
-use Advvm\Models\Report;
-use Advvm\DTOs\ReportDTO;
+use CoffeeCode\Router\Router;
+use League\Plates\Engine;
 use Advvm\Repositories\ReportRepositoryInterface;
-use Advvm\Repositories\ReportRepository;
+use Advvm\DTOs\ReportDTO;
 
-class CadastrarController extends MainController
+class CadastrarController
 {
     protected array $data;
 
-    //Responsável por passar os parâmetros para o Controller pai (MainController)
     public function __construct(
-        $router,
-        private ReportRepositoryInterface $repository = new ReportRepository(new Report)
+        protected Router $router,
+        private Engine $view,
+        private ReportRepositoryInterface $repository
     ) {
-        $this->router = $router;
-
-        //Instancia o construtor da Classe pai
-        parent::__construct($router, [], dirname(__DIR__, 2) . "/views/admin/cadastrar");
+        $this->view->setDirectory($this->view->getDirectory() . '/admin/cadastrar');
     }
 
-    public function selecionarMes($data): void
+    public function selecionarMes(): void
     {
         $params = [
             "title" => "Selecionar Mês | " . SITE

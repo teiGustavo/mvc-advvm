@@ -2,16 +2,15 @@
 
 namespace Advvm\Controllers;
 
+use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 
-class HomeController extends MainController
+class HomeController
 {
-
-    //Responsável por passar os parâmetros para o Controller pai (MainController)
-    public function __construct($router)
-    {
-        //Instancia o construtor da classe pai
-        parent::__construct($router);
+    public function __construct(
+        protected Router $router,
+        private Engine $view
+    ) {
     }
 
     //Responsável por renderizar a página "Home" (página inicial)
@@ -33,7 +32,7 @@ class HomeController extends MainController
 
         //Cria a base da página
         $template = $templates->make("error");
-        
+
         //Define os valores a serem passados para o template
         $template->data([
             "title" => "Erro {$data['errcode']} | " . SITE,
