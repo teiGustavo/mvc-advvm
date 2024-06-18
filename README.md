@@ -25,3 +25,7 @@
 - Portas:
   - Aplicação: 8000
   - PhpMyAdmin: 8080
+
+## Administrador do sistema (contido no arquivo DB.sql):
+- Email: root
+- Senha: root
