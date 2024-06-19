@@ -5,12 +5,14 @@ namespace Advvm\Controllers;
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 use Advvm\Models\User;
+use Advvm\Repositories\User\UserRepository;
 
 class AuthController
 {
     public function __construct(
         protected Router $router,
-        private Engine $view
+        private Engine $view,
+        private UserRepository $repository
     ) {
         $this->view->setDirectory($this->view->getDirectory() . '/auth');
     }
@@ -45,25 +47,15 @@ class AuthController
         $email = $data["email"];
         $password = $data["password"];
 
-        //Instanciando o model Users
-        $users = new User();
-
-        //Preparando a query SQL
-        $params = http_build_query(["email" => $email]);
-
-        //Executando a query sql e guardando os dados retornados (Active Record)
-        $user = $users->find("email = :email", $params)->limit(1)->fetch(true);
-
-        //Facilitando os usos futuros do vetor das informações do Usuário
-        $user = $user[0];
-
+        $user = $this->repository->findUserByEmail($email);
+    
         //Verificando se o Usuário foi encontrado
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && password_verify($password, $user->getPassword())) {
             //Informações a serem passadas pelo Token
             $credentials = [
-                "ID" => $user->id,
-                "Email" => $email,
-                "ADM" => $user->adm
+                "ID" => $user->getId(),
+                "Email" => $user->getEmail(),
+                "ADM" => $user->isAdministrator()
             ];
 
             //Instancia o método que retorna o token JWT

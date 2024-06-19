@@ -1,10 +1,12 @@
 <?php
 
 use DI\Container;
+use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 use Advvm\Repositories\Report\ReportRepositoryInterface;
 use Advvm\Repositories\Report\ReportRepository;
-use CoffeeCode\Router\Router;
+use Advvm\Repositories\User\UserRepositoryInterface;
+use Advvm\Repositories\User\UserRepository;
 
 use function DI\autowire;
 
@@ -20,4 +22,5 @@ return [
     },
 
     ReportRepositoryInterface::class => autowire(ReportRepository::class),
+    UserRepositoryInterface::class => autowire(UserRepository::class),
 ];
