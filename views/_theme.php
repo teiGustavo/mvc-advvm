@@ -10,7 +10,7 @@
 
     <?= $this->section("css"); ?>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="<?= url("/views/assets/css/style.css") ?>">
+    <link rel="stylesheet" href="<?= url("/public/assets/css/style.css") ?>">
 
     <title>
         <?= $title; ?>
@@ -45,7 +45,7 @@
         <?= SITE; ?> - Todos os Direitos Reservados
     </footer>
 
-    <script src="<?= url("/views/assets/js/jquery.js") ?>"></script>
+    <script src="<?= url("/public/assets/js/jquery.js") ?>"></script>
     <?= $this->section("js"); ?>
 
 </body>
