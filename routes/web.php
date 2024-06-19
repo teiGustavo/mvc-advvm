@@ -35,7 +35,7 @@ $router->group("admin/cadastrar", AuthMiddleware::class);
 $router->get("/iniciar", "CadastrarController:selecionarMes", "cadastrar.selecionarMes");
 $router->get("/cadastro", "CadastrarController:cadastro", "cadastrar.cadastro");
 $router->post("/mes", "CadastrarController:mes", "cadastrar.mes");
-$router->post("/create", "CadastrarController:create", "cadastrar.create");
+$router->post("/create", "ReportController:create", "cadastrar.create");
 
 $router->group("admin/excel", AuthMiddleware::class);
 $router->get("/", "AdminController:excel", "admin.excel");
@@ -44,9 +44,9 @@ $router->post("/download", "AdminController:download", "admin.excel.download");
 //$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
 
 $router->group("admin/alterar", AuthMiddleware::class);
-$router->post("/delete", "AlterarController:delete", "alterar.delete");
-$router->post("/find", "AlterarController:find", "alterar.find");
-$router->post("/update", "AlterarController:update", "alterar.update");
+$router->post("/delete", "ReportController:delete", "alterar.delete");
+$router->post("/find", "ReportController:find", "alterar.find");
+$router->post("/update", "ReportController:update", "alterar.update");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");

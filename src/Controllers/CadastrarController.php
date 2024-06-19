@@ -4,8 +4,6 @@ namespace Advvm\Controllers;
 
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
-use Advvm\Repositories\Report\ReportRepositoryInterface;
-use Advvm\DTOs\ReportDTO;
 
 class CadastrarController
 {
@@ -13,8 +11,7 @@ class CadastrarController
 
     public function __construct(
         protected Router $router,
-        private Engine $view,
-        private ReportRepositoryInterface $repository
+        private Engine $view
     ) {
         $this->view->setDirectory($this->view->getDirectory() . '/admin/cadastrar');
     }
@@ -71,38 +68,5 @@ class CadastrarController
         ];
 
         echo $this->view->render("cadastro", $params);
-    }
-
-    public function create(array $data)
-    {
-        $data = filter_var_array($data, FILTER_DEFAULT);
-
-        if (empty($data) || in_array("", $data)) {
-            $callback["message"] = "Por favor, informe todos os campos!";
-            echo json_encode($callback);
-
-            return;
-        }
-
-        $report = ReportDTO::create(date: $data["date"], report: $data["report"]);
-        $report->setType($data["type"]);
-        $report->setAmount($data["amount"]);
-
-
-        if (APP_ENV != 'prod' && APP_ENV != 'production') {
-            var_dump($data);
-            var_dump($report);
-        } else {
-            if (!$this->repository->createNewReport($report)) {
-                $callback["message"] = "Erro ao cadastrar o registro!";
-                echo json_encode($callback);
-
-                return;
-            }
-
-            $callback["message"] = "Registro cadastrado com sucesso!";
-
-            echo json_encode($callback);
-        }
     }
 }

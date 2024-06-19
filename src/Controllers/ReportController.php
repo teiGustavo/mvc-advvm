@@ -6,7 +6,7 @@ use CoffeeCode\Router\Router;
 use Advvm\Repositories\Report\ReportRepositoryInterface;
 use Advvm\DTOs\ReportDTO;
 
-class AlterarController
+class ReportController
 {
     protected array $data;
 
@@ -16,23 +16,37 @@ class AlterarController
     ) {
     }
 
-    public function delete(array $data): void
+    public function create(array $data)
     {
-        if (empty($data["id"])) {
+        $data = filter_var_array($data, FILTER_DEFAULT);
+
+        if (empty($data) || in_array("", $data)) {
+            $callback["message"] = "Por favor, informe todos os campos!";
+            echo json_encode($callback);
+
             return;
         }
 
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+        $report = ReportDTO::create(date: $data["date"], report: $data["report"]);
+        $report->setType($data["type"]);
+        $report->setAmount($data["amount"]);
 
-        $result = $this->repository->deleteReportById($id);
 
-        if ($result === false) {
-            $callback["messages"] = "Não foi possível excluir este campo!";
+        if (APP_ENV != 'prod' && APP_ENV != 'production') {
+            var_dump($data);
+            var_dump($report);
+        } else {
+            if (!$this->repository->createNewReport($report)) {
+                $callback["message"] = "Erro ao cadastrar o registro!";
+                echo json_encode($callback);
+
+                return;
+            }
+
+            $callback["message"] = "Registro cadastrado com sucesso!";
+
+            echo json_encode($callback);
         }
-
-        $callback["remove"] = $result;
-
-        echo json_encode($callback);
     }
 
     public function find(array $data): void
@@ -80,6 +94,25 @@ class AlterarController
                 'amount' => $newReport->getAmountInBRLFormat(),
             ];
         }
+
+        echo json_encode($callback);
+    }
+
+    public function delete(array $data): void
+    {
+        if (empty($data["id"])) {
+            return;
+        }
+
+        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+
+        $result = $this->repository->deleteReportById($id);
+
+        if ($result === false) {
+            $callback["messages"] = "Não foi possível excluir este campo!";
+        }
+
+        $callback["remove"] = $result;
 
         echo json_encode($callback);
     }
