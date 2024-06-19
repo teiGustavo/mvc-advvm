@@ -1,16 +1,11 @@
 <?php
 
+use Advvm\Library\Container;
 use CoffeeCode\Router\Router;
 use Advvm\Middlewares\AuthMiddleware;
 
-use DI\ContainerBuilder;
-
-$services = include __DIR__ . '/../src/Services/services.php';
-
-$builder = new ContainerBuilder();
-$builder->addDefinitions($services);
-
-$container = $builder->build();
+//Instancia o container de injeção de dependências do PHP-DI
+$container = (new Container())->build(['services']);
 
 //Instancia um novo roteador na URL base do site
 $router = $container->get(Router::class);
