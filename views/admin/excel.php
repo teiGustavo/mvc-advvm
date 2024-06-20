@@ -4,7 +4,7 @@ $this->layout("../_theme", ["title" => $title]);
 
 <?php if (isset($years) && !empty($years)) : ?>
 
-<form action="<?= $router->route("admin.excel.spreadsheet"); ?>" method="POST">
+<form action="<?= $router->route("spreadsheet.selectMonth"); ?>" method="POST">
     <div class="selectYear">
         <label for="selectYear">Selecione o ano:</label>
         <select name="selectYear" id="">

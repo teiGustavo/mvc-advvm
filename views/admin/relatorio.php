@@ -121,7 +121,7 @@ $this->layout("../_theme", ["title" => $title]);
                 </div>
 
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" data-edit data-action="<?= $router->route("alterar.update"); ?>">Editar</button>
+                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" data-edit data-action="<?= $router->route("report.update"); ?>">Editar</button>
                     <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" data-cancel>Cancelar</button>
                 </div>
             </div>
@@ -177,7 +177,7 @@ $this->layout("../_theme", ["title" => $title]);
             $("#nav_a").addClass("bg-indigo-600");
 
             $("#nav_a<?= $current_page; ?>").text("<?= $next_page; ?>");
-            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("admin.reports.page", ["pagecode" => $next_page]); ?>");
+            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("records.page", ["pagecode" => $next_page]); ?>");
         }
 
         if ("<?= $current_page; ?>" == "<?= $total_pages; ?>") {
@@ -188,7 +188,7 @@ $this->layout("../_theme", ["title" => $title]);
             $("#nav_a_limit").addClass("bg-indigo-600");
 
             $("#nav_a<?= $current_page; ?>").text("<?= $previous_page; ?>");
-            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("admin.reports.page", ["pagecode" => $previous_page]); ?>");
+            $("#nav_a<?= $current_page; ?>").attr("href", "<?= $router->route("records.page", ["pagecode" => $previous_page]); ?>");
         }
     }
 
@@ -284,7 +284,7 @@ $this->layout("../_theme", ["title" => $title]);
                     div.find("#p_date").text("Data: " + callback.date);
                     div.find("#p_report").text("Histórico: " + callback.report);
                     div.find("#p_type").text("Tipo: " + callback.type);
-                    div.find("#p_amount").text("Valor: R$ " + callback.amount);
+                    div.find("#p_amount").text("Valor: " + callback.amount);
                 }
             });
         })

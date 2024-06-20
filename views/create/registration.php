@@ -6,7 +6,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
     <h3 class="text-light fs-5 fw-bold">Cadastro de Relatório</h3>
 
     <div class="mt-5">
-        <form action="<?= $router->route('create.store'); ?>" id="form">
+        <form action="<?= $router->route('report.store'); ?>" id="form">
             <div class="row">
                 <div class="col">
                     <div class="form-floating mb-3">

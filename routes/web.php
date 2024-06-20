@@ -15,8 +15,6 @@ $router->namespace("Advvm\Controllers");
 
 //Define o middleware de autenticação para todas as rotas
 $router->group("", AuthMiddleware::class);
-
-//Define as rotas sem um grupo anexo (ex: "/index")
 $router->get("/", "HomeController:index", "advvm.home");
 
 //Define as rotas do grupo de autenticação (ex: "auth/login")
@@ -27,26 +25,26 @@ $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 
 //Define as rotas do grupo admin (ex: "admin/excel")
-$router->group("admin", AuthMiddleware::class);
-$router->get("/reports", "AdminController:relatorio", "admin.reports");
-$router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports.page");
+$router->group("records", AuthMiddleware::class);
+$router->get("/", "AdminController:relatorio", "records.list");
+$router->get("/page/{pagecode}", "AdminController:relatorio", "records.page");
 
 $router->group("create",  AuthMiddleware::class);
 $router->get("/start", "CreateController:selectMonth", "create.selectMonth");
 $router->get("/", "CreateController:reportRegistration", "create.reportRegistration");
 $router->post("/", "CreateController:reportRegistration", "create.reportRegistration");
-$router->post("/store", "ReportController:create", "create.store");
 
-$router->group("admin/excel", AuthMiddleware::class);
-$router->get("/", "AdminController:excel", "admin.excel");
-$router->post("/spreadsheet", "AdminController:spreadsheet", "admin.excel.spreadsheet");
-$router->post("/download", "AdminController:download", "admin.excel.download");
-//$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "admin.excel");
+$router->group("spreadsheet", AuthMiddleware::class);
+$router->get("/", "AdminController:excel", "spreadsheet.selectYear");
+$router->post("/", "AdminController:spreadsheet", "spreadsheet.selectMonth");
+$router->post("/download", "AdminController:download", "spreadsheet.download");
+//$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "spreadsheet");
 
-$router->group("admin/alterar", AuthMiddleware::class);
-$router->post("/delete", "ReportController:delete", "alterar.delete");
-$router->post("/find", "ReportController:find", "alterar.find");
-$router->post("/update", "ReportController:update", "alterar.update");
+$router->group("report", AuthMiddleware::class);
+$router->post("/create", "ReportController:create", "report.store");
+$router->post("/find", "ReportController:find", "report.find");
+$router->post("/update", "ReportController:update", "report.update");
+$router->post("/delete", "ReportController:delete", "report.delete");
 
 //Define as rotas do grupo de erros HTTP
 $router->group("error");

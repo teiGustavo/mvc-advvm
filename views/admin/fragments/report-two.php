@@ -39,7 +39,7 @@
                  id="div-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" >
                 <div class="py-1" role="none">
                     <button type="button" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                            id="menu-item-0" data-action="<?= $router->route("alterar.find"); ?>" data-update
+                            id="menu-item-0" data-action="<?= $router->route("report.find"); ?>" data-update
                             data-id="<?= $report->getId(); ?>">
                         Editar
                     </button>
@@ -47,7 +47,7 @@
 
                 <div class="py-1" role="none">
                     <button type="button" class="text-red-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                            id="menu-item-1" data-action="<?= $router->route("alterar.delete"); ?>" data-delete
+                            id="menu-item-1" data-action="<?= $router->route("report.delete"); ?>" data-delete
                             data-id="<?= $report->getId(); ?>">
                         Excluir
                     </button>

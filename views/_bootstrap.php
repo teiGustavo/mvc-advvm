@@ -29,8 +29,8 @@
 
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("create.selectMonth"); ?>">Cadastrar</a>
-            <a href="<?= $router->route("admin.reports"); ?>">Lançamentos</a>
-            <a href="<?= $router->route("admin.excel"); ?>">Gerar Relatório</a>
+            <a href="<?= $router->route("records.list"); ?>">Lançamentos</a>
+            <a href="<?= $router->route("spreadsheet.selectYear"); ?>">Gerar Relatório</a>
             <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
 
         <?php endif; ?>
