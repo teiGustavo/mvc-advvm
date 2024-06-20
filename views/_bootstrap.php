@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="<?= url("/public/favicon.ico"); ?>">
 
     <?= $this->section("css"); ?>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= url("/public/assets/css/style.css") ?>">
 
     <title>
@@ -22,10 +22,10 @@
 
     <nav class="main_nav">
         <?php
-        if ($this->section("sidebar")):
+        if ($this->section("sidebar")) :
             echo $this->section("sidebar");
         else :
-            ?>
+        ?>
 
             <a href="<?= $router->route("advvm.home"); ?>">Home</a>
             <a href="<?= $router->route("create.selectMonth"); ?>">Cadastrar</a>
@@ -46,6 +46,7 @@
     </footer>
 
     <script src="<?= url("/public/assets/js/jquery.js") ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <?= $this->section("js"); ?>
 
 </body>

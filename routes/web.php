@@ -31,11 +31,11 @@ $router->group("admin", AuthMiddleware::class);
 $router->get("/reports", "AdminController:relatorio", "admin.reports");
 $router->get("/reports/page/{pagecode}", "AdminController:relatorio", "admin.reports.page");
 
-$router->group("admin/cadastrar", AuthMiddleware::class);
-$router->get("/iniciar", "CadastrarController:selecionarMes", "cadastrar.selecionarMes");
-$router->get("/cadastro", "CadastrarController:cadastro", "cadastrar.cadastro");
-$router->post("/mes", "CadastrarController:mes", "cadastrar.mes");
-$router->post("/create", "ReportController:create", "cadastrar.create");
+$router->group("create",  AuthMiddleware::class);
+$router->get("/start", "CreateController:selectMonth", "create.selectMonth");
+$router->get("/", "CreateController:reportRegistration", "create.reportRegistration");
+$router->post("/", "CreateController:reportRegistration", "create.reportRegistration");
+$router->post("/store", "ReportController:create", "create.store");
 
 $router->group("admin/excel", AuthMiddleware::class);
 $router->get("/", "AdminController:excel", "admin.excel");

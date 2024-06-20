@@ -23,6 +23,15 @@ body {
     background: #201b2c;
 }
 
+.bg-one {
+    background-color: #2f2841;
+}
+
+.bg-two {
+    background-color: #6f648a;
+}
+
+
 p, h4 {
     color: white;
 }
@@ -238,7 +247,7 @@ button:hover {
 
 @media (min-width: 900px) { 
     .main_content {
-        height: 81vh;
+        height: 80vh;
     }
 }
 
