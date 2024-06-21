@@ -2,8 +2,8 @@
 $this->layout("../_bootstrap", ["title" => $title]);
 ?>
 
-<div class="container-sm bg-one p-5 rounded-3" style="max-width: 800px;">
-    <h3 class="text-light fs-5 fw-bold">Cadastro de Relatório</h3>
+<div class="container-sm bg-dark p-5 rounded-3" style="max-width: 800px;">
+    <h1 class="fs-5 fw-bold">Cadastro de Relatório</h1>
 
     <div class="mt-5">
         <form action="<?= $router->route('report.store'); ?>" id="form">
@@ -42,7 +42,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
             </div>
 
             <div class="mt-4 mb-0">
-                <a class="btn btn-danger" href="<?= $router->route('create.selectMonth');?>" role="button">Sair</a>
+                <a class="btn btn-danger" href="<?= $router->route('create.selectMonth'); ?>" role="button">Sair</a>
 
                 <button type="submit" class="btn btn-success mb-0">Cadastrar</button>
             </div>
@@ -57,7 +57,6 @@ $this->layout("../_bootstrap", ["title" => $title]);
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const data = Object.fromEntries(new FormData(event.target).entries());
         const formData = new FormData(form);
 
         fetch(form.getAttribute('action'), {
@@ -72,7 +71,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
                 document.getElementById('report').value = ''
                 document.getElementById('amount').value = ''
                 document.getElementById('type').value = 'Automático'
-            })
+            });
     });
 </script>
 <?php $this->stop(); ?>

@@ -2,8 +2,8 @@
 $this->layout("../_bootstrap", ["title" => $title]);
 ?>
 
-<div class="p-5 bg-one rounded-3" style="min-width: 500px;">
-    <h1 class="fs-6 fw-bold text-light">Cadastro de Relatório</h1>
+<div class="p-5 bg-dark rounded-3" style="min-width: 500px;">
+    <h1 class="fs-5 fw-bold">Cadastro de Relatório</h1>
 
     <div class="mt-5">
         <form action="<?= $router->route("create.reportRegistration"); ?>" method="POST">

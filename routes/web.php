@@ -17,6 +17,12 @@ $router->namespace("Advvm\Controllers");
 $router->group("", AuthMiddleware::class);
 $router->get("/", "HomeController:index", "advvm.home");
 
+$router->group("spreadsheet", AuthMiddleware::class);
+$router->get("/", "SpreadsheetController:index", "spreadsheet.index");
+$router->post("/find", "SpreadsheetController:findMonthsOfYear", "spreadsheet.findMonths");
+$router->post("/download", "SpreadsheetController:download", "spreadsheet.download");
+//$router->get("/spreadsheet/{year}/{month}", "SpreadsheetController:download", "spreadsheet");
+
 //Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
@@ -33,12 +39,6 @@ $router->group("create",  AuthMiddleware::class);
 $router->get("/start", "CreateController:selectMonth", "create.selectMonth");
 $router->get("/", "CreateController:reportRegistration", "create.reportRegistration");
 $router->post("/", "CreateController:reportRegistration", "create.reportRegistration");
-
-$router->group("spreadsheet", AuthMiddleware::class);
-$router->get("/", "AdminController:excel", "spreadsheet.selectYear");
-$router->post("/", "AdminController:spreadsheet", "spreadsheet.selectMonth");
-$router->post("/download", "AdminController:download", "spreadsheet.download");
-//$router->get("/spreadsheet/{year}/{month}", "AdminController:excel", "spreadsheet");
 
 $router->group("report", AuthMiddleware::class);
 $router->post("/create", "ReportController:create", "report.store");

@@ -17,23 +17,30 @@
     </title>
 </head>
 
-<body>
+<body data-bs-theme="dark" class="bg-secondary-subtle">
     <?php initializeSessions(); ?>
 
-    <nav class="main_nav">
-        <?php
-        if ($this->section("sidebar")) :
-            echo $this->section("sidebar");
-        else :
-        ?>
+    <nav class="navbar navbar-expand-lg p-3 shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="<?= $router->route('advvm.home'); ?>">ADVVM</a>
 
-            <a href="<?= $router->route("advvm.home"); ?>">Home</a>
-            <a href="<?= $router->route("create.selectMonth"); ?>">Cadastrar</a>
-            <a href="<?= $router->route("records.list"); ?>">Lançamentos</a>
-            <a href="<?= $router->route("spreadsheet.selectYear"); ?>">Gerar Relatório</a>
-            <a href="<?= $router->route("auth.logout"); ?>">Sair</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <?php endif; ?>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="<?= $router->route('advvm.home'); ?>">Início</a>
+                    <a class="nav-link" href="<?= $router->route('create.selectMonth'); ?>">Cadastrar</a>
+                    <a class="nav-link" href="<?= $router->route('records.list'); ?>">Lançamentos</a>
+                    <a class="nav-link" href="<?= $router->route('spreadsheet.index'); ?>">Gerar Relatório</a>
+
+                    <?php if (NEEDS_AUTH === 'true') : ?>
+                        <a class="nav-link" href="<?= $router->route('auth.logout'); ?>">Sair</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <main class="main_content">
@@ -44,6 +51,18 @@
         ©
         <?= SITE; ?> - Todos os Direitos Reservados
     </footer>
+
+    <script>
+        let href = location.href;
+
+        // Removendo a barra ao final da url
+        if (href.slice(-1) === '/') {
+            href = href.slice(0, - 1);
+        }
+       
+        // Seleciona a página atual na barra de navegação
+        document.querySelector(`.nav-link[href='${href}']`).classList.add('active');
+    </script>
 
     <script src="<?= url("/public/assets/js/jquery.js") ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

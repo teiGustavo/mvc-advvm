@@ -1,5 +1,5 @@
 <?php
-$this->layout("_theme", ["title" => $title]);
+$this->layout("_bootstrap", ["title" => $title]);
 ?>
 
-<h1 class="text-white">Seja bem vindo ao sistema!</h1>
+<h1 class="fs-6">Seja bem vindo(a) ao sistema!</h1>

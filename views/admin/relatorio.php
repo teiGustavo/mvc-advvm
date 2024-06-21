@@ -48,7 +48,7 @@ $this->layout("../_theme", ["title" => $title]);
     <div id="reports">
         <?php if ($reports) :
             foreach ($reports as $report) :
-                $this->insert("fragments/report-two", ["report" => $report]);
+                $this->insert("../_fragments/report-two", ["report" => $report]);
             endforeach;
         else :
         ?>
