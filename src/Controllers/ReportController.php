@@ -92,7 +92,7 @@ class ReportController
             $callback["report"] = [
                 'id' => $newReport->getId(),
                 'date' => $newReport->getFormattedDate(),
-                'report' => $newReport->getReportWithTruncatedWidth(),
+                'report' => $newReport->getReport(),
                 'type' => $newReport->getType(),
                 'amount' => $newReport->getAmountInBRLFormat(),
             ];
