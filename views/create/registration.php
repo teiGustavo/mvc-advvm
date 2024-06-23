@@ -2,6 +2,13 @@
 $this->layout("../_bootstrap", ["title" => $title]);
 ?>
 
+<?php $this->start("sidebar"); ?>
+
+<a class="nav-link" href="<?= $router->route('create.reportRegistration'); ?>">Cadastro</a>
+<a class="nav-link" href="<?= $router->route('create.selectMonth'); ?>">Sair</a>
+
+<?php $this->stop(); ?>
+
 <div class="container-sm bg-dark p-5 rounded-3" style="max-width: 800px;">
     <h1 class="fs-5 fw-bold">Cadastro de Relatório</h1>
 
