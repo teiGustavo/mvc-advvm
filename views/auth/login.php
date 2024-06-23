@@ -1,77 +1,28 @@
 <?php
-  $this->layout("../_theme", ["title" => $title]);
+$this->layout("../_bootstrap", ["title" => $title]);
 ?>
 
 <?php $this->start("sidebar"); ?>
-  <a href="<?= $router->route("auth.login") ?>">Logar-se</a>
-  <a href="<?= $router->route("auth.register") ?>">Registar-se</a>
+<a class="nav-link" href="<?= $router->route('auth.login'); ?>">Entrar</a>
+<a class="nav-link" href="<?= $router->route('auth.register'); ?>">Criar Conta</a>
 <?php $this->stop(); ?>
 
-<div id="form">
-  <div class="mt-10 sm:mt-0">
-    <div class="md:gap-6">
-      <div class="md:col-span-1 my-8">
-        <div class="px-4 sm:px-0">
-          <h3 class="text-base font-semibold leading-6 text-gray-900">Informações Pessoais</h3>
-          <p class="mt-1 text-sm text-gray-600">Use suas credenciais para se conectar.</p>
-        </div>
+<div class="container-sm bg-dark rounded-3 p-5" style="max-width: 700px;">
+  <h1 class="fs-5">Que bom ver você de novo!</h1>
+  <h2 class="fs-6">Insira suas Informações para continuar.</h2>
+
+  <div class="container-sm mt-5" style="max-width: 500px;">
+    <form action="<?= $router->route("auth.post");?>" method="POST">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Insira seu email">
+        <label for="email">Email</label>
       </div>
-      <div class="mt-5 md:col-span-2 md:mt-0">
-
-        <form action="<?= $router->route("auth.post");?>" method="POST">
-          <div class="overflow-hidden shadow sm:rounded-md" id="personal_info">
-            <div class="bg-gray-400 px-4 py-5 sm:p-6" id="personal_info">
-              <div class="grid grid-cols-4 gap-6">
-
-                <div class="col-span-4 sm:col-span-4">
-                  <label for="email-address" class="block text-sm font-medium leading-6 text-gray-900">Email: </label>
-                  <input type="text" name="email" id="email-address" autocomplete="email"
-                    class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-
-                <div class="col-span-4 sm:col-span-4">
-                  <label for="email-address" class="block text-sm font-medium leading-6 text-gray-900">Senha: </label>
-                  <input type="password" name="password" id="email-address" autocomplete="password"
-                    class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-
-              </div>
-            </div>
-
-            <div class="bg-gray-400 px-4 py-3 text-right sm:px-6" id="div_Button">
-              <button type="submit" name="btnSubmit" value="logar"
-                class="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Logar</button>
-            </div>
-            
-          </div>
-        </form>
-
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Insira sua senha">
+        <label for="password">Senha</label>
       </div>
-    </div>
+
+      <button type="submit" class="btn btn-outline-light">Entrar</button>
+    </form>
   </div>
 </div>
-
-<?php $this->start("js"); ?>
-  <script>
-    function updateFormCss() {
-      $("#personal_info").css("border-radius", "15px");
-      
-      $("h3, p, label").css("color", "white");
-
-      $("input").addClass("bg-gray-200");
-
-      $("#form").css("max-widht", "1000px");
-      $("#form").css("width", "40%");
-      $("#form").css("min-width", "350px");
-      $("#form").css("border-radius", "20px");
-      $("#form").css("padding", "50px");
-      $("#form").css("background", "#514869");
-
-      $("input").css("padding", "10px");
-
-      $("#div_Button").css("text-align", "center");
-    }
-
-    updateFormCss();
-  </script>
-<?php $this->stop(); ?>
