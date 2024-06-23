@@ -41,9 +41,9 @@
                         <a class="nav-link" href="<?= $router->route('spreadsheet.index'); ?>">Gerar Relatório</a>
 
                         <?php if (NEEDS_AUTH === 'true') : ?>
-                            <a class="nav-link" href="<?= $router->route('admin'); ?>">Administração</a>
-
+                            
                             <a class="nav-link" href="<?= $router->route('auth.logout'); ?>">Sair</a>
+
                         <?php endif; ?>
 
                     <?php endif; ?>
