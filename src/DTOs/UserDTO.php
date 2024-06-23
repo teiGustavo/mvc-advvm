@@ -44,4 +44,34 @@ class UserDTO
 
         return $this->adm;
     }
+
+    public function getRoleCode(): int
+    {
+        if ($this->isAdministrator()) {
+            return 1;
+        }
+
+        return $this->adm;
+    }
+
+    public function getRoleName(): string
+    {
+        if ($this->isAdministrator()) {
+            return 'Administrador';
+        } else if ($this->adm === -1) {
+            return 'Aguardando Aprovação';
+        }
+
+        return 'Usuário';
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'password' => $this->password,
+            'adm' => $this->adm,
+        ];
+    }
 }

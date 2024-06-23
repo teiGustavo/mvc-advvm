@@ -46,6 +46,15 @@ $router->post("/find", "ReportController:find", "report.find");
 $router->post("/update", "ReportController:update", "report.update");
 $router->post("/delete", "ReportController:delete", "report.delete");
 
+$router->group("users", AuthMiddleware::class);
+$router->post("/create", "UserController:create", "user.store");
+$router->post("/find", "UserController:find", "user.find");
+$router->post("/update", "UserController:update", "user.update");
+$router->post("/delete", "UserController:delete", "user.delete");
+
+$router->group("admin", [AuthMiddleware::class, AdminMiddleware::class]);
+$router->get('/users-to-approval', 'AdminController:index', 'admin');
+
 //Define as rotas do grupo de erros HTTP
 $router->group("error");
 $router->get("/{errcode}", "HomeController:error", 'error');

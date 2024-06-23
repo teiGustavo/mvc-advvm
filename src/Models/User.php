@@ -17,14 +17,14 @@ class User extends DataLayer
     }
 
     //Polimorfismo do comportamento de persistir os dados no BD
-   public function save(): bool
-    {
-        //Verifica se houve algum erro durante as validações ou durante o salvamento (persistência de dados)
-        if (!$this->validateEmail() || !$this->validatePassword() || !parent::save())
-            return false;
+//    public function save(): bool
+//     {
+//         //Verifica se houve algum erro durante as validações ou durante o salvamento (persistência de dados)
+//         if (!$this->validateEmail() || !$this->validatePassword() || !parent::save())
+//             return false;
         
-        return true;
-    } 
+//         return true;
+//     } 
 
     //Responsável por validar o email inserido pelo usuário
     protected function validateEmail(): bool
