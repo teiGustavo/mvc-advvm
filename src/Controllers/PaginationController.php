@@ -28,8 +28,17 @@ class PaginationController
             $pageCode = 1;
         }
 
+        $pagination = $this->paginate($pageCode);
+        ['lastPage' => $lastPage] = $pagination;
+
+        if ($pageCode > $lastPage) {
+            $this->router->redirect($this->router->route('pagination.page', ['pagecode' => $lastPage]));
+
+            return;
+        }
+
         //Renderiza a página
-        echo $this->view->render("paginate", $this->paginate($pageCode));
+        echo $this->view->render("paginate", $pagination);
     }
 
     //Método responsável por fazer a paginação da view de Relatório
