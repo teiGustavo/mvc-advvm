@@ -3,6 +3,7 @@
 use Advvm\Library\Container;
 use CoffeeCode\Router\Router;
 use Advvm\Middlewares\AuthMiddleware;
+use Advvm\Middlewares\AdminMiddleware;
 
 //Instancia o container de injeção de dependências do PHP-DI
 $container = (new Container())->build(['services']);
@@ -45,9 +46,15 @@ $router->post("/find", "ReportController:find", "report.find");
 $router->post("/update", "ReportController:update", "report.update");
 $router->post("/delete", "ReportController:delete", "report.delete");
 
+$router->group("admin", [AuthMiddleware::class, AdminMiddleware::class]);
+$router->get('/', function () {
+    echo 'ADMIN';
+}, 'admin');
+
+
 //Define as rotas do grupo de erros HTTP
 $router->group("error");
-$router->get("/{errcode}", "HomeController:error");
+$router->get("/{errcode}", "HomeController:error", 'error');
 
 //Responsável por despachar as rotas
 $router->dispatch();
