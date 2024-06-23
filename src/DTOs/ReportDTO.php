@@ -30,6 +30,11 @@ class ReportDTO
         return $this->id;
     }
 
+    public function setDate(string $date): void
+    {
+        $this->date = $date;
+    }
+
     public function getDate(): string
     {
         return $this->date;

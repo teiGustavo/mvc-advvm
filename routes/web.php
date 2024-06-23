@@ -30,17 +30,16 @@ $router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->post("/post", "AuthController:post", "auth.post");
 
-//Define as rotas do grupo admin (ex: "admin/excel")
-$router->group("records", AuthMiddleware::class);
-$router->get("/", "AdminController:relatorio", "records.list");
-$router->get("/page/{pagecode}", "AdminController:relatorio", "records.page");
+$router->group("pagination", AuthMiddleware::class);
+$router->get("/page/{pagecode}", "PaginationController:index", "pagination.page");
+$router->post("/page/{pagecode}", "PaginationController:pagination", "pagination.page");
 
 $router->group("create",  AuthMiddleware::class);
 $router->get("/start", "CreateController:selectMonth", "create.selectMonth");
 $router->get("/", "CreateController:reportRegistration", "create.reportRegistration");
 $router->post("/", "CreateController:reportRegistration", "create.reportRegistration");
 
-$router->group("report", AuthMiddleware::class);
+$router->group("reports", AuthMiddleware::class);
 $router->post("/create", "ReportController:create", "report.store");
 $router->post("/find", "ReportController:find", "report.find");
 $router->post("/update", "ReportController:update", "report.update");

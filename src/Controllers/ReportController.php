@@ -71,6 +71,9 @@ class ReportController
     public function update(array $data): void
     {
         if (empty($data["id"])) {
+            $callback["message"] = "Por favor, preencha o campo de ID!";
+            echo json_encode($callback);
+
             return;
         }
 
@@ -101,15 +104,27 @@ class ReportController
     public function delete(array $data): void
     {
         if (empty($data["id"])) {
+            if ($data["id"] <= 0) {
+                $callback["message"] = "O ID precisa ser um número positivo!";
+                echo json_encode($callback);
+            }
+
             return;
         }
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
 
+        if ($id <= 0) {
+            $callback["message"] = "O ID precisa ser um número positivo!";
+            echo json_encode($callback);
+
+            return;
+        }
+
         $result = $this->repository->deleteReportById($id);
 
         if ($result === false) {
-            $callback["messages"] = "Não foi possível excluir este campo!";
+            $callback["message"] = "Não foi possível excluir este campo!";
         }
 
         $callback["remove"] = $result;

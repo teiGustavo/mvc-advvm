@@ -1,9 +1,9 @@
-<?php 
-    $params = [
-        "title" => $title
-    ];
+<?php
+$params = [
+    "title" => $title
+];
 
-    $this->layout("_theme", $params); 
+$this->layout("_bootstrap", $params);
 ?>
 
 <div class="error">
@@ -12,5 +12,5 @@
 </div>
 
 <?php $this->start("sidebar"); ?>
-    <a href="<?= url("") ?>">Voltar ao Início</a>
+<a class="nav-link" href="<?= $router->route('advvm.home'); ?>">Voltar ao Início</a>
 <?php $this->stop(); ?>
