@@ -12,7 +12,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
   <h2 class="fs-6">Insira suas Informações para continuar.</h2>
 
   <div class="container-sm mt-5" style="max-width: 500px;">
-    <form action="<?= $router->route("auth.post");?>" method="POST">
+    <form action="<?= $router->route("auth.post"); ?>" method="POST">
       <div class="form-floating mb-3">
         <input type="email" class="form-control" id="email" name="email" placeholder="Insira seu email">
         <label for="email">Email</label>
