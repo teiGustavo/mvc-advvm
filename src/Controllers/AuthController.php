@@ -4,7 +4,6 @@ namespace Advvm\Controllers;
 
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
-use Advvm\Models\User;
 use Advvm\Repositories\User\UserRepository;
 
 class AuthController
