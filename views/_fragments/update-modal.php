@@ -17,13 +17,13 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="amount" name="amount" placeholder="Valor">
-                        <label for="amount">Valor</label>
+                        <input type="text" class="form-control" id="report" name="report" placeholder="Descrição">
+                        <label for="report">Lançamento</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="report" name="report" placeholder="Descrição">
-                        <label for="report">Lançamento</label>
+                        <input type="text" class="form-control" id="amount" name="amount" placeholder="Valor">
+                        <label for="amount">Valor</label>
                     </div>
 
                     <div class="form-floating">
