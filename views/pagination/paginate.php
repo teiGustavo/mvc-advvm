@@ -14,7 +14,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
                 &laquo;
             </a>
 
-            <a role="button" class="btn btn-outline-light btn-page" aria-expanded="false" href="<?= $router->route('pagination.page', ['pagecode' => $previousPage]); ?>">
+            <a role="button" class="btn btn-outline-light btn-page" id="previousPageButton" aria-expanded="false" href="<?= $router->route('pagination.page', ['pagecode' => $previousPage]); ?>">
                 &lt;
             </a>
 
@@ -48,79 +48,46 @@ $this->layout("../_bootstrap", ["title" => $title]);
     <h1 class="fs-5 fw-bold">Lançamentos</h1>
 
     <div class="container-sm mt-5">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <td scope="col">Data</td>
-                    <td scope="col">Lançamento</td>
-                    <td scope="col">Tipo</td>
-                    <td scope="col">Valor</td>
-                    <td scope="col">Ações</td>
-                </tr>
-            </thead>
 
-            <tbody>
-                <?php if ($reports) :
-                    foreach ($reports as $report) :
-                        $this->insert("../_fragments/tr-report", ["report" => $report]);
-                    endforeach;
-                else :
-                ?>
+        <?php if ($reports) : ?>
 
-                    <p>Não existem relatórios cadastrados!</p>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td scope="col">Data</td>
+                        <td scope="col">Lançamento</td>
+                        <td scope="col">Tipo</td>
+                        <td scope="col">Valor</td>
+                        <td scope="col">Ações</td>
+                    </tr>
+                </thead>
 
-                <?php endif; ?>
-            </tbody>
-        </table>
+                <tbody id="tbody">
+
+                    <?php if (!empty($reports)) :
+                        foreach ($reports as $report) :
+                            $this->insert("../_fragments/tr-report", ["report" => $report]);
+                        endforeach;
+                    else :
+                    ?>
+
+                        <p>Erro ao listar os lançamentos!</p>
+
+                    <?php endif; ?>
+
+                </tbody>
+            </table>
+
+        <?php else : ?>
+
+            <p>Não existem lançamentos cadastrados!</p>
+
+        <?php endif; ?>
+
     </div>
 </div>
 
 <?php $this->insert("../_fragments/update-modal", ["formAction" => $router->route('report.update')]); ?>
-
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deleteModalLabel">Atualizar Lançamento</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <form>
-                <div class="modal-body">
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="date" name="date" placeholder="Dia do lançamento">
-                        <label for="date">Dia</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="amount" name="amount" placeholder="Valor">
-                        <label for="amount">Valor</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="report" name="report" placeholder="Descrição">
-                        <label for="report">Lançamento</label>
-                    </div>
-
-                    <div class="form-floating">
-                        <select class="form-select" id="type" name="type" aria-label="Tipo">
-                            <option selected value="Automático">Automático</option>
-                            <option value="Entrada">Entrada</option>
-                            <option value="Saída">Saída</option>
-                        </select>
-                        <label for="type">Tipo</label>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <?= $this->start('js'); ?>
 <script>
@@ -130,6 +97,8 @@ $this->layout("../_bootstrap", ["title" => $title]);
 
     const updateButtons = document.querySelectorAll('[data-update]');
     const deleteButtons = document.querySelectorAll('[data-delete]');
+
+    const tbody = document.getElementById('tbody');
 
     let tr;
 
@@ -182,7 +151,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
                 const report = data.report;
                 const td = tr.getElementsByTagName('td');
 
-                document.getElementById('btnCloseUpdateModal').dispatchEvent(new Event('click'));
+                document.getElementById('btnCloseUpdateModal').click();
 
                 td[0].innerHTML = report.date;
                 td[1].innerHTML = report.report;
@@ -209,7 +178,26 @@ $this->layout("../_bootstrap", ["title" => $title]);
                     const isRemoved = data.remove;
 
                     if (isRemoved === true) {
-                        deleteButton.parentNode.parentNode.remove();
+                        function fadeOut(element) {
+                            element.style.opacity = 1;
+
+                            let opacity = 1;
+                            const interval = setInterval(() => {
+                                opacity -= 0.25;
+                                element.style.opacity = opacity;
+
+                                if (opacity <= 0) {
+                                    clearInterval(interval);
+                                    element.remove();
+
+                                    if (tbody.childElementCount <= 0) {
+                                        document.getElementById('previousPageButton').click();
+                                    }
+                                }
+                            }, 50);
+                        }
+
+                        fadeOut(deleteButton.parentNode.parentNode);
                     }
                 });
         });
