@@ -138,7 +138,7 @@ class UserController
             return;
         }
 
-        $newUser = UserDTO::create(password: $password);
+        $newUser = UserDTO::create(password: $password, adm: -9999);
         $result = $this->repository->updateUserById($newUser, $user->getId());
 
         if ($result === false) {
