@@ -16,7 +16,7 @@ class UserController
     ) {
     }
 
-    public function create(array $data)
+    public function create(array $data): void
     {
         $data = filter_var_array($data, FILTER_DEFAULT);
 
@@ -26,6 +26,22 @@ class UserController
 
             return;
         }
+
+        $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
+        $password = filter_var($data["password"]);
+
+        $user = new UserDTO($email, $password, RULE_TO_APPROVE);
+
+        if (!$this->repository->createNewUser($user)) {
+            $callback["message"] = "Erro ao cadastrar o registro!";
+            echo json_encode($callback);
+
+            return;
+        }
+
+        $callback["message"] = "Registro cadastrado com sucesso!";
+
+        echo json_encode($callback);
     }
 
     public function find(array $data): void

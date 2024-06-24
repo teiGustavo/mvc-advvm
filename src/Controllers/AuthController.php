@@ -5,6 +5,7 @@ namespace Advvm\Controllers;
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 use Advvm\Repositories\User\UserRepository;
+use Advvm\DTOs\UserDTO;
 
 class AuthController
 {
@@ -21,7 +22,7 @@ class AuthController
     {
         //Define os parâmetros a serem passados para o template
         $params = [
-            "title" => "Login | " . SITE
+            "title" => "Entrar | " . SITE
         ];
 
         //Renderiza a página
@@ -38,6 +39,52 @@ class AuthController
         return $this->router->redirect("auth.login");
     }
 
+    public function register(): void
+    {
+        //Define os parâmetros a serem passados para o template
+        $params = [
+            "title" => "Criar Conta | " . SITE
+        ];
+
+        //Renderiza a página
+        echo $this->view->render("register", $params);
+    }
+
+    public function createUser(array $data): void
+    {
+        $data = filter_var_array($data, FILTER_DEFAULT);
+
+        if (empty($data) || in_array("", $data)) {
+            $this->router->redirect('auth.register');
+
+            return;
+        }
+
+        $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
+        $password = filter_var($data["password"]);
+
+        $user = new UserDTO($email, $password, RULE_TO_APPROVE);
+
+        if (!$this->repository->createNewUser($user)) {
+            $this->router->redirect('auth.register');
+
+            return;
+        }
+
+        $this->router->redirect('auth.wait');
+    }
+
+    public function wait(): void
+    {
+        //Define os parâmetros a serem passados para o template
+        $params = [
+            "title" => "Parabéns | " . SITE
+        ];
+
+        //Renderiza a página
+        echo $this->view->render("wait", $params);
+    }
+
     //Responsável por tratar os dados do formulário
     public function post()
     {
@@ -47,7 +94,7 @@ class AuthController
         $password = $data["password"];
 
         $user = $this->repository->findUserByEmail($email);
-    
+
         //Verificando se o Usuário foi encontrado
         if ($user && password_verify($password, $user->getPassword())) {
             //Informações a serem passadas pelo Token

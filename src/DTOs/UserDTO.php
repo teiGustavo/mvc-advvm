@@ -35,7 +35,7 @@ class UserDTO
     public function isAdministrator(): bool
     {
         if (is_int($this->adm)) {
-            if ($this->adm === 1) {
+            if ($this->adm === RULE_ADMINISTRATOR) {
                 return true;
             }
 
@@ -58,7 +58,7 @@ class UserDTO
     {
         if ($this->isAdministrator()) {
             return 'Administrador';
-        } else if ($this->adm === -1) {
+        } else if ($this->adm === RULE_TO_APPROVE) {
             return 'Aguardando Aprovação';
         }
 

@@ -29,6 +29,8 @@ $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
 $router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
+$router->get("/wait", "AuthController:wait", "auth.wait");
+$router->post("/create-user", "AuthController:createUser", "auth.createUser");
 $router->post("/post", "AuthController:post", "auth.post");
 
 $router->group("pagination", AuthMiddleware::class);

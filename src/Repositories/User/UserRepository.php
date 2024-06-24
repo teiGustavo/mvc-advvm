@@ -12,6 +12,17 @@ class UserRepository implements UserRepositoryInterface
     ) {
     }
 
+    public function createNewUser(UserDTO $user): bool
+    {
+        $newUser = $this->model;
+
+        $newUser->email = $user->getEmail();
+        $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);
+        $newUser->adm = RULE_TO_APPROVE;
+
+        return $newUser->save();
+    }
+
     public function findUserByEmail(string $email): ?UserDTO
     {
         $params = http_build_query(["email" => $email]);

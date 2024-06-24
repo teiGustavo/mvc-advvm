@@ -8,6 +8,7 @@ use Advvm\DTOs\UserDTO;
 interface UserRepositoryInterface
 {
     public function __construct(User $model);
+    public function createNewUser(UserDTO $user): bool;
     public function findUserByEmail(string $email): ?UserDTO;
     public function findUserById(int $id): ?UserDTO;
 
