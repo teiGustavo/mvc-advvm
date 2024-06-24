@@ -161,7 +161,7 @@ class AuthController
             'typ' => 'JWT'
         ];
 
-        $header = base64_encode(json_encode($header));
+        $header = base64url_encode(json_encode($header));
 
         //Segunda parte do token JWT (Carga útil)
         $payload = [
@@ -173,10 +173,10 @@ class AuthController
             'role' =>  $credentials["role"]
         ];
 
-        $payload = base64_encode(json_encode($payload));
+        $payload = base64url_encode(json_encode($payload));
 
         $signature = hash_hmac('sha256', "$header.$payload", JWT_KEY, true);
-        $signature = base64_encode($signature);
+        $signature = base64url_encode($signature);
 
         //Retorna o token JWT
         return "$header.$payload.$signature";

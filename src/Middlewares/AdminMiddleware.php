@@ -35,7 +35,7 @@ class AdminMiddleware
         //Converte o token em array (String para Array)
         [, $payload] = explode(".", $jwt);
 
-        if ((json_decode(base64_decode($payload)))->role === ROLE_ADMINISTRATOR) {
+        if ((json_decode(base64url_decode($payload)))->role === ROLE_ADMINISTRATOR) {
             return true;
         }
 

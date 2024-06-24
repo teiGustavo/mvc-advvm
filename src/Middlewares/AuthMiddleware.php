@@ -56,10 +56,10 @@ class AuthMiddleware
         $payload = $jwt[1];
         $signature = $jwt[2];
 
-        $validateSignature = base64_encode(hash_hmac('sha256', "$header.$payload", JWT_KEY, true));
+        $validateSignature = base64url_encode(hash_hmac('sha256', "$header.$payload", JWT_KEY, true));
 
         if ($signature == $validateSignature) {
-            $data = json_decode(base64_decode($payload));
+            $data = json_decode(base64url_decode($payload));
 
             if ($data->exp > time()) {
                 return true;
