@@ -3,6 +3,7 @@
 namespace Advvm\Middlewares;
 
 use CoffeeCode\Router\Router;
+use Advvm\Library\JsonWebToken;
 
 class AdminMiddleware
 {
@@ -25,17 +26,14 @@ class AdminMiddleware
 
         initializeSessions();
 
-        $jwt = $_SESSION["token"];
-
         //Recupera o token salvo no cookie ou sessão
-        if (empty($jwt)) {
+        if (!isset($_SESSION["token"]) || $_SESSION["token"] == "") {
             return false;
         }
 
-        //Converte o token em array (String para Array)
-        [, $payload] = explode(".", $jwt);
+        $data = JsonWebToken::decode($_SESSION["token"]);
 
-        if ((json_decode(base64url_decode($payload)))->role === ROLE_ADMINISTRATOR) {
+        if (!empty($data) && $data['role'] === ROLE_ADMINISTRATOR) {
             return true;
         }
 
