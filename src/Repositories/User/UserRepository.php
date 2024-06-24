@@ -73,8 +73,18 @@ class UserRepository implements UserRepositoryInterface
     {
         $newUser = $this->model->findById($id);
 
-        $newUser->adm = $user->getRoleCode();
+        // if (!empty($user->getEmail())) {
+        //     $newUser->email = $user->getEmail();   
+        // }
 
+        if (in_array($user->getRoleCode(), [ROLE_TO_APPROVE, ROLE_COMMON_USER, ROLE_ADMINISTRATOR])) {
+            $newUser->adm = $user->getRoleCode();   
+        }
+
+        if (!empty($user->getPassword())) {
+            $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);   
+        }
+        
         return $newUser->save();
     }
 

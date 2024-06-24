@@ -31,7 +31,7 @@ $this->stop(); ?>
 
       <div class="form-floating mb-3">
         <input type="password" class="form-control" id="repeat-password" name="repeatPassword" placeholder="Insira sua senha novamente" disabled>
-        <label for="password">Repita sua senha</label>
+        <label for="repeat-password">Repita sua senha</label>
       </div>
 
       <button type="submit" class="btn btn-outline-light">Criar Conta</button>

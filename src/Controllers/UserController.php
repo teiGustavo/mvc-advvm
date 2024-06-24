@@ -47,17 +47,44 @@ class UserController
     public function find(array $data): void
     {
         if (empty($data["id"])) {
+            $callback["message"] = 'Por favor, informe o ID!';
+            echo json_encode($callback);
+
             return;
         }
 
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
+        $id = filter_var($data["id"], FILTER_SANITIZE_NUMBER_INT);
 
         $user = $this->repository->findUserById($id);
 
         if ($user) {
             $callback["user"] = $user->toArray();
         } else {
-            $callback["user"] = 'Relatório não encontrado!';
+            $callback["message"] = 'Usuário não encontrado!';
+        }
+
+        echo json_encode($callback);
+    }
+
+    public function findByEmail(array $data): void
+    {
+        if (empty($data["email"])) {
+            $callback["message"] = 'Por favor, informe o email a ser pesquisado!';
+            echo json_encode($callback);
+
+            return;
+        }
+
+        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+
+        $user = $this->repository->findUserByEmail($email);
+
+        if ($user) {
+            $callback["user"] = [
+                'email' => $user->getEmail()
+            ];
+        } else {
+            $callback["message"] = 'Usuário não encontrado!';
         }
 
         echo json_encode($callback);
@@ -72,11 +99,10 @@ class UserController
             return;
         }
 
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-        $role = (int) filter_var($data['role'], FILTER_VALIDATE_INT);
+        $id = filter_var($data["id"], FILTER_SANITIZE_NUMBER_INT);
+        $role = (int) filter_var($data['role'], FILTER_SANITIZE_NUMBER_INT);
 
         $newUser = UserDTO::create(adm: $role);
-
         $result = $this->repository->updateUserById($newUser, $id);
 
         if ($result === false) {
@@ -85,6 +111,41 @@ class UserController
             $callback["user"] = [
                 'id' => $id,
                 'role' => $newUser->getRoleName()
+            ];
+        }
+
+        echo json_encode($callback);
+    }
+
+    public function updatePassword(array $data): void
+    {
+        if (empty($data["password"])) {
+            $callback["message"] = "Por favor, insira a nova senha!";
+            echo json_encode($callback);
+
+            return;
+        }
+
+        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+        $password = filter_var($data['password']);
+
+        $user = $this->repository->findUserByEmail($email);
+
+        if (is_null($user)) {
+            $callback["message"] = "Usuário não encontrado!";
+            echo json_encode($callback);
+
+            return;
+        }
+
+        $newUser = UserDTO::create(password: $password);
+        $result = $this->repository->updateUserById($newUser, $user->getId());
+
+        if ($result === false) {
+            $callback["message"] = "Erro ao salvar!";
+        } else {
+            $callback["user"] = [
+                'email' => $email
             ];
         }
 

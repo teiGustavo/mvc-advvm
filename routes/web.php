@@ -31,6 +31,7 @@ $router->get("/register", "AuthController:register", "auth.register");
 $router->get("/logout", "AuthController:logout", "auth.logout");
 $router->get("/congrats", "AuthController:congrats", "auth.congrats");
 $router->get("/wait", "AuthController:wait", "auth.wait");
+$router->get("/forgot", "AuthController:forgot", "auth.forgot");
 $router->post("/create-user", "AuthController:createUser", "auth.createUser");
 $router->post("/post", "AuthController:post", "auth.post");
 
@@ -49,9 +50,13 @@ $router->post("/find", "ReportController:find", "report.find");
 $router->post("/update", "ReportController:update", "report.update");
 $router->post("/delete", "ReportController:delete", "report.delete");
 
+$router->group("users");
+$router->post("/find-by-email", "UserController:findByEmail", "user.findByEmail");
+$router->post("/update-password", "UserController:updatePassword", "user.updatePassword");
+
 $router->group("users", AuthMiddleware::class);
-$router->post("/create", "UserController:create", "user.store");
 $router->post("/find", "UserController:find", "user.find");
+$router->post("/create", "UserController:create", "user.store");
 $router->post("/update", "UserController:update", "user.update");
 $router->post("/delete", "UserController:delete", "user.delete");
 

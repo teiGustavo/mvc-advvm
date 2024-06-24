@@ -85,7 +85,6 @@ class AuthController
         echo $this->view->render("congrats", $params);
     }
 
-
     public function wait(array $data): void
     {
         //Define os parâmetros a serem passados para o template
@@ -95,6 +94,17 @@ class AuthController
 
         //Renderiza a página
         echo $this->view->render("wait", $params);
+    }
+
+    public function forgot(array $data): void
+    {
+        //Define os parâmetros a serem passados para o template
+        $params = [
+            "title" => "Esqueceu a Senha | " . SITE,
+        ];
+
+        //Renderiza a página
+        echo $this->view->render("forgot", $params);
     }
 
     //Responsável por tratar os dados do formulário

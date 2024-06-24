@@ -23,12 +23,19 @@ $this->stop(); ?>
         <input type="email" class="form-control" id="email" name="email" placeholder="Insira seu email">
         <label for="email">Email</label>
       </div>
-      <div class="form-floating mb-3">
+
+      <div class="form-floating">
         <input type="password" class="form-control" id="password" name="password" placeholder="Insira sua senha">
         <label for="password">Senha</label>
       </div>
 
-      <button type="submit" class="btn btn-outline-light">Entrar</button>
+      <div class="d-flex flex-column mt-3">
+        <a href="<?= $router->route('auth.forgot'); ?>">Esqueceu a senha?</a>
+
+        <div class="mt-3">
+          <button type="submit" class="btn btn-outline-light">Entrar</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
