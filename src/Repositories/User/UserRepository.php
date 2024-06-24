@@ -18,7 +18,7 @@ class UserRepository implements UserRepositoryInterface
 
         $newUser->email = $user->getEmail();
         $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);
-        $newUser->adm = RULE_TO_APPROVE;
+        $newUser->adm = ROLE_TO_APPROVE;
 
         return $newUser->save();
     }

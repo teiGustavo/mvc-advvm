@@ -17,7 +17,7 @@ class UserDTO
         return new self($email, $password, $adm, $id);
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -35,7 +35,7 @@ class UserDTO
     public function isAdministrator(): bool
     {
         if (is_int($this->adm)) {
-            if ($this->adm === RULE_ADMINISTRATOR) {
+            if ($this->adm === ROLE_ADMINISTRATOR) {
                 return true;
             }
 
@@ -58,7 +58,7 @@ class UserDTO
     {
         if ($this->isAdministrator()) {
             return 'Administrador';
-        } else if ($this->adm === RULE_TO_APPROVE) {
+        } else if ($this->adm === ROLE_TO_APPROVE) {
             return 'Aguardando Aprovação';
         }
 

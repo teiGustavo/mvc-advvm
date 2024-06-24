@@ -34,6 +34,6 @@ define('NAME_TEMPLATE', $_ENV['SP_NAME_TEMPLATE']);
 //Constante que define a chave secreta e única dos tokens da aplicação
 define('JWT_KEY', $_ENV['JWT_KEY']);
 
-define('RULE_TO_APPROVE', -1);
-define('RULE_ADMINISTRATOR', 1);
-define('RULE_USER', 0);
+define('ROLE_TO_APPROVE', -1);
+define('ROLE_ADMINISTRATOR', 1);
+define('ROLE_COMMON_USER', 0);

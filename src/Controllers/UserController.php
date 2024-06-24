@@ -30,7 +30,7 @@ class UserController
         $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
         $password = filter_var($data["password"]);
 
-        $user = new UserDTO($email, $password, RULE_TO_APPROVE);
+        $user = new UserDTO($email, $password, ROLE_TO_APPROVE);
 
         if (!$this->repository->createNewUser($user)) {
             $callback["message"] = "Erro ao cadastrar o registro!";

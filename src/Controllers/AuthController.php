@@ -60,10 +60,10 @@ class AuthController
             return;
         }
 
-        $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
+        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
         $password = filter_var($data["password"]);
 
-        $user = new UserDTO($email, $password, RULE_TO_APPROVE);
+        $user = new UserDTO($email, $password, ROLE_TO_APPROVE);
 
         if (!$this->repository->createNewUser($user)) {
             $this->router->redirect('auth.register');
@@ -71,14 +71,26 @@ class AuthController
             return;
         }
 
-        $this->router->redirect('auth.wait');
+        $this->router->redirect('auth.congrats');
     }
 
-    public function wait(): void
+    public function congrats(array $data): void
     {
         //Define os parâmetros a serem passados para o template
         $params = [
-            "title" => "Parabéns | " . SITE
+            "title" => "Parabéns | " . SITE,
+        ];
+
+        //Renderiza a página
+        echo $this->view->render("congrats", $params);
+    }
+
+
+    public function wait(array $data): void
+    {
+        //Define os parâmetros a serem passados para o template
+        $params = [
+            "title" => "Aguarde | " . SITE,
         ];
 
         //Renderiza a página
@@ -86,22 +98,31 @@ class AuthController
     }
 
     //Responsável por tratar os dados do formulário
-    public function post()
+    public function post(): void
     {
         //Recuperando os dados enviados via POST
         $data = filter_input_array(INPUT_POST);
-        $email = $data["email"];
-        $password = $data["password"];
+        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+        $password = filter_var($data["password"]);
 
         $user = $this->repository->findUserByEmail($email);
 
-        //Verificando se o Usuário foi encontrado
-        if ($user && password_verify($password, $user->getPassword())) {
+        if (is_null($user)) {
+            $this->router->redirect("auth.login");
+            return;
+        }
+
+        if ($user->getRoleCode() === ROLE_TO_APPROVE) {
+            $this->router->redirect("auth.wait");
+            return;
+        }
+
+        if (password_verify($password, $user->getPassword())) {
             //Informações a serem passadas pelo Token
             $credentials = [
-                "ID" => $user->getId(),
-                "Email" => $user->getEmail(),
-                "ADM" => $user->isAdministrator()
+                "id" => $user->getId(),
+                "email" => $user->getEmail(),
+                "role" => $user->getRoleCode()
             ];
 
             //Instancia o método que retorna o token JWT
@@ -109,12 +130,15 @@ class AuthController
 
             //Define a sessão ou cookie do Token
             initializeSessions(["token" => $jwt, "logged" => true]);
+            $this->router->redirect("advvm.home");
 
-            return $this->router->redirect("advvm.home");
-        } else {
-            initializeSessions(["logged" => false]);
-            return $this->router->redirect("auth.login");
+            return;
         }
+
+        initializeSessions(["logged" => false]);
+        $this->router->redirect("auth.login");
+
+        return;
     }
 
     private function JWT(array $credentials): string
@@ -134,9 +158,9 @@ class AuthController
             'iss' => APP_URL,
             'aud' => APP_URL,
             'exp' => $expTime,
-            'id' =>  $credentials["ID"],
-            'email' =>  $credentials["Email"],
-            'adm' =>  $credentials["ADM"]
+            'id' =>  $credentials["id"],
+            'email' =>  $credentials["email"],
+            'role' =>  $credentials["role"]
         ];
 
         $payload = base64_encode(json_encode($payload));
