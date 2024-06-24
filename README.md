@@ -27,5 +27,5 @@
   - PhpMyAdmin: 8080
 
 ## Administrador do sistema (contido no arquivo DB.sql):
-- Email: root
+- Email: root@root
 - Senha: root
