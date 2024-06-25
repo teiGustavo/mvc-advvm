@@ -37,7 +37,7 @@ class Session
         session_destroy();
     }
 
-    public static function flash(string $index, mixed $value): mixed
+    public static function flash(string $index, mixed $value): void
     {
         $_SESSION['__flash'][$index] = $value;
     }
