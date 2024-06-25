@@ -17,7 +17,7 @@
             "Advvm\\": "src/"
         },
         "files": [
-            "src/Config.php"
+            "src/Library/functions/functions.php"
         ]
     },
     "authors": [
