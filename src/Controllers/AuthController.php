@@ -7,6 +7,7 @@ use League\Plates\Engine;
 use Advvm\Repositories\User\UserRepository;
 use Advvm\DTOs\UserDTO;
 use Advvm\Library\JsonWebToken;
+use Advvm\Library\Session;
 
 class AuthController
 {
@@ -33,8 +34,7 @@ class AuthController
     //Responsável por deslogar o usuário
     public function logout()
     {
-        //Inicializa as sessões
-        initializeSessions(["token" => ""]);
+        Session::removeAll();
 
         //Redireciona o usuário para a rota de home
         return $this->router->redirect("auth.login");
@@ -140,7 +140,8 @@ class AuthController
             $jwt = JsonWebToken::generate($credentials);
 
             //Define a sessão ou cookie do Token
-            initializeSessions(["token" => $jwt]);
+            Session::set('token', $jwt);
+
             $this->router->redirect("advvm.home");
 
             return;

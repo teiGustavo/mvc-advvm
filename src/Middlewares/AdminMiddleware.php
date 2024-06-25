@@ -4,6 +4,7 @@ namespace Advvm\Middlewares;
 
 use CoffeeCode\Router\Router;
 use Advvm\Library\JsonWebToken;
+use Advvm\Library\Session;
 
 class AdminMiddleware
 {
@@ -20,18 +21,11 @@ class AdminMiddleware
 
     private function isAdmin(): bool
     {
-        if (NEEDS_AUTH !== 'true') {
+        if (NEEDS_AUTH !== 'true' || !Session::has('token')) {
             return false;
         }
 
-        initializeSessions();
-
-        //Recupera o token salvo no cookie ou sessão
-        if (!isset($_SESSION["token"]) || $_SESSION["token"] == "") {
-            return false;
-        }
-
-        $data = JsonWebToken::decode($_SESSION["token"]);
+        $data = JsonWebToken::decode(Session::get('token'));
 
         if (!empty($data) && $data['role'] === ROLE_ADMINISTRATOR) {
             return true;

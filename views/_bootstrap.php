@@ -18,8 +18,6 @@
 </head>
 
 <body data-bs-theme="dark" class="bg-secondary-subtle" id="body">
-    <?php initializeSessions(); ?>
-
     <nav class="navbar navbar-expand-lg p-3 shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="<?= $router->route('advvm.home'); ?>">ADVVM</a>
