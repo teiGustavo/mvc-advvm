@@ -1,5 +1,7 @@
 <?php
 
+use Advvm\Library\Session;
+
 function url(string $path): string
 {
     if ($path) {
@@ -43,4 +45,9 @@ function base64url_encode(string $string): string|false
 function base64url_decode(string $string): string|false
 {
     return base64_decode(str_replace(['-', '_'], ['+', '/'], $string));
+}
+
+function flash(string $index): mixed
+{
+    return Session::get('__flash')[$index] ?? null;
 }
