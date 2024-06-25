@@ -6,6 +6,7 @@ use CoffeeCode\Router\Router;
 use League\Plates\Engine;
 use Advvm\Repositories\User\UserRepository;
 use Advvm\DTOs\UserDTO;
+use Advvm\Library\JsonWebToken;
 
 class AuthController
 {
@@ -74,7 +75,7 @@ class AuthController
         $this->router->redirect('auth.congrats');
     }
 
-    public function congrats(array $data): void
+    public function congrats(): void
     {
         //Define os parâmetros a serem passados para o template
         $params = [
@@ -85,7 +86,7 @@ class AuthController
         echo $this->view->render("congrats", $params);
     }
 
-    public function wait(array $data): void
+    public function wait(): void
     {
         //Define os parâmetros a serem passados para o template
         $params = [
@@ -96,7 +97,7 @@ class AuthController
         echo $this->view->render("wait", $params);
     }
 
-    public function forgot(array $data): void
+    public function forgot(): void
     {
         //Define os parâmetros a serem passados para o template
         $params = [
@@ -136,49 +137,16 @@ class AuthController
             ];
 
             //Instancia o método que retorna o token JWT
-            $jwt = $this->JWT($credentials);
+            $jwt = JsonWebToken::generate($credentials);
 
             //Define a sessão ou cookie do Token
-            initializeSessions(["token" => $jwt, "logged" => true]);
+            initializeSessions(["token" => $jwt]);
             $this->router->redirect("advvm.home");
 
             return;
         }
 
-        initializeSessions(["logged" => false]);
         $this->router->redirect("auth.login");
-
         return;
-    }
-
-    private function JWT(array $credentials): string
-    {
-        $expTime = time() + (1 * 1 * 60 * 60); //(Dias * Horas * Minutos * Segundos)
-
-        //Cabeçalho do token (Primeira parte do token JWT)
-        $header = [
-            'alg' => 'HS256',
-            'typ' => 'JWT'
-        ];
-
-        $header = base64url_encode(json_encode($header));
-
-        //Segunda parte do token JWT (Carga útil)
-        $payload = [
-            'iss' => APP_URL,
-            'aud' => APP_URL,
-            'exp' => $expTime,
-            'id' =>  $credentials["id"],
-            'email' =>  $credentials["email"],
-            'role' =>  $credentials["role"]
-        ];
-
-        $payload = base64url_encode(json_encode($payload));
-
-        $signature = hash_hmac('sha256', "$header.$payload", JWT_KEY, true);
-        $signature = base64url_encode($signature);
-
-        //Retorna o token JWT
-        return "$header.$payload.$signature";
     }
 }

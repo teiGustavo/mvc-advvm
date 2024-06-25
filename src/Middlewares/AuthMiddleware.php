@@ -7,14 +7,9 @@ use Advvm\Library\JsonWebToken;
 
 class AuthMiddleware
 {
-
-    public Router $router;
-
     //Teste de implementação de um controlador da rota de login
     public function handle(Router $router)
     {
-        $this->router = $router;
-        
         //Verifica se a autenticação está habilitada e se o usuário não está autenticado
         if (filter_var(NEEDS_AUTH, FILTER_VALIDATE_BOOLEAN) == 'true' && $this->isAuth() == false) {
             //Caso verdadeiro, é feito um redirecionamento para a rota da Home
