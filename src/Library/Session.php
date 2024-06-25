@@ -32,9 +32,13 @@ class Session
         return null;
     }
 
-    public static function removeAll(): mixed
+    public static function removeAll(): bool
     {
-        session_destroy();
+        if (session_destroy()) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function flash(string $index, mixed $value): void
