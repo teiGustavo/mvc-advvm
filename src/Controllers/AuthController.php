@@ -19,35 +19,28 @@ class AuthController
         $this->view->setDirectory($this->view->getDirectory() . '/auth');
     }
 
-    //Responsável por renderizar a página "Login"
     public function login(): void
     {
-        //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Entrar | " . SITE
         ];
 
-        //Renderiza a página
         echo $this->view->render("login", $params);
     }
 
-    //Responsável por deslogar o usuário
     public function logout()
     {
         Session::removeAll();
 
-        //Redireciona o usuário para a rota de home
         return $this->router->redirect("auth.login");
     }
 
     public function register(): void
     {
-        //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Criar Conta | " . SITE
         ];
 
-        //Renderiza a página
         echo $this->view->render("register", $params);
     }
 
@@ -57,7 +50,6 @@ class AuthController
 
         if (empty($data) || in_array("", $data)) {
             $this->router->redirect('auth.register');
-
             return;
         }
 
@@ -68,7 +60,6 @@ class AuthController
 
         if (!$this->repository->createNewUser($user)) {
             $this->router->redirect('auth.register');
-
             return;
         }
 
@@ -77,41 +68,33 @@ class AuthController
 
     public function congrats(): void
     {
-        //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Parabéns | " . SITE,
         ];
 
-        //Renderiza a página
         echo $this->view->render("congrats", $params);
     }
 
     public function wait(): void
     {
-        //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Aguarde | " . SITE,
         ];
 
-        //Renderiza a página
         echo $this->view->render("wait", $params);
     }
 
     public function forgot(): void
     {
-        //Define os parâmetros a serem passados para o template
         $params = [
             "title" => "Esqueceu a Senha | " . SITE,
         ];
 
-        //Renderiza a página
         echo $this->view->render("forgot", $params);
     }
 
-    //Responsável por tratar os dados do formulário
     public function post(): void
     {
-        //Recuperando os dados enviados via POST
         $data = filter_input_array(INPUT_POST);
         $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
         $password = filter_var($data["password"]);
@@ -129,21 +112,17 @@ class AuthController
         }
 
         if (password_verify($password, $user->getPassword())) {
-            //Informações a serem passadas pelo Token
             $credentials = [
                 "id" => $user->getId(),
                 "email" => $user->getEmail(),
                 "role" => $user->getRoleCode()
             ];
 
-            //Instancia o método que retorna o token JWT
             $jwt = JsonWebToken::generate($credentials);
 
-            //Define a sessão ou cookie do Token
             Session::set('token', $jwt);
 
             $this->router->redirect("advvm.home");
-
             return;
         }
 

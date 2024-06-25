@@ -8,13 +8,10 @@ use Advvm\Middlewares\AdminMiddleware;
 //Instancia o container de injeção de dependências do PHP-DI
 $container = (new Container())->build(['services']);
 
-//Instancia um novo roteador na URL base do site
 $router = $container->get(Router::class);
 
-//Define o namespace dos Controllers
 $router->namespace("Advvm\Controllers");
 
-//Define o middleware de autenticação para todas as rotas
 $router->group("", AuthMiddleware::class);
 $router->get("/", "HomeController:index", "advvm.home");
 
@@ -24,7 +21,6 @@ $router->post("/find", "SpreadsheetController:findMonthsOfYear", "spreadsheet.fi
 $router->post("/download", "SpreadsheetController:download", "spreadsheet.download");
 //$router->get("/spreadsheet/{year}/{month}", "SpreadsheetController:download", "spreadsheet");
 
-//Define as rotas do grupo de autenticação (ex: "auth/login")
 $router->group("auth");
 $router->get("/login", "AuthController:login", "auth.login");
 $router->get("/register", "AuthController:register", "auth.register");
@@ -63,15 +59,11 @@ $router->post("/delete", "UserController:delete", "user.delete");
 $router->group("admin", [AuthMiddleware::class, AdminMiddleware::class]);
 $router->get('/users-to-approval', 'AdminController:index', 'admin');
 
-//Define as rotas do grupo de erros HTTP
 $router->group("error");
 $router->get("/{errcode}", "HomeController:error", 'error');
 
-//Responsável por despachar as rotas
 $router->dispatch();
 
-//Verifica se houve alguma requisição via GET de algum erro HTTP
 if ($router->error()) {
-    //Caso tenha ocorrido, redireciona para o respectivo erro HTTP
-    $router->redirect("/error/{$router->error()}");
+    $router->redirect('error', ['errcode' => $router->error()]);
 }

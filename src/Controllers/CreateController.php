@@ -7,8 +7,6 @@ use League\Plates\Engine;
 
 class CreateController
 {
-    protected array $data;
-
     public function __construct(
         protected Router $router,
         private Engine $view
@@ -38,7 +36,7 @@ class CreateController
         $date = $data["date"];
 
         $lastDayOfMonth = date("t", strtotime($date));
-     
+
         $params = [
             "title" => "Cadastrar | " . SITE,
             "date" => $date,

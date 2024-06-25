@@ -8,8 +8,6 @@ use Advvm\DTOs\ReportDTO;
 
 class ReportController
 {
-    protected array $data;
-
     public function __construct(
         protected Router $router,
         private ReportRepositoryInterface $repository

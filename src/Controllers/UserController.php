@@ -8,8 +8,6 @@ use Advvm\DTOs\UserDTO;
 
 class UserController
 {
-    protected array $data;
-
     public function __construct(
         protected Router $router,
         private UserRepositoryInterface $repository

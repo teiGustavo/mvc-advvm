@@ -26,7 +26,7 @@ class SpreadsheetController
             'title' => "Excel | " . SITE,
             'years' => $years
         ];
-        
+
         echo $this->view->render('download', $params);
     }
 
@@ -47,7 +47,6 @@ class SpreadsheetController
             return ucfirst($value);
         };
 
-
         $callback['months'] = array_map($setFirstLetterUppercase, $months);
 
         echo json_encode($callback);
@@ -61,9 +60,9 @@ class SpreadsheetController
 
             return;
         }
-    
+
         $year = filter_var($data['year'], FILTER_SANITIZE_NUMBER_INT);
-        $month = filter_var($data['month'], FILTER_SANITIZE_ENCODED, FILTER_FLAG_STRIP_HIGH );
+        $month = filter_var($data['month'], FILTER_SANITIZE_ENCODED, FILTER_FLAG_STRIP_HIGH);
 
         $filename = NAME_TEMPLATE . ucfirst($month) . ' de ' . $year;
 

@@ -8,8 +8,6 @@ use Advvm\Library\Session;
 
 class AdminMiddleware
 {
-
-    //Teste de implementação de um controlador da rota de login
     public function handle(Router $router)
     {
         if ($this->isAdmin() === true) {
