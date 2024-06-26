@@ -78,7 +78,7 @@ class UserRepository implements UserRepositoryInterface
         //     $newUser->email = $user->getEmail();   
         // }
 
-        if (Roles::roleExists($user->getRoleCode())) {
+        if (!is_null($user->getRoleCode()) && Roles::roleExists($user->getRoleCode())) {
             $newUser->adm = $user->getRoleCode();
         }
 

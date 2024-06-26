@@ -9,12 +9,12 @@ class UserDTO
     public function __construct(
         private string $email,
         private string $password,
-        private int|bool $adm,
+        private ?int $adm,
         private ?int $id = null,
     ) {
     }
 
-    public static function create(string $email = '', string $password = '', int|bool $adm = false, ?int $id = null): self
+    public static function create(string $email = '', string $password = '', int $adm = null, ?int $id = null): self
     {
         return new self($email, $password, $adm, $id);
     }
@@ -36,7 +36,7 @@ class UserDTO
 
     public function isAdministrator(): bool
     {
-        if (is_int($this->adm)) {
+        if (!is_null($this->adm)) {
             if ($this->adm === Roles::ADMINISTRATOR) {
                 return true;
             }
@@ -47,12 +47,8 @@ class UserDTO
         return $this->adm;
     }
 
-    public function getRoleCode(): int
+    public function getRoleCode(): ?int
     {
-        if ($this->isAdministrator()) {
-            return 1;
-        }
-
         return $this->adm;
     }
 
@@ -73,7 +69,7 @@ class UserDTO
             'id' => $this->id,
             'email' => $this->email,
             'password' => $this->password,
-            'adm' => $this->adm,
+            'role' => $this->adm,
         ];
     }
 }

@@ -23,7 +23,7 @@ for (const updateButton of updateButtons) {
 
                 if (user) {
                     document.getElementById('id').value = user.id;
-                    document.getElementById('role').value = user.adm;
+                    document.getElementById('role').value = user.role;
                 }
             });
 
