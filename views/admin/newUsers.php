@@ -48,5 +48,5 @@ $this->layout("../_theme", ["title" => $title]);
 <?php $this->insert("../_fragments/update-user", ["formAction" => $router->route('user.update')]); ?>
 
 <?php $this->start('js'); ?>
-<script src="<?= url('/public/assets/js/pages/admin/newUsers.js'); ?>"></script>
+<script src="<?= url('/public/assets/js/pages/admin/new-users.js'); ?>"></script>
 <?php $this->stop(); ?>
