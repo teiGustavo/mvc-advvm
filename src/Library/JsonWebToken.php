@@ -37,20 +37,20 @@ class JsonWebToken
 
         $payload = base64url_encode(json_encode($payload));
 
-        $signature = base64url_encode(hash_hmac('sha256', "$header.$payload", JWT_KEY, true));
+        $signature = base64url_encode(hash_hmac('sha256', "$header.$payload", JWT_SECRET, true));
 
         if (is_bool($header) || is_bool($payload) || is_bool($signature)) {
             return false;
         }
 
-        return "$header.$payload.$signature";       
+        return "$header.$payload.$signature";
     }
 
     public static function isValid(string $token): bool
     {
-        [$header, $payload, $signature] = explode(".", $token); 
+        [$header, $payload, $signature] = explode(".", $token);
 
-        $validateSignature = base64url_encode(hash_hmac('sha256', "$header.$payload", JWT_KEY, true));
+        $validateSignature = base64url_encode(hash_hmac('sha256', "$header.$payload", JWT_SECRET, true));
 
         if ($signature === $validateSignature) {
             $date = json_decode(base64url_decode($payload));
@@ -66,7 +66,7 @@ class JsonWebToken
     public static function decode(string $token): array
     {
         if (self::isValid($token)) {
-            [, $payload] = explode(".", $token); 
+            [, $payload] = explode(".", $token);
 
             return json_decode(base64url_decode($payload), true);
         }

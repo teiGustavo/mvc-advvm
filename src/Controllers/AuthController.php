@@ -113,7 +113,6 @@ class AuthController
 
         if (password_verify($password, $user->getPassword())) {
             $credentials = [
-                "id" => $user->getId(),
                 "email" => $user->getEmail(),
                 "role" => $user->getRoleCode()
             ];
