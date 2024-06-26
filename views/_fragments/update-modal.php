@@ -9,7 +9,6 @@
             <form id="updateForm" action="<?= $formAction; ?>">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="id" name="id" placeholder="Dia do lançamento">
-                    <label for="id" class="d-none"></label>
 
                     <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="date" name="date" placeholder="Dia do lançamento">

@@ -3,10 +3,8 @@ $this->layout("../_theme", ["title" => $title]);
 ?>
 
 <?php $this->start("sidebar"); ?>
-
 <a class="nav-link" href="<?= $router->route('create.reportRegistration'); ?>">Cadastro</a>
 <a class="nav-link" href="<?= $router->route('create.selectMonth'); ?>">Sair</a>
-
 <?php $this->stop(); ?>
 
 <div class="container-sm bg-dark p-5 rounded-3" style="max-width: 800px;">
@@ -58,27 +56,5 @@ $this->layout("../_theme", ["title" => $title]);
 </div>
 
 <?php $this->start("js"); ?>
-<script>
-    let form = document.getElementById('form');
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-
-        fetch(form.getAttribute('action'), {
-                method: 'POST',
-                body: formData
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-
-                document.getElementById('date').value = ''
-                document.getElementById('report').value = ''
-                document.getElementById('amount').value = ''
-                document.getElementById('type').value = 'Automático'
-            });
-    });
-</script>
+<script src="<?= url('/public/assets/js/pages/create/registration.js'); ?>"></script>
 <?php $this->stop(); ?>
