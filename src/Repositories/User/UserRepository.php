@@ -4,6 +4,7 @@ namespace Advvm\Repositories\User;
 
 use Advvm\Models\User;
 use Advvm\DTOs\UserDTO;
+use Advvm\Library\Roles;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -18,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
 
         $newUser->email = $user->getEmail();
         $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);
-        $newUser->adm = ROLE_TO_APPROVE;
+        $newUser->adm = Roles::NEEDS_APPROVAL;
 
         return $newUser->save();
     }
@@ -77,14 +78,14 @@ class UserRepository implements UserRepositoryInterface
         //     $newUser->email = $user->getEmail();   
         // }
 
-        if (in_array($user->getRoleCode(), [ROLE_TO_APPROVE, ROLE_COMMON_USER, ROLE_ADMINISTRATOR])) {
-            $newUser->adm = $user->getRoleCode();   
+        if (Roles::roleExists($user->getRoleCode())) {
+            $newUser->adm = $user->getRoleCode();
         }
 
         if (!empty($user->getPassword())) {
-            $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);   
+            $newUser->password = password_hash($user->getPassword(), PASSWORD_BCRYPT);
         }
-        
+
         return $newUser->save();
     }
 
@@ -98,5 +99,4 @@ class UserRepository implements UserRepositoryInterface
 
         return false;
     }
-
 }

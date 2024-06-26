@@ -8,6 +8,7 @@ use Advvm\Repositories\User\UserRepository;
 use Advvm\DTOs\UserDTO;
 use Advvm\Library\JsonWebToken;
 use Advvm\Library\Session;
+use Advvm\Library\Roles;
 
 class AuthController
 {
@@ -56,7 +57,7 @@ class AuthController
         $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
         $password = filter_var($data["password"]);
 
-        $user = new UserDTO($email, $password, ROLE_TO_APPROVE);
+        $user = new UserDTO($email, $password, Roles::NEEDS_APPROVAL);
 
         if (!$this->repository->createNewUser($user)) {
             $this->router->redirect('auth.register');
@@ -106,7 +107,7 @@ class AuthController
             return;
         }
 
-        if ($user->getRoleCode() === ROLE_TO_APPROVE) {
+        if ($user->getRoleCode() === Roles::NEEDS_APPROVAL) {
             $this->router->redirect("auth.wait");
             return;
         }

@@ -2,6 +2,8 @@
 
 namespace Advvm\DTOs;
 
+use Advvm\Library\Roles;
+
 class UserDTO
 {
     public function __construct(
@@ -35,7 +37,7 @@ class UserDTO
     public function isAdministrator(): bool
     {
         if (is_int($this->adm)) {
-            if ($this->adm === ROLE_ADMINISTRATOR) {
+            if ($this->adm === Roles::ADMINISTRATOR) {
                 return true;
             }
 
@@ -58,7 +60,7 @@ class UserDTO
     {
         if ($this->isAdministrator()) {
             return 'Administrador';
-        } else if ($this->adm === ROLE_TO_APPROVE) {
+        } else if ($this->adm === Roles::NEEDS_APPROVAL) {
             return 'Aguardando Aprovação';
         }
 

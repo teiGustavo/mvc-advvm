@@ -5,6 +5,7 @@ namespace Advvm\Controllers;
 use CoffeeCode\Router\Router;
 use Advvm\Repositories\User\UserRepositoryInterface;
 use Advvm\DTOs\UserDTO;
+use Advvm\Library\Roles;
 
 class UserController
 {
@@ -28,7 +29,7 @@ class UserController
         $email = filter_var($data["email"], FILTER_VALIDATE_EMAIL);
         $password = filter_var($data["password"]);
 
-        $user = new UserDTO($email, $password, ROLE_TO_APPROVE);
+        $user = new UserDTO($email, $password, Roles::NEEDS_APPROVAL);
 
         if (!$this->repository->createNewUser($user)) {
             $callback["message"] = "Erro ao cadastrar o registro!";

@@ -4,6 +4,7 @@ namespace Advvm\Middlewares;
 
 use CoffeeCode\Router\Router;
 use Advvm\Library\JsonWebToken;
+use Advvm\Library\Roles;
 use Advvm\Library\Session;
 
 class AdminMiddleware
@@ -25,7 +26,7 @@ class AdminMiddleware
 
         $data = JsonWebToken::decode(Session::get('token'));
 
-        if (!empty($data) && $data['role'] === ROLE_ADMINISTRATOR) {
+        if (!empty($data) && $data['role'] === Roles::ADMINISTRATOR) {
             return true;
         }
 
