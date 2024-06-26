@@ -1,5 +1,5 @@
 <?php
-$this->layout("../_bootstrap", ["title" => $title]);
+$this->layout("../_theme", ["title" => $title]);
 ?>
 
 <?= $this->start('css'); ?>
@@ -99,8 +99,8 @@ $this->layout("../_bootstrap", ["title" => $title]);
 
                 document.getElementById('btnCloseUserUpdateModal').click();
 
-                if (user) {    
-                   td[1].innerHTML = user.role;
+                if (user) {
+                    td[1].innerHTML = user.role;
                 }
             });
     });

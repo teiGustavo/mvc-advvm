@@ -1,5 +1,5 @@
 <?php
-$this->layout("../_bootstrap", ["title" => $title]);
+$this->layout("../_theme", ["title" => $title]);
 ?>
 
 <div class="p-5 bg-dark rounded-3" style="min-width: 500px;">

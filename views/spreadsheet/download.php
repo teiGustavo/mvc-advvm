@@ -1,5 +1,5 @@
 <?php
-$this->layout("../_bootstrap", ["title" => $title]);
+$this->layout("../_theme", ["title" => $title]);
 ?>
 
 <div class="container-sm bg-one rounded-3 p-5 bg-dark" style="max-width: 800px;">
@@ -8,7 +8,7 @@ $this->layout("../_bootstrap", ["title" => $title]);
     <?php if (!empty($years)) : ?>
 
         <div class="mt-5">
-            <form action="<?= $router->route('spreadsheet.download');?>" id="form">
+            <form action="<?= $router->route('spreadsheet.download'); ?>" id="form">
                 <div class="form-floating mb-3">
                     <select class="form-select" id="selectYear" name="year" aria-label="Selecione o ano do relatório" data-action="<?= $router->route('spreadsheet.findMonths'); ?>">
                         <option value="" selected>Selecione o ano</option>

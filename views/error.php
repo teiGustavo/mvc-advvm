@@ -3,7 +3,7 @@ $params = [
     "title" => $title
 ];
 
-$this->layout("_bootstrap", $params);
+$this->layout("_theme", $params);
 ?>
 
 <div class="error">

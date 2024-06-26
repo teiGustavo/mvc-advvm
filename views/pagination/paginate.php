@@ -1,5 +1,5 @@
 <?php
-$this->layout("../_bootstrap", ["title" => $title]);
+$this->layout("../_theme", ["title" => $title]);
 ?>
 
 <?= $this->start('css'); ?>
