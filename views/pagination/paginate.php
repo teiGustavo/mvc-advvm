@@ -3,7 +3,7 @@ $this->layout("../_theme", ["title" => $title]);
 ?>
 
 <?= $this->start('css'); ?>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="<?= url('/node_modules/bootstrap-icons/font/bootstrap-icons.min.css'); ?>">
 <?= $this->stop(); ?>
 
 <div class="container-sm rounded-3 bg-dark p-5 d-flex flex-column">

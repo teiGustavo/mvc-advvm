@@ -476,3 +476,5 @@ composer.lock
 .env
 
 files/*.xlsx
+
+node_modules/

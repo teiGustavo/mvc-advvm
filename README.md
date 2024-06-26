@@ -9,6 +9,7 @@
 - `git clone https://github.com/teiGustavo/mvc-advvm.git`
 - `cd mvc-advvm`
 - `composer install`
+- `npm install`
 - Duplicar o arquivo .env.example na raiz do projeto
   - Renomear a cópia para .env
   - Realizar as modificações desejadas (lembrar de alterar também nos arquivos do docker)
