@@ -14,53 +14,37 @@ class ReportController
     ) {
     }
 
-    public function create(array $data)
+    public function create(array $data): void
     {
-        $data = filter_var_array($data, FILTER_DEFAULT);
-
-        if (empty($data) || in_array("", $data)) {
-            $callback["message"] = "Por favor, informe todos os campos!";
-            echo json_encode($callback);
-
-            return;
-        }
-
         $report = ReportDTO::create(date: $data["date"], report: $data["report"]);
         $report->setType($data["type"]);
         $report->setAmount($data["amount"]);
 
+        if (!$this->repository->createNewReport($report)) {
+            $callback["message"] = "Erro ao cadastrar o registro!";
 
-        if (APP_ENV != 'prod' && APP_ENV != 'production') {
-            var_dump($data);
-            var_dump($report);
-        } else {
-            if (!$this->repository->createNewReport($report)) {
-                $callback["message"] = "Erro ao cadastrar o registro!";
-                echo json_encode($callback);
-
-                return;
-            }
-
-            $callback["message"] = "Registro cadastrado com sucesso!";
-
+            http_response_code(500);
             echo json_encode($callback);
+
+            return;
         }
+
+        $callback["message"] = "Registro cadastrado com sucesso!";
+
+        http_response_code(201);
+        echo json_encode($callback);
     }
 
     public function find(array $data): void
     {
-        if (empty($data["id"])) {
-            return;
-        }
-
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-
-        $report = $this->repository->findReportById($id);
+        $report = $this->repository->findReportById($data['id']);
 
         if ($report) {
             $callback["report"] = $report->toArray();
         } else {
-            $callback["report"] = 'Relatório não encontrado!';
+            http_response_code(404);
+
+            $callback["message"] = 'Lançamento não encontrado!';
         }
 
         echo json_encode($callback);
@@ -68,27 +52,18 @@ class ReportController
 
     public function update(array $data): void
     {
-        if (empty($data["id"])) {
-            $callback["message"] = "Por favor, preencha o campo de ID!";
-            echo json_encode($callback);
-
-            return;
-        }
-
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-
         $newReport = ReportDTO::create(date: $data["date"], report: $data["report"], type: $data["type"]);
         $newReport->setAmount($data["amount"]);
 
-        $result = $this->repository->updateReportById($newReport, $id);
+        $result = $this->repository->updateReportById($newReport, $data['id']);
 
         if ($result === false) {
+            http_response_code(500);
+
             $callback["message"] = "Erro ao salvar!";
         } else {
-            $newReport->setId($id);
-
             $callback["report"] = [
-                'id' => $newReport->getId(),
+                'id' => $data['id'],
                 'date' => $newReport->getFormattedDate(),
                 'report' => $newReport->getReport(),
                 'type' => $newReport->getType(),
@@ -101,32 +76,17 @@ class ReportController
 
     public function delete(array $data): void
     {
-        if (empty($data["id"])) {
-            if ($data["id"] <= 0) {
-                $callback["message"] = "O ID precisa ser um número positivo!";
-                echo json_encode($callback);
-            }
-
-            return;
-        }
-
-        $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-
-        if ($id <= 0) {
-            $callback["message"] = "O ID precisa ser um número positivo!";
-            echo json_encode($callback);
-
-            return;
-        }
-
-        $result = $this->repository->deleteReportById($id);
+        $result = $this->repository->deleteReportById($data['id']);
 
         if ($result === false) {
-            $callback["message"] = "Não foi possível excluir este campo!";
+            http_response_code(500);
+
+            $callback["message"] = "Não foi possível excluir este lançamento!";
+            echo json_encode($callback);
+            
+            return;
         }
 
-        $callback["remove"] = $result;
-
-        echo json_encode($callback);
+        http_response_code(204);
     }
 }

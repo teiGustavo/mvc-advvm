@@ -7,7 +7,6 @@ $this->layout("../_theme", ["title" => $title]);
 <?= $this->stop(); ?>
 
 <div class="container-sm rounded-3 bg-dark p-5 d-flex flex-column">
-
     <div class="d-flex justify-content-end">
         <div class="btn-group btn-group-md" role="group">
             <a role="button" class="btn btn-outline-light btn-page" aria-expanded="false" href="<?= $router->route('pagination.page', ['pagecode' => 1]); ?>">
@@ -45,9 +44,12 @@ $this->layout("../_theme", ["title" => $title]);
         </div>
     </div>
 
-    <h1 class="fs-5 fw-bold">Lançamentos</h1>
+    <h1 class="fs-5 fw-bold mb-4">Lançamentos</h1>
 
-    <div class="container-sm mt-5">
+    <div id="success-table-alert" class="alert alert-success d-none" role="alert"></div>
+    <div id="danger-table-alert" class="alert alert-danger d-none" role="alert"></div>
+    
+    <div class="container-sm">
 
         <?php if ($reports) : ?>
 

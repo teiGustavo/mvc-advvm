@@ -1,6 +1,6 @@
 <?php
 
-namespace Advvm\Middlewares;
+namespace Advvm\Middlewares\AccessControl;
 
 use CoffeeCode\Router\Router;
 use Advvm\Library\JsonWebToken;

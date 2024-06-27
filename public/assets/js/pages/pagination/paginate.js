@@ -1,4 +1,3 @@
-const form = document.getElementById('updateForm');
 const dropdownPages = document.getElementById('dropdownPages');
 const updateForm = document.getElementById('updateForm');
 
@@ -8,6 +7,7 @@ const deleteButtons = document.querySelectorAll('[data-delete]');
 const tbody = document.getElementById('tbody');
 
 let tr;
+let statusCode;
 
 dropdownPages.addEventListener('click', () => {
     document.querySelector(`.active[href='${location.href}']`).focus();
@@ -26,18 +26,63 @@ for (const updateButton of updateButtons) {
             method: 'POST',
             body: formData
         })
-            .then((response) => response.json())
-            .then((data) => {
-                const report = data.report;
+            .then((response) => {
+                statusCode = response.status;
 
-                if (report) {
-                    document.getElementById('id').value = report.id;
-                    document.getElementById('date').value = report.date;
-                    document.getElementById('report').value = report.report;
-                    document.getElementById('type').value = report.type;
-                    document.getElementById('amount').value = report.amount;
+                return response.json();
+            })
+            .then((data) => {
+                const btnSubmit = document.getElementById('btnSubmitUpdateModal');
+                const report = data.report;
+                const alert = document.getElementById('danger-alert');
+                const inputId = document.getElementById('id');
+                const inputDate = document.getElementById('date');
+                const inputReport = document.getElementById('report');
+                const inputType = document.getElementById('type');
+                const inputAmount = document.getElementById('amount');
+
+                function toggleAttributes() {
+                    btnSubmit.toggleAttribute('disabled');
+
+                    inputId.toggleAttribute('disabled');
+                    inputDate.toggleAttribute('disabled');
+                    inputReport.toggleAttribute('disabled');
+                    inputType.toggleAttribute('disabled');
+                    inputAmount.toggleAttribute('disabled');
                 }
-            });
+
+                if (statusCode !== 200) {
+                    alert.innerHTML = data.message;
+
+                    if (alert.classList.contains('d-none')) {
+                        alert.classList.remove('d-none');
+
+                        toggleAttributes();
+                    }
+
+                    inputId.value = '';
+                    inputDate.value = '';
+                    inputReport.value = '';
+                    inputType.value = '';
+                    inputAmount.value = '';
+                } else {
+                    if (!alert.classList.contains('d-none')) {
+                        alert.classList.add('d-none');
+
+                        toggleAttributes();
+                    }
+
+                    inputId.value = report.id;
+                    inputDate.value = report.date;
+                    inputReport.value = report.report;
+                    inputType.value = report.type;
+                    inputAmount.value = report.amount;
+
+                    if (updateForm.classList.contains('was-validated')) {
+                        updateForm.classList.remove('was-validated')
+                    }
+                }
+            })
 
         tr = updateButton.parentElement.parentElement;
     });
@@ -53,17 +98,61 @@ updateForm.addEventListener('submit', (e) => {
         method: 'POST',
         body: formData
     })
-        .then((response) => response.json())
+        .then((response) => {
+            statusCode = response.status;
+
+            return response.json();
+        })
         .then((data) => {
+            const alert = document.getElementById('danger-alert');
+            const tableAlert = document.getElementById('success-table-alert');
             const report = data.report;
             const td = tr.getElementsByTagName('td');
 
-            document.getElementById('btnCloseUpdateModal').click();
+            if (data.errors) {
+                const errors = data.errors;
 
-            td[0].innerHTML = report.date;
-            td[1].innerHTML = report.report;
-            td[2].innerHTML = report.type;
-            td[3].innerHTML = report.amount;
+                updateForm.classList.add('was-validated');
+
+                if (errors.date) {
+                    document.getElementById('date-feedback').innerHTML = errors.date;
+                }
+
+                if (errors.report) {
+                    document.getElementById('report-feedback').innerHTML = errors.report;
+                }
+
+                if (errors.type) {
+                    document.getElementById('type-feedback').innerHTML = errors.type;
+                }
+
+                if (errors.amount) {
+                    document.getElementById('amount-feedback').innerHTML = errors.amount;
+                }
+            }
+
+            if (statusCode === 500) {
+                alert.innerHTML = data.message;
+
+                if (alert.classList.contains('d-none')) {
+                    alert.classList.remove('d-none');
+
+                    setTimeout(() => alert.classList.add('d-none'), 2000);
+                }
+            } else if (statusCode === 200) {
+                document.getElementById('btnCloseUpdateModal').click();
+
+                tableAlert.innerHTML = 'Atualizado com sucesso!';
+                tableAlert.classList.toggle('d-none');
+                setTimeout(() => tableAlert.classList.toggle('d-none'), 2000);
+
+                td[0].innerHTML = report.date;
+                td[1].innerHTML = report.report;
+                td[2].innerHTML = report.type;
+                td[3].innerHTML = report.amount;
+
+                updateForm.classList.remove('was-validated');
+            }
         });
 });
 
@@ -80,11 +169,11 @@ for (const deleteButton of deleteButtons) {
             method: 'POST',
             body: formData
         })
-            .then((response) => response.json())
-            .then((data) => {
-                const isRemoved = data.remove;
-
-                if (isRemoved === true) {
+            .then((response) => {
+                statusCode = response.status;
+            })
+            .then(() => {
+                if (statusCode === 204) {
                     function fadeOut(element) {
                         element.style.opacity = 1;
 
@@ -105,6 +194,13 @@ for (const deleteButton of deleteButtons) {
                     }
 
                     fadeOut(deleteButton.parentNode.parentNode);
+
+                } else {
+                    const alert = document.getElementById('danger-table-alert');
+
+                    alert.innerHTML = 'Não foi possível excluir este lançamento!';
+                    alert.classList.toggle('d-none');
+                    setTimeout(() => alert.classList.toggle('d-none'), 2000);
                 }
             });
     });

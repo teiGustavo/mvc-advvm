@@ -6,10 +6,11 @@ $this->layout("../_theme", ["title" => $title]);
     <h1 class="fs-5 fw-bold">Cadastro de Relatório</h1>
 
     <div class="mt-5">
-        <form action="<?= $router->route("create.reportRegistration"); ?>" method="POST">
+        <form action="<?= $router->route("create.reportRegistration"); ?>" method="POST" class="needs-validation" novalidate>
             <div class="form-floating mb-3">
-                <input type="month" class="form-control text-capitalize" id="date" name="date" placeholder="Mês dos lançamentos">
+                <input type="month" class="form-control text-capitalize" id="date" name="date" placeholder="Mês dos lançamentos" required>
                 <label for="date">Mês dos lançamentos</label>
+                <div id="date-feedback" class="invalid-feedback"></div>
             </div>
 
             <button type="submit" class="btn btn-outline-light mt-3" name="btnSubmit" value="continuar">Começar</button>

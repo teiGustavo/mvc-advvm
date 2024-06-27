@@ -11,4 +11,8 @@ if (isNumber(href.slice(-1))) {
 }
 
 // Seleciona a página atual na barra de navegação
-document.querySelector(`.nav-link[href='${href}']`).classList.add('active');
+const navLink = document.querySelector(`.nav-link[href='${href}']`);
+
+if (navLink) {
+    navLink.classList.add('active')
+}

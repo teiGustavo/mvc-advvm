@@ -2,8 +2,12 @@
 
 use Advvm\Library\Container;
 use CoffeeCode\Router\Router;
-use Advvm\Middlewares\AuthMiddleware;
-use Advvm\Middlewares\AdminMiddleware;
+use Advvm\Middlewares\AccessControl\AuthMiddleware;
+use Advvm\Middlewares\AccessControl\AdminMiddleware;
+use Advvm\Middlewares\Validations\Report\ReportCreateValidationMiddleware;
+use Advvm\Middlewares\Validations\Report\ReportDeleteValidationMiddleware;
+use Advvm\Middlewares\Validations\Report\ReportFindValidationMiddleware;
+use Advvm\Middlewares\Validations\Report\ReportUpdateValidationMiddleware;
 
 //Instancia o container de injeção de dependências do PHP-DI
 $container = (new Container())->build(['services']);
@@ -41,10 +45,10 @@ $router->get("/", "CreateController:reportRegistration", "create.reportRegistrat
 $router->post("/", "CreateController:reportRegistration", "create.reportRegistration");
 
 $router->group("reports", AuthMiddleware::class);
-$router->post("/create", "ReportController:create", "report.store");
-$router->post("/find", "ReportController:find", "report.find");
-$router->post("/update", "ReportController:update", "report.update");
-$router->post("/delete", "ReportController:delete", "report.delete");
+$router->post("/create", "ReportController:create", "report.store", ReportCreateValidationMiddleware::class);
+$router->post("/find", "ReportController:find", "report.find", ReportFindValidationMiddleware::class);
+$router->post("/update", "ReportController:update", "report.update", ReportUpdateValidationMiddleware::class);
+$router->post("/delete", "ReportController:delete", "report.delete", ReportDeleteValidationMiddleware::class);
 
 $router->group("users");
 $router->post("/find-by-email", "UserController:findByEmail", "user.findByEmail");
