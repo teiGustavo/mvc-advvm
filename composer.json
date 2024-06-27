@@ -9,7 +9,8 @@
         "phpoffice/phpspreadsheet": "^1.28",
         "vlucas/phpdotenv": "^5.6",
         "php-di/php-di": "^7.0",
-        "gteixeira/router": "^1.0"
+        "gteixeira/router": "^1.0",
+        "respect/validation": "^2.3"
     },
     "license": "proprietary",
     "autoload": {
